@@ -15,12 +15,13 @@ use Illuminate\Http\Request;
 
 Route::post('register', 'API\Auth\UserController@register');
 Route::post('login', 'API\Auth\UserController@loginMobile');
+Route::post('login/authentication', 'API\Auth\UserController@generateToken');
 Route::post('signin', 'API\Auth\UserController@loginWeb');
 
 
 
 
-Route::group(['middleware' => 'auth:api'], function(){
+Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function(){
 
     Route::post('teams/add', 'TestController@createTeams');
     Route::get('teams', 'TestController@allTeams');

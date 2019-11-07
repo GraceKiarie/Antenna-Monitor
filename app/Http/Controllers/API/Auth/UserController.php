@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use App\User;
 use App\Contractor;
+use App\Code;
 use AfricasTalking\SDK\AfricasTalking;
 
 class UserController extends Controller
@@ -87,9 +88,7 @@ class UserController extends Controller
 
         //check if user exists
         if (!Auth::attempt($credentials))
-            return response()->json([
-                'message' => 'Wrong email or password'
-            ], 401);
+            return response()->json(['message' => ['status' => 'failure', 'displayMessage' => 'Wrong email or password']], 401);
         //if user exists and the password matches the email, send an authentication code via text
         $user = $request->user();
         $phone = $user->phone;
@@ -110,24 +109,35 @@ class UserController extends Controller
         ]);
         //save the message in the db
 
-
-
-        return response()->json(['message' => $result], 200);
+        if ($result['status'] == "success") {
+            $user_id = $user->id;
+            Code::create(['user_id' => $user_id, 'code' => $message]);
+            return response()->json(['message' => ['status' => $result['status'], 'data' => $user]], 200);
+        }
 
 
     }
 
     public function generateToken(Request $request)
     {
-        $user= $request->user();
-        $tokenResult = $user->createToken('Personal Access Token');
-        return response()->json([
-            'access_token' => $tokenResult->accessToken,
-            'token_type' => 'Bearer',
-            'expires_at' => Carbon::parse(
-                $tokenResult->token->expires_at
-            )->toDateTimeString()
-        ], 200);
+        $user = User::where('id', '=', 1)->first();
+        $code = Code::where('user_id', '=', 1)->first();
+        if ($request->get('code') == $code->code) {
+
+            $tokenResult = $user->createToken('Personal Access Token');
+
+            //delete authentication code after successful login
+            Code::find($code->id)->delete();
+            return response()->json([
+                'access_token' => $tokenResult->accessToken,
+                'token_type' => 'Bearer',
+                'expires_at' => Carbon::parse(
+                    $tokenResult->token->expires_at
+                )->toDateTimeString()
+            ], 200);
+        } else {
+            return response()->json(['message' => ['status' => 'failure', 'displayMessage' => 'something went wrong']], 400);
+        }
     }
 
     public function updatePassword(Request $request)
