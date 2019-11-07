@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\API\Auth;
 
 use App\Http\Controllers\Controller;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use App\User;
 use App\Contractor;
+use AfricasTalking\SDK\AfricasTalking;
 
 class UserController extends Controller
 {
@@ -17,7 +20,6 @@ class UserController extends Controller
      *
      * @param  [string] name
      * @param  [string] email
-     * @param  [id] role_id
      * @param  [id] contractor_id
      * @param  [id] team_id
      * @param  [string] password
@@ -35,7 +37,7 @@ class UserController extends Controller
             return response()->json(['message' => $validator->errors()], 401);
         }
         $input = $request->all();
-        $input['password'] = bcrypt($input['phone']);
+        $input['password'] = Hash::make($input['phone']);
         $user = User::create($input);
         return response()->json([
             'message' => 'Successfully created user!'
@@ -52,7 +54,7 @@ class UserController extends Controller
      * @return [string] token_type
      * @return [string] expires_at
      */
-    public function login(Request $request)
+    public function loginWeb(Request $request)
     {
         $request->validate([
             'email' => 'required|string|email',
@@ -65,10 +67,6 @@ class UserController extends Controller
             ], 401);
         $user = $request->user();
         $tokenResult = $user->createToken('Personal Access Token');
-        $token = $tokenResult->token;
-        if ($request->remember_me)
-            $token->expires_at = Carbon::now()->addMinutes(10);
-        $token->save();
         return response()->json([
             'access_token' => $tokenResult->accessToken,
             'token_type' => 'Bearer',
@@ -76,6 +74,72 @@ class UserController extends Controller
                 $tokenResult->token->expires_at
             )->toDateTimeString()
         ], 200);
+    }
+
+    public function loginMobile(Request $request)
+    {
+        //validate input
+        $request->validate([
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+        ]);
+        $credentials = request(['email', 'password']);
+
+        //check if user exists
+        if (!Auth::attempt($credentials))
+            return response()->json([
+                'message' => 'Wrong email or password'
+            ], 401);
+        //if user exists and the password matches the email, send an authentication code via text
+        $user = $request->user();
+        $phone = $user->phone;
+        $message = rand(100000, 900000);
+
+
+        $username = env('AT_USERNAME'); // use 'sandbox' for development in the test environment
+        $apiKey = env('AT_SECRET_KEY'); // use your sandbox app API key for development in the test environment
+        $AT = new AfricasTalking($username, $apiKey);
+
+        // Get one of the services
+        $sms = $AT->sms();
+
+        // Use the service
+        $result = $sms->send([
+            'to' => $phone,
+            'message' => $message
+        ]);
+        //save the message in the db
+
+
+
+        return response()->json(['message' => $result], 200);
+
+
+    }
+
+    public function generateToken(Request $request)
+    {
+        $user= $request->user();
+        $tokenResult = $user->createToken('Personal Access Token');
+        return response()->json([
+            'access_token' => $tokenResult->accessToken,
+            'token_type' => 'Bearer',
+            'expires_at' => Carbon::parse(
+                $tokenResult->token->expires_at
+            )->toDateTimeString()
+        ], 200);
+    }
+
+    public function updatePassword(Request $request)
+    {
+        //Change Password
+        $user = Auth::user();
+        $user->password = Hash::make($request->get('password'));
+        $user->password_change_at = true;
+        if ($user->save()) {
+            return response()->json(['message' => $user], 200);
+        }
+
     }
 
     /**

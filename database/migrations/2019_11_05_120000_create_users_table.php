@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->unsignedBigInteger('team_id')->nullable();
             $table->foreign('team_id')->references('id')->on('teams');
             $table->timestamp('email_verified_at')->nullable();
+            $table->boolean('password_change_at')->default('false');
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
