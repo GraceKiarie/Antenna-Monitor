@@ -27,4 +27,4 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('contractors/add', 'TestController@createContractors');
     Route::patch('password/reset', 'API\Auth\UserController@updatePassword');
 });
-
+w
