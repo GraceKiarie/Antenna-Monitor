@@ -2,10 +2,10 @@
 
 namespace Illuminate\Foundation\Auth;
 
+use App\Contractor;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
 trait RegistersUsers
 {
     use RedirectsUsers;
@@ -15,10 +15,7 @@ trait RegistersUsers
      *
      * @return \Illuminate\Http\Response
      */
-    public function showRegistrationForm()
-    {
-        return view('auth.register');
-    }
+
 
     /**
      * Handle a registration request for the application.

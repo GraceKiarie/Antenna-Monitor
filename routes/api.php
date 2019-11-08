@@ -15,11 +15,11 @@ use Illuminate\Http\Request;
 
 Route::post('register', 'API\Auth\UserController@register');
 Route::post('login', 'API\Auth\UserController@loginMobile');
-Route::post('login/authentication', 'API\Auth\UserController@generateToken');
+Route::post('login/authentication/{id}', 'API\Auth\UserController@generateToken');
 Route::post('signin', 'API\Auth\UserController@loginWeb');
 
 
-
+Route::post('roles/add', 'TestController@createRoles');
 
 Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function(){
 

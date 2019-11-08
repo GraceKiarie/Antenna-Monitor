@@ -21,7 +21,9 @@ class CreateUsersTable extends Migration
             $table->unsignedBigInteger('contractor_id')->nullable();
             $table->foreign('contractor_id')->references('id')->on('contractors');
             $table->unsignedBigInteger('team_id')->nullable();
+            $table->unsignedBigInteger('role_id');
             $table->foreign('team_id')->references('id')->on('teams');
+            $table->foreign('role_id')->references('id')->on('roles');
             $table->timestamp('email_verified_at')->nullable();
             $table->boolean('password_change_at')->default('false');
             $table->string('password');

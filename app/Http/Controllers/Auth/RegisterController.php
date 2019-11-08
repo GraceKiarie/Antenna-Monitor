@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Contractor;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Role;
+use App\Team;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -39,7 +42,14 @@ class RegisterController extends Controller
     {
         $this->middleware('guest');
     }
+    public function showRegistrationForm()
+    {
 
+        $roles= Role::all();
+        $contractors= Contractor::all();
+        $teams= Team::all();
+        return view('auth.register' ,compact('contractors','roles','teams'));
+    }
     /**
      * Get a validator for an incoming registration request.
      *
@@ -51,7 +61,8 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'phone' => ['required', 'unique:users'],
+            'role_id' => ['required', 'unique:users'],
         ]);
     }
 
@@ -66,7 +77,11 @@ class RegisterController extends Controller
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'phone' => $data['phone'],
+            'role_id' => $data['role_id'],
+            'contractor_id' => $data['contractor_id'],
+            'team_id' => $data['team_id'],
+            'password' => Hash::make($data['phone']),
         ]);
     }
 }
