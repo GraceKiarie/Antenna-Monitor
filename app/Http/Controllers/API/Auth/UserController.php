@@ -145,7 +145,7 @@ class UserController extends Controller
         $user->password = Hash::make($request->get('password'));
         $user->password_change_at = true;
         if ($user->save()) {
-            return response()->json(['status' => 'success' ,'message' => $user], 200);
+            return response()->json(['status' => 'success' ,'data' => $user], 200);
         }
 
     }
