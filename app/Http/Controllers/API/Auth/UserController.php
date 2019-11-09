@@ -87,7 +87,7 @@ class UserController extends Controller
 
         //check if user exists
         if (!Auth::attempt($credentials))
-            return response()->json(['message' => ['status' => 'failure', 'displayMessage' => 'Wrong email or password']], 401);
+            return response()->json( ['status' => 'failure', 'displayMessage' => 'Wrong email or password'], 401);
         //if user exists and the password matches the email, send an authentication code via text
         $user = $request->user();
         $phone = $user->phone;
@@ -111,16 +111,16 @@ class UserController extends Controller
         if ($result['status'] == "success") {
             $user_id = $user->id;
             Code::create(['user_id' => $user_id, 'code' => $message]);
-            return response()->json(['message' => ['status' => $result['status'], 'data' => $user]], 200);
+            return response()->json(['status' => $result['status'], 'data' => $user], 200);
         }
 
 
     }
 
-    public function generateToken(Request $request)
+    public function generateToken($id,Request $request)
     {
-        $user = User::where('id', '=', 1)->first();
-        $code = Code::where('user_id', '=', 1)->first();
+        $user = User::where('id', '=', $id)->first();
+        $code = Code::where('user_id', '=', $id)->first();
         if ($request->get('code') == $code->code) {
 
             $tokenResult = $user->createToken('Personal Access Token');
@@ -128,14 +128,12 @@ class UserController extends Controller
             //delete authentication code after successful login
             Code::find($code->id)->delete();
             return response()->json([
+                'status' => 'success',
                 'access_token' => $tokenResult->accessToken,
-                'token_type' => 'Bearer',
-                'expires_at' => Carbon::parse(
-                    $tokenResult->token->expires_at
-                )->toDateTimeString()
+                'type' => 'Bearer'
             ], 200);
         } else {
-            return response()->json(['message' => ['status' => 'failure', 'displayMessage' => 'something went wrong']], 400);
+            return response()->json(['status' => 'failure', 'displayMessage' => 'something went wrong'], 400);
         }
     }
 
@@ -146,7 +144,7 @@ class UserController extends Controller
         $user->password = Hash::make($request->get('password'));
         $user->password_change_at = true;
         if ($user->save()) {
-            return response()->json(['message' => $user], 200);
+            return response()->json(['status' => 'success' ,'data' => $user], 200);
         }
 
     }
