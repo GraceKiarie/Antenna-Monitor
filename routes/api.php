@@ -19,9 +19,11 @@ Route::post('login/authentication/{id}', 'API\Auth\UserController@generateToken'
 Route::post('signin', 'API\Auth\UserController@loginWeb');
 
 
+
 Route::post('roles/add', 'TestController@createRoles');
 
-Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function(){
+Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
+
 
     Route::post('teams/add', 'TestController@createTeams');
     Route::get('teams', 'TestController@allTeams');
