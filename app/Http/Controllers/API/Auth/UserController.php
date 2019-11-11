@@ -54,29 +54,8 @@ class UserController extends Controller
      * @return [string] token_type
      * @return [string] expires_at
      */
-    public function loginWeb(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-        ]);
-        $credentials = request(['email', 'password']);
-        if (!Auth::attempt($credentials))
-            return response()->json([
-                'message' => 'Unauthorized'
-            ], 401);
-        $user = $request->user();
-        $tokenResult = $user->createToken('Personal Access Token');
-        return response()->json([
-            'access_token' => $tokenResult->accessToken,
-            'token_type' => 'Bearer',
-            'expires_at' => Carbon::parse(
-                $tokenResult->token->expires_at
-            )->toDateTimeString()
-        ], 200);
-    }
 
-    public function loginMobile(Request $request)
+    public function login(Request $request)
     {
         //validate input
         $request->validate([
@@ -88,11 +67,11 @@ class UserController extends Controller
         //check if user exists
         if (!Auth::attempt($credentials))
             return response()->json( ['status' => 'failure', 'displayMessage' => 'Wrong email or password'], 401);
+
         //if user exists and the password matches the email, send an authentication code via text
         $user = $request->user();
         $phone = $user->phone;
         $message = rand(100000, 900000);
-
 
         $username = env('AT_USERNAME'); // use 'sandbox' for development in the test environment
         $apiKey = env('AT_SECRET_KEY'); // use your sandbox app API key for development in the test environment
@@ -110,6 +89,7 @@ class UserController extends Controller
 
         if ($result['status'] == "success") {
             $user_id = $user->id;
+
             Code::create(['user_id' => $user_id, 'code' => $message]);
             return response()->json(['status' => $result['status'], 'data' => $user], 200);
         }
