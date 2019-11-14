@@ -14,7 +14,14 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                        <form method="post" action="{{route('upload-sitelist')}}" enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-group">
+                                <label for="exampleFormControlFile1">Upload updated sitelist</label>
+                                <input type="file" name="sitelist" class="form-control-file" id="exampleFormControlFile1" required>
+                            </div>
+                            <button>Upload</button>
+                        </form>
                 </div>
             </div>
         </div>

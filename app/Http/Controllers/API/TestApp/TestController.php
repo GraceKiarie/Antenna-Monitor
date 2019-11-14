@@ -22,7 +22,7 @@ class TestController extends Controller
             return response()->json(['status' => 'success','message'=> ' match found in the database '],200);
 
         }else{
-            return response()->json(['status' => 'failure','message'=> 'wrong code '],404);
+            return response()->json(['status' => 'failure','message'=> ' match not found in the database  '],404);
         }
 
     }
@@ -38,10 +38,10 @@ class TestController extends Controller
         $code = Monitor::where('imsi', '=', $request->get('imsi') )->where('qr_number', '=', $request->get('qr_number'))->pluck('voltage')->first();
         //dd($code);
         if($code){
-            return response()->json(['status' => 'success','message'=> $code],200);
+            return response()->json(['status' => 'success','voltage'=> $code],200);
 
         }else{
-            return response()->json(['status' => 'failure','message'=> 'wrong code '],404);
+            return response()->json(['status' => 'failure','message'=> 'communication not established '],404);
         }
 
     }
