@@ -4,6 +4,7 @@
 /storage/*.key
 /vendor
 vendor
+TODO.txt
 .env
 .env.backup
 .phpunit.result.cache
