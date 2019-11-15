@@ -12,8 +12,8 @@ class Team extends Model
     {
         return $this->belongsTo(Contractor::class);
     }
-    public function user()
+    public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(User::class);
     }
 }

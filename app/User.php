@@ -10,18 +10,15 @@ class User extends Authenticatable
 {
     use Notifiable, HasApiTokens;
 
-    public function roles()
+    public function role()
     {
-        return $this->hasMany(Role::class);
+        return $this->belongsTo(Role::class);
     }
-    public function teams()
+    public function team()
     {
-        return $this->hasMany(Team::class);
+        return $this->belongsTo(Team::class);
     }
-    public function contractors()
-    {
-        return $this->hasMany(Contractor::class);
-    }
+
     /**
      * The attributes that are mass assignable.
      *

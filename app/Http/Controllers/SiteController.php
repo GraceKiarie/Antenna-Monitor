@@ -96,6 +96,22 @@ class SiteController extends Controller
     {
         $this->saveSites();
         $this->saveCells();
+    }
 
+    //display sitelist
+
+    public function showSitelist()
+    {
+        $sites = Site::all();
+        return $sites;
+    }
+
+    public function showCells()
+    {
+        $cells = Cell::all();
+        foreach ($cells as $cell){
+            echo $cell;
+        }
+        return $cells;
     }
 }

@@ -17,12 +17,13 @@ class TestController extends Controller
 
     public function qrTest(Request $request)
     {
-        $code = Monitor::where('qr_number', '=', $request->get('qr_number'))->exists();
-        if($code){
-            return response()->json(['status' => 'success','message'=> ' match found in the database '],200);
+        $qr_number = $request->get('qr_number');
+        $code = Monitor::where('qr_number', '=', $qr_number)->exists();
+        if ($code) {
+            return response()->json(['status' => 'success', 'data' => ['message' => 'match found', 'qr_number' => $qr_number]], 200);
 
-        }else{
-            return response()->json(['status' => 'failure','message'=> ' match not found in the database  '],404);
+        } else {
+            return response()->json(['status' => 'failure', 'message' => 'match not found in the database'], 404);
         }
 
     }
@@ -35,13 +36,17 @@ class TestController extends Controller
 
     public function ImsiTest(Request $request)
     {
-        $code = Monitor::where('imsi', '=', $request->get('imsi') )->where('qr_number', '=', $request->get('qr_number'))->pluck('voltage')->first();
-        //dd($code);
-        if($code){
-            return response()->json(['status' => 'success','voltage'=> $code],200);
+        $imsi = $request->get('imsi');
+        $qr_number = $request->get('qr_number');
 
-        }else{
-            return response()->json(['status' => 'failure','message'=> 'communication not established '],404);
+        $code = Monitor::where('imsi', '=', $imsi)->where('qr_number', '=', $qr_number)->select('voltage','csq')->first();
+
+
+        if ($code) {
+            return response()->json(['status' => 'success', 'data' => ['voltage' => $code->voltage, 'csq' => $code->csq, 'qr_number' => $qr_number, 'imsi' => $imsi]], 200);
+
+        } else {
+            return response()->json(['status' => 'failure', 'message' => 'communication not established '], 404);
         }
 
     }

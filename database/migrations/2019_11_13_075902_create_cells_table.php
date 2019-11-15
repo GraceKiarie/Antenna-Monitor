@@ -15,7 +15,7 @@ class CreateCellsTable extends Migration
     {
         Schema::create('cells', function (Blueprint $table) {
 
-            $table->string('cell_id');
+            $table->string('cell_id')->primary();
             $table->string('site_id');
             $table->foreign('site_id')->references('site_id')->on('sites');
             $table->string('cell_name');
