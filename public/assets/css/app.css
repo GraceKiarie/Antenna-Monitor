@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css?family=Varela+Round&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Quicksand:500&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap');
+
+body {
+    font-family: 'Varela Round', sans-serif;
+    font-size: .8rem;
+    color: black;
+}
+
+
+.widget-heading-app{
+    color: rgb(255, 255, 255)!important ;
+}
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    background-color: rgb(231, 230, 241);
+  }
+
+.btn-app-blue{
+    border: 2px solid #0056b3;
+    border-radius: 20px;
+}
+
+.btn-app-black{
+    border: 2px solid #244684;
+    border-radius: 20px;
+    color: #244684;
+}
+
+.btn-app-black:hover {
+    border: 2px solid #244684;
+    border-radius: 20px;
+    background: #244684;
+    color: white;
+}
+
+.a-btn:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+.input-icon {
+    padding-left: 1.4rem;
+    font-size: 1.5rem;
+    border-color: #b9b4fc;
+    border-right-color: #b8c6d4;
+    border-top-left-radius: 40px;
+    border-bottom-left-radius: 40px;
+}
+
+.input-field {
+    border-color: #b9b4fc;
+    border-left-color: #b8c6d4;
+    border-top-right-radius: 40px;
+    border-bottom-right-radius: 40px;
+}
+/* HIDE SCROLL IN NUMBER INPUT FIELDS */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
+}
+
+/*DASHBOARD*/
+.widget-heading-m{
+    font-size: 1.7rem;
+    font-weight: normal !important ;
+    color: #fff !important;
+    opacity: 1 !important ;
+}
+
+/* SIDEBAR*/
+.app-sidebar__heading {
+    margin-bottom: 0;
+}
+
+.app-sidebar__heading-m {
+    font-size: .8rem !important ;
+    font-weight: normal;
+    text-transform: capitalize;
+}
+
+.vertical-nav-menu-m {
+    min-height: 575px;
+}
+
+.mm-active-m {
+    color: red;
+}
+
+/* CONTENT SECTION */
+.app-main__inner-m {
+    padding: 1.5rem 0 0 3rem;
+}
+
+/* CONTENT TITLE SECTION*/
+.page-title-hr {
+    margin-top: 0;
+    border-top: 2px solid rgb(206, 205, 218);
+}
+
+
+
+.app-page-title-m{
+    margin:-30px -30px 5px;
+    padding: 15px 30px;
+}
+
+.page-title-heading-m h3 {
+    font-size: 1.8rem !important ;
+    margin-bottom: .2rem;
+}
+
+/* CONTENT DETAIL SECTION */
+
+.main-card-m {
+    padding: 1rem;
+}
+.card-body-m {
+    padding-top: .8rem;
+}
+
+.content-detail-title {
+    padding-top: .9rem;
+    font-size: 1.3rem;
+    display: inline;
+}
+
+.page-subtitle-hr {
+    margin-top: .9rem;
+}
+
+.content-detail-btns {
+    float: right;
+    margin-top: -0.3rem;
+}
