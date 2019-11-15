@@ -94,6 +94,10 @@ input[type=number] {
     color: red;
 }
 
+.form-control-m {
+    font-size: inherit;
+}
+
 /* CONTENT SECTION */
 .app-main__inner-m {
     padding: 1.5rem 0 0 3rem;
@@ -133,7 +137,7 @@ input[type=number] {
 }
 
 .page-subtitle-hr {
-    margin-top: .9rem;
+    margin-top: 1.3rem;
 }
 
 .content-detail-btns {

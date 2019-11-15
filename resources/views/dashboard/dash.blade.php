@@ -63,7 +63,7 @@
                                 <div class="card-header-tab card-header-tab-animation card-header">
                                     <div class="card-header-title">
                                         <i class="header-icon lnr-apartment icon-gradient bg-love-kiss"> </i>
-                                        Sales Report
+                                        Top Alerts Report
                                     </div>
                                     <ul class="nav">
                                         <li class="nav-item"><a href="javascript:void(0);" class="active nav-link">Last</a></li>
@@ -80,7 +80,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <h6 class="text-muted text-uppercase font-size-md opacity-5 font-weight-normal">Top Authors</h6>
+                                            <h6 class="text-muted text-uppercase font-size-md opacity-5 font-weight-normal">Top Teams <small>(by acceptance)</small></h6>
                                             <div class="scroll-area-sm">
                                                 <div class="scrollbar-container">
                                                     <ul class="rm-list-borders rm-list-borders-scroll list-group list-group-flush">
@@ -88,15 +88,13 @@
                                                             <div class="widget-content p-0">
                                                                 <div class="widget-content-wrapper">
                                                                     <div class="widget-content-left mr-3">
-                                                                        <img width="42" class="rounded-circle" src="assets/images/avatars/9.jpg" alt="">
+                                                                        <img width="42" class="rounded-circle" src="assets/images/avatars/5.jpg" alt="">
                                                                     </div>
                                                                     <div class="widget-content-left">
-                                                                        <div class="widget-heading">Ella-Rose Henry</div>
-                                                                        <div class="widget-subheading">Web Developer</div>
+                                                                        <div class="widget-heading">Team 14</div>
                                                                     </div>
                                                                     <div class="widget-content-right">
                                                                         <div class="font-size-xlg text-muted">
-                                                                            <small class="opacity-5 pr-1">$</small>
                                                                             <span>129</span>
                                                                             <small class="text-danger pl-2">
                                                                                 <i class="fa fa-angle-down"></i>
@@ -113,12 +111,10 @@
                                                                         <img width="42" class="rounded-circle" src="assets/images/avatars/5.jpg" alt="">
                                                                     </div>
                                                                     <div class="widget-content-left">
-                                                                        <div class="widget-heading">Ruben Tillman</div>
-                                                                        <div class="widget-subheading">UI Designer</div>
+                                                                        <div class="widget-heading">Team Three</div>
                                                                     </div>
                                                                     <div class="widget-content-right">
                                                                         <div class="font-size-xlg text-muted">
-                                                                            <small class="opacity-5 pr-1">$</small>
                                                                             <span>54</span>
                                                                             <small class="text-success pl-2">
                                                                                 <i class="fa fa-angle-up"></i>
@@ -135,12 +131,10 @@
                                                                         <img width="42" class="rounded-circle" src="assets/images/avatars/4.jpg" alt="">
                                                                     </div>
                                                                     <div class="widget-content-left">
-                                                                        <div class="widget-heading">Vinnie Wagstaff</div>
-                                                                        <div class="widget-subheading">Java Programmer</div>
+                                                                        <div class="widget-heading">Team Eight</div>
                                                                     </div>
                                                                     <div class="widget-content-right">
                                                                         <div class="font-size-xlg text-muted">
-                                                                            <small class="opacity-5 pr-1">$</small>
                                                                             <span>429</span>
                                                                             <small class="text-warning pl-2">
                                                                                 <i class="fa fa-dot-circle"></i>

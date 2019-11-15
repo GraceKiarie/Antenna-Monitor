@@ -95,12 +95,12 @@
 
                             <!-- USER NAMES -->
                             <div class="widget-heading widget-heading-app">
-                                    {{ Auth::user()->name }}
+                                    {{ Auth::user()->name ?? 'John Doe' }}
                             </div>
 
                             <!-- USER ROLE -->
                             <div class="widget-subheading">
-                                    {{ Auth::user()->role_id }}
+                                    {{ Auth::user()->roles_id ?? 'System Administrator' }}
                             </div>
                         </div>
                         <div class="widget-content-right header-user-info ml-3">

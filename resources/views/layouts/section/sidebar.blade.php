@@ -47,15 +47,15 @@
                             </a>
                             <ul>
                                 <li>
-                                    <a href="/sites">
+                                    <a href="/sites_dash">
                                         <i class="metismenu-icon"></i>
-                                        Alerts Dashboard
+                                        Sites Dashboard
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="cells">
+                                    <a href="/alerts_dash">
                                         <i class="metismenu-icon"></i>
-                                        Sites Dashboard
+                                        Alerts Dashboard
                                     </a>
                                 </li>
                             </ul>
@@ -207,47 +207,28 @@
                             </a>
                             <ul>
                                 <li>
-                                    <a href="users">
-                                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
-                                        Users
-                                    </a>
-                                    <ul>
-                                            <li>
-                                                <a href="/add_admin">
-                                                    <i class="metismenu-icon"></i>
-                                                    Add Admin
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="/add_contractor">
-                                                    <i class="metismenu-icon"></i>
-                                                    Add Contractor
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="/add_team">
-                                                    <i class="metismenu-icon"></i>
-                                                    Add Team Member
-                                                </a>
-                                            </li>
-                                        </ul>
-                                </li>
-                                <li>
-                                    <a href="#">
+                                    <a href="/roles">
                                         <i class="metismenu-icon">
                                         </i>Roles
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="/users">
+                                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                                        Users
+                                    </a>
+                                </li>
+                                
+                                <li>
+                                    <a href="/contractors">
                                         <i class="metismenu-icon">
                                         </i>Contractors
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="/teams">
                                         <i class="metismenu-icon">
-                                        </i>Teams/Affiliations
+                                        </i>Teams
                                     </a>
                                 </li>
                             </ul>
