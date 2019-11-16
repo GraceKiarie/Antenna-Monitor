@@ -89,8 +89,13 @@ class UserController extends Controller
 
         if ($result['status'] == "success") {
             $user_id = $user->id;
+            if (Code::where('user_id', '=', $user_id)->delete()) {
+                Code::create(['user_id' => $user_id, 'code' => $message]);
+            }else{
+                Code::create(['user_id' => $user_id, 'code' => $message]);
 
-            Code::create(['user_id' => $user_id, 'code' => $message]);
+            }
+
             return response()->json(['status' => $result['status'], 'data' => $user], 200);
         }
 

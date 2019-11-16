@@ -18,7 +18,7 @@ Route::post('login', 'API\Auth\UserController@login');
 Route::post('login/authentication/{id}', 'API\Auth\UserController@generateToken');
 Route::post('signin', 'API\Auth\UserController@loginWeb');
 
-
+Route::post('/sendmail/{id}', 'API\TestApp\TestReportController@sendMail')->name('mail');
 
 Route::post('roles/add', 'TestController@createRoles');
 
