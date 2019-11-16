@@ -23,3 +23,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/update/sitelist', 'SiteController@uploadSitelist')->name('upload-sitelist');
 Route::get('/sites', 'SiteController@showSitelist')->name('sitelist');
 Route::get('/cells', 'SiteController@showCells')->name('cells');
+
+Route::get('/pdf', 'API\TestApp\TestReportController@generatePdf')->name('pdf');
