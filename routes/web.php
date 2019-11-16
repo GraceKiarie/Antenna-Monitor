@@ -122,13 +122,12 @@ Route::get('/users', function () {
 });
 
 // REGISTRATIONS
-// Route::get('/add_admin', function () {
-//     if (Auth::check()) {
-//         return view('auth.register_admin');
-//     } else {
-//         return view('auth.login');
-//     }
-// });
+ Route::get('/add_admin', function () {
+   if (Auth::check()) {
+        return view('auth.register_admin');
+    } else { return view('auth.login');
+    }
+});
 Route::get('/add_admin', function () {
     return view('auth.register_admin');
 });
@@ -141,6 +140,13 @@ Route::get('/add_contractor', function () {
     }
 });
 
+Route::post('/update/sitelist', 'SiteController@uploadSitelist')->name('upload-sitelist');
+Route::get('/sites', 'SiteController@showSitelist')->name('sitelist');
+Route::get('/cells', 'SiteController@showCells')->name('cells');
+
+Route::get('/pdf', 'API\TestApp\TestReportController@generatePdf')->name('pdf');
+
+
 Route::get('/add_team', function () {
     if (Auth::check()) {
         return view('auth.register_team');
@@ -148,3 +154,4 @@ Route::get('/add_team', function () {
         return view('auth.login');
     }
 });
+
