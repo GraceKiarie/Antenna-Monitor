@@ -14,14 +14,6 @@
 use App\Http\Controllers\SiteController;
 use App\User;
 
-Route::get('/', function () {
-    if (Auth::check()) {
-        return view('dashboard.dash');
-    } else {
-        return view('auth.login');
-    }
-});
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -31,127 +23,32 @@ Route::get('/home', 'HomeController@index')->name('home');
 | DASHBOARD ROUTES
 |--------------------------------------------------------------------------
 */
-Route::get('/dash', function () {
-    if (Auth::check()) {
-        return view('dashboard.dash');
-    } else {
-        return view('auth.login');
-    }
-});
-
-Route::get('/sites_dash', function () {
-    if (Auth::check()) {
-        return view('dashboard.sites_dash');
-    } else {
-        return view('auth.login');
-    }
-});
-
-Route::get('/alerts_dash', function () {
-    if (Auth::check()) {
-        return view('dashboard.alerts_dash');
-    } else {
-        return view('auth.login');
-    }
-});
-
-Route::get('/dash', function () {
-    return view('dashboard.dash');
-});
-
+Route::get('/', 'DashboardController@showMainDashboard')->name('main_dash');
+Route::get('/main_dash', 'DashboardController@showMainDashboard')->name('main_dash');
+Route::get('/sites_dash', 'DashboardController@showSitesDashboard')->name('sites_dash');
+Route::get('/alerts_dash', 'DashboardController@showAlertsDashboard')->name('alerts_dash');
 
 /*
 |--------------------------------------------------------------------------
-| SITES AND CELLS ROUTES
+| SITES ROUTES
 |--------------------------------------------------------------------------
 */
-Route::post('/update/sitelist', function () {
-    if (Auth::check()) {
-        $siteController = new SiteController();
-        $siteController->uploadSitelist();
-    } else {
-        return view('auth.login');
-    }
-})->name('upload-sitelist');
-// Route::post('/update/sitelist', 'SiteController@uploadSitelist')->name('upload-sitelist');
-
-Route::get('/sites', function () {
-    if (Auth::check()) {
-        // $siteController = new SiteController();
-        // $siteController->showSitelist();
-        return view('sites.sitelist');
-    } else {
-        return view('auth.login');
-    }
-})->name('sitelist');
-// Route::get('/sites', 'SiteController@showSitelist')->name('sitelist');
-
-Route::get('/cells', function () {
-    if (Auth::check()) {
-        $siteController = new SiteController();
-        $siteController->showCells();
-    } else {
-        return view('auth.login');
-    }
-})->name('cells');
-// Route::get('/cells', 'SiteController@showCells')->name('cells');
+Route::post('/update/sitelist', 'SiteController@uploadSitelist')->name('upload-sitelist');
+Route::get('/sites', 'SiteController@showSitelist')->name('sitelist');
+Route::get('/cells', 'SiteController@showCells')->name('cells');
 
 /*
 |--------------------------------------------------------------------------
 | USER AND AUTHENTICATION ROUTES
 |--------------------------------------------------------------------------
 */
-Route::post('/users', function () {
-    if (Auth::check()) {
-        $siteController = new SiteController();
-        $siteController->uploadSitelist();
-    } else {
-        return view('auth.login');
-    }
-})->name('upload-sitelist');
-// Route::post('/update/sitelist', 'SiteController@uploadSitelist')->name('upload-sitelist');
-
-Route::get('/users', function () {
-    if (Auth::check()) {
-        $users = User::all();
-
-        return view('auth.userlist', compact("users"));
-    } else {
-        return view('auth.login');
-    }
-});
+Route::get('/users', 'RegisterController@showUserlist')->name('userlist');
 
 // REGISTRATIONS
- Route::get('/add_admin', function () {
-   if (Auth::check()) {
-        return view('auth.register_admin');
-    } else { return view('auth.login');
-    }
-});
-Route::get('/add_admin', function () {
-    return view('auth.register_admin');
-});
-
-Route::get('/add_contractor', function () {
-    if (Auth::check()) {
-        return view('auth.register_contractor');
-    } else {
-        return view('auth.login');
-    }
-});
-
-Route::post('/update/sitelist', 'SiteController@uploadSitelist')->name('upload-sitelist');
-Route::get('/sites', 'SiteController@showSitelist')->name('sitelist');
-Route::get('/cells', 'SiteController@showCells')->name('cells');
+Route::get('/add_admin', 'RegisterController@showAddAdminForm')->name('add_admin');
+Route::get('/add_contractor', 'RegisterController@showAddContractorForm')->name('add_contractor');
+Route::get('/add_team', 'RegisterController@showAddTeamForm')->name('add_team');
 
 Route::get('/pdf', 'API\TestApp\TestReportController@generatePdf')->name('pdf');
 
-
-Route::get('/add_team', function () {
-    if (Auth::check()) {
-        return view('auth.register_team');
-    } else {
-        return view('auth.login');
-    }
-});
 

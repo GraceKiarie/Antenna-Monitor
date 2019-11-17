@@ -9,11 +9,15 @@
 <meta name="description" content="App Dashboard">
 <meta name="msapplication-tap-highlight" content="no">
 
-<link href="./assets/css/template.css" rel="stylesheet">
-<!-- PAGE SPECIFIC STYLES -->
+<!-- 
+    *PAGE SPECIFIC STYLES
+-->
 <!-- FRAMEWORK CSS FOR PAGE -->
-@stack('app-styles')
+@stack('pre-template-styles')
+<link href="./assets/css/template.css" rel="stylesheet">
+@stack('post-template-styles')
 
 <!-- CUSTOM PAGE CSS -->
+@stack('pre-app-styles')
 <link href="./assets/css/app.css" rel="stylesheet">
-@stack('page-styles')
+@stack('post-app-styles')

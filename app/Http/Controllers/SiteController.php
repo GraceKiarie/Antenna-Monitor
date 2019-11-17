@@ -8,11 +8,15 @@ use Illuminate\Http\Request;
 
 class SiteController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function uploadCsvFile()
     {
         $path = request()->file('sitelist')->getRealPath(); //find the files location
         return $path;
-
     }
 
 
@@ -99,11 +103,11 @@ class SiteController extends Controller
     }
 
     //display sitelist
-
+ // 'sites.sitelist' compact('sites')
     public function showSitelist()
     {
         $sites = Site::all();
-        return $sites;
+        return view('sites.sitelist', compact('sites'));
     }
 
     public function showCells()

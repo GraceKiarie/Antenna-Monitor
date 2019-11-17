@@ -41,7 +41,7 @@
                         </li>
                         <li>
                             <a href="#">
-                                <i class="metismenu-icon pe-7s-map"></i>
+                                <i class="metismenu-icon pe-7s-graph3"></i>
                                     Other DashBoards
                                 <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                             </a>
@@ -63,8 +63,8 @@
                     <li class="app-sidebar__heading app-sidebar__heading-m">Sites</li>
                         <li>
                             <a href="#">
-                                <i class="metismenu-icon pe-7s-map"></i>
-                                    Sites & Cells List
+                                <i class="metismenu-icon pe-7s-network"></i>
+                                Site Management
                                 <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                             </a>
                             <ul>
@@ -74,21 +74,6 @@
                                         Sites List
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="cells">
-                                        <i class="metismenu-icon"></i>
-                                        Cells List
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="metismenu-icon pe-7s-map-2"></i>
-                                Site Management
-                                <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
-                            </a>
-                            <ul>
                                 <li>
                                     <a href="#">
                                         <i class="metismenu-icon">
@@ -105,7 +90,7 @@
                         </li>
                         <li>
                             <a href="#">
-                                <i class="metismenu-icon pe-7s-id"></i>
+                                <i class="metismenu-icon pe-7s-display1"></i>
                                     Site Reports
                                 <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                             </a>
@@ -127,7 +112,7 @@
                         <li class="app-sidebar__heading app-sidebar__heading-m">Alerts</li>
                         <li>
                             <a href="#">
-                                <i class="metismenu-icon pe-7s-map"></i>
+                                <i class="metismenu-icon pe-7s-attention"></i>
                                 View Alerts
                                 <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                             </a>
@@ -160,7 +145,7 @@
                         </li>
                         <li>
                                 <a href="#">
-                                    <i class="metismenu-icon pe-7s-id"></i>
+                                    <i class="metismenu-icon pe-7s-battery"></i>
                                     Alert Thresholds
                                     <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                                 </a>
@@ -201,14 +186,14 @@
                         <li class="app-sidebar__heading app-sidebar__heading-m">System</li>
                         <li>
                             <a href="#">
-                                <i class="metismenu-icon pe-7s-lock"></i>
+                                <i class="metismenu-icon pe-7s-key"></i>
                                 Authentication
                                 <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                             </a>
                             <ul>
                                 <li>
                                     <a href="/roles">
-                                        <i class="metismenu-icon">
+                                        <i class="metismenu-icon pe-7s-key">
                                         </i>Roles
                                     </a>
                                 </li>
@@ -235,7 +220,7 @@
                         </li>
                         <li>
                                 <a href="#">
-                                    <i class="metismenu-icon pe-7s-map-2"></i>
+                                    <i class="metismenu-icon pe-7s-display2"></i>
                                     System Reports
                                     <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                                 </a>
