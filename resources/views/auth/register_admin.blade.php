@@ -23,6 +23,9 @@
                             <button class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
                                 Add Team
                             </button>
+                            <button onclick="window.history.back();" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
+                                Back
+                            </button>
                         </div>
 
                         <hr class="page-subtitle-hr" />

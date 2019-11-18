@@ -49,7 +49,6 @@ class SiteController extends Controller
                     'vendor' => $row_data[12],
                     'lat' => $row_data[14],
                     'long' => $row_data[15]
-
                 ];
                 Site::create($data);
                 $count++;
@@ -100,14 +99,28 @@ class SiteController extends Controller
     {
         $this->saveSites();
         $this->saveCells();
+        $sites = Site::all();
+        return redirect('/sites');
     }
 
     //display sitelist
- // 'sites.sitelist' compact('sites')
     public function showSitelist()
     {
         $sites = Site::all();
         return view('sites.sitelist', compact('sites'));
+    }
+
+    //display sitelist
+    public function showCellsList()
+    {
+        $cells = Cell::all();
+        return view('sites.celllist', compact('cells'));
+    }
+
+    //display upload sitelist
+    public function showUploadSitelist()
+    {
+        return view('sites.upload-sites');
     }
 
     public function showCells()

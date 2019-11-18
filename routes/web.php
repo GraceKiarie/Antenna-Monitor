@@ -34,21 +34,20 @@ Route::get('/alerts_dash', 'DashboardController@showAlertsDashboard')->name('ale
 |--------------------------------------------------------------------------
 */
 Route::post('/update/sitelist', 'SiteController@uploadSitelist')->name('upload-sitelist');
+Route::get('/upload_sitelist', 'SiteController@showUploadSitelist');
 Route::get('/sites', 'SiteController@showSitelist')->name('sitelist');
-Route::get('/cells', 'SiteController@showCells')->name('cells');
+Route::get('/cells', 'SiteController@showCellsList')->name('celllist');
 
 /*
 |--------------------------------------------------------------------------
 | USER AND AUTHENTICATION ROUTES
 |--------------------------------------------------------------------------
 */
-Route::get('/users', 'RegisterController@showUserlist')->name('userlist');
+Route::get('/users', 'Auth\RegisterController@showUserlist')->name('userlist');
 
 // REGISTRATIONS
-Route::get('/add_admin', 'RegisterController@showAddAdminForm')->name('add_admin');
-Route::get('/add_contractor', 'RegisterController@showAddContractorForm')->name('add_contractor');
-Route::get('/add_team', 'RegisterController@showAddTeamForm')->name('add_team');
+Route::get('/add_admin', 'Auth\RegisterController@showAddAdminForm')->name('add_admin');
+Route::get('/add_contractor', 'AuthRegisterController@showAddContractorForm')->name('add_contractor');
+Route::get('/add_team', 'Auth\RegisterController@showAddTeamForm')->name('add_team');
 
 Route::get('/pdf', 'API\TestApp\TestReportController@generatePdf')->name('pdf');
-
-

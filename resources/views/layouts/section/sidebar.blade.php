@@ -69,6 +69,12 @@
                             </a>
                             <ul>
                                 <li>
+                                    <a href="/cells">
+                                        <i class="metismenu-icon"></i>
+                                        Cells List
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="/sites">
                                         <i class="metismenu-icon"></i>
                                         Sites List

@@ -59,17 +59,17 @@ class RegisterController extends Controller
 
     public function showAddAdminForm()
     {
-        return view('auth.register_admin' ,compact('contractors','roles','teams'));
+        return view('auth.register_admin');
     }
 
     public function showAddContractorForm()
     {
-        return view('auth.register_contractor' ,compact('contractors','roles','teams'));
+        return view('auth.register_contractor');
     }
 
     public function showAddTeamForm()
     {
-        return view('auth.register_team' ,compact('contractors','roles','teams'));
+        return view('auth.register_team');
     }
     /**
      * Get a validator for an incoming registration request.
