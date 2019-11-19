@@ -9,12 +9,10 @@ Use App\Report;
 
 class TestController extends Controller
 {
-    /**
+    /*
      * qr_number scan test
-     *
      * @param  [string] qr_number
      */
-
     public function qrTest(Request $request)
     {
         $qr_number = $request->get('qr_number');
@@ -28,19 +26,17 @@ class TestController extends Controller
 
     }
 
-    /**
+    /*
      * imsi scan test
-     *
      * @param  [string] imsi
+     * @param  [string] qr_number
      */
 
     public function ImsiTest(Request $request)
     {
         $imsi = $request->get('imsi');
         $qr_number = $request->get('qr_number');
-
         $code = Monitor::where('imsi', '=', $imsi)->where('qr_number', '=', $qr_number)->select('voltage','csq')->first();
-
 
         if ($code) {
             return response()->json(['status' => 'success', 'data' => ['voltage' => $code->voltage, 'csq' => $code->csq, 'qr_number' => $qr_number, 'imsi' => $imsi]], 200);
@@ -48,6 +44,5 @@ class TestController extends Controller
         } else {
             return response()->json(['status' => 'failure', 'message' => 'communication not established '], 404);
         }
-
     }
 }

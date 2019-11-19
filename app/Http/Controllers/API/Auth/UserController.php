@@ -49,11 +49,28 @@ class UserController extends Controller
      *
      * @param  [string] email
      * @param  [string] password
-     * @param  [boolean] remember_me
      * @return [string] access_token
      * @return [string] token_type
      * @return [string] expires_at
      */
+
+    public function sendMessage($phone, $message)
+    {
+        $username = env('AT_USERNAME');
+        $apiKey = env('AT_SECRET_KEY');
+        $AT = new AfricasTalking($username, $apiKey);
+
+        // Get one of the services
+        $sms = $AT->sms();
+
+        // Use the service
+        $result = $sms->send([
+            'to' => $phone,
+            'message' => $message
+        ]);
+
+        return $result;
+    }
 
     public function login(Request $request)
     {
@@ -66,43 +83,32 @@ class UserController extends Controller
 
         //check if user exists
         if (!Auth::attempt($credentials))
-            return response()->json( ['status' => 'failure', 'displayMessage' => 'Wrong email or password'], 401);
+            return response()->json(['status' => 'failure', 'displayMessage' => 'Wrong email or password'], 401);
 
         //if user exists and the password matches the email, send an authentication code via text
         $user = $request->user();
         $phone = $user->phone;
-        $message = rand(100000, 900000);
+        $code = rand(100000, 900000);
+        $message = "<#> Your authentication code is  " . $code;
 
-        $username = env('AT_USERNAME'); // use 'sandbox' for development in the test environment
-        $apiKey = env('AT_SECRET_KEY'); // use your sandbox app API key for development in the test environment
-        $AT = new AfricasTalking($username, $apiKey);
+        //send message
+        $result = $this->sendMessage($phone, $message);
 
-        // Get one of the services
-        $sms = $AT->sms();
-
-        // Use the service
-        $result = $sms->send([
-            'to' => $phone,
-            'message' => $message
-        ]);
-        //save the message in the db
-
+        //save the code in the db
         if ($result['status'] == "success") {
             $user_id = $user->id;
             if (Code::where('user_id', '=', $user_id)->delete()) {
-                Code::create(['user_id' => $user_id, 'code' => $message]);
-            }else{
-                Code::create(['user_id' => $user_id, 'code' => $message]);
+                Code::create(['user_id' => $user_id, 'code' => $code]);
+            } else {
+                Code::create(['user_id' => $user_id, 'code' => $code]);
 
             }
-
             return response()->json(['status' => $result['status'], 'data' => $user], 200);
         }
 
-
     }
 
-    public function generateToken($id,Request $request)
+    public function generateToken($id, Request $request)
     {
         $user = User::where('id', '=', $id)->first();
         $code = Code::where('user_id', '=', $id)->first();
@@ -129,7 +135,9 @@ class UserController extends Controller
         $user->password = Hash::make($request->get('password'));
         $user->password_change_at = true;
         if ($user->save()) {
-            return response()->json(['status' => 'success' ,'data' => $user], 200);
+            return response()->json(['status' => 'success', 'data' => $user], 200);
+        } else {
+            return response()->json(['status' => 'failure', 'message' => 'an error occurred'], 404);
         }
 
     }
@@ -147,17 +155,4 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function test(Request $request)
-    {
-        $input = $request->all();
-
-        $con = Contractor::create($input);
-
-        return response()->json(['message ' => $con], 201);
-    }
-    /**
-     * Get the authenticated User
-     *
-     * @return [json] user object
-     */
 }
