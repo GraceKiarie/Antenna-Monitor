@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Contracts\Mail\Mailable;
-use App\Jobs\SendTestReportEmail;
+use App\Jobs\SendTestReportEmailJob;
 use Carbon\Carbon;
 class TestReportController extends Controller
 {
@@ -49,7 +49,7 @@ class TestReportController extends Controller
         }else{
             $data['asu_test'] = 'Failed';
         }
-        if ($data['csq'] &&  $data['voltage_test'] == 'Passed'){
+        if ($data['asu_test'] =='Passed' && $data['voltage_test'] == 'Passed'){
             $data['test'] = 'Pass';
         }else{
             $data['test'] = 'Fail';
@@ -60,19 +60,19 @@ class TestReportController extends Controller
         $data['date']=date("Y-m-d",$t);
         $data['time']=date('H:i:s',$t);
 
+
         $pdf = PDF::loadView('mails.test_report', compact('data'));
 
         // save mail to directory
         $filename = $data['name']."_".$data['qr_number'] . '_testReport.pdf';
 
         Storage::put('public/testReport/' . $filename, $pdf->output());
-        $url = '/home/kiarie/Desktop/Antenna-Monitor/storage/app/public/testReport/' . $filename;
 
+        $uri = '/home/kiarie/Desktop/Antenna-Monitor/storage/app/public/testReport/' . $filename;
         Log::info("Request cycle without Queues started");
 
-        $when = now()->addMinutes(5);
-        Mail::to('gnjokikiarie@gmail.com')->later($when,new TestReportEmail($url));
-
+        $emailJob = (new SendTestReportEmailJob($uri))->delay(Carbon::now()->addSeconds(3));
+        dispatch($emailJob);
 
         Log::info("Request cycle without Queues finished");
         return response()->json(['status'=>'success'],200);
