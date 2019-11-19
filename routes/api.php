@@ -13,27 +13,32 @@ use Illuminate\Http\Request;
 |
 */
 Route::group(['prefix' => 'v1'], function () {
-Route::post('register', 'API\Auth\UserController@register');
-Route::post('login', 'API\Auth\UserController@login');
-Route::post('login/authentication/{id}', 'API\Auth\UserController@generateToken');
-Route::post('signin', 'API\Auth\UserController@loginWeb');
+    Route::post('register', 'API\Auth\UserController@register');
+    Route::post('login', 'API\Auth\UserController@login');
+    Route::post('login/authentication/{id}', 'API\Auth\UserController@generateToken');
+    Route::post('signin', 'API\Auth\UserController@loginWeb');
 
-Route::post('/sendmail/{id}', 'API\TestApp\TestReportController@sendMail')->name('mail');
+    Route::post('/sendmail/{id}', 'API\TestApp\TestReportController@sendMail')->name('mail');
 
-Route::post('roles/add', 'TestController@createRoles');
+    Route::post('roles/add', 'TestController@createRoles');
 
-Route::group([ 'middleware' => 'auth:api'], function () {
+    Route::group(['middleware' => 'auth:api'], function () {
+
+        Route::post('teams/add', 'TestController@createTeams');
+        Route::get('teams', 'TestController@allTeams');
+        Route::post('contractors/add', 'TestController@createContractors');
+        Route::patch('password/reset', 'API\Auth\UserController@updatePassword');
+
+        //application app routes
+        Route::get('sitelist', 'API\InstallationApp\SiteController@showSitelist');
 
 
-    Route::post('teams/add', 'TestController@createTeams');
-    Route::get('teams', 'TestController@allTeams');
-    Route::post('contractors/add', 'TestController@createContractors');
-    Route::patch('password/reset', 'API\Auth\UserController@updatePassword');
 
 
-    //testapp routes
-    Route::post('qr', 'API\TestApp\TestController@qrTest');
-    Route::post('imsi', 'API\TestApp\TestController@ImsiTest');
-});
+
+        //testapp routes
+        Route::post('qr', 'API\TestApp\TestController@qrTest');
+        Route::post('imsi', 'API\TestApp\TestController@ImsiTest');
+    });
 });
 

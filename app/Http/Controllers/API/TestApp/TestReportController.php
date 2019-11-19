@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\API\TestApp;
 
 use App\Http\Controllers\Controller;
+use App\Mail\TestReportEmail;
 use App\User;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Mail;
-use App\Monitor;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\Log;
+use Illuminate\Contracts\Mail\Mailable;
+use App\Jobs\SendTestReportEmail;
+use Carbon\Carbon;
 class TestReportController extends Controller
 {
     public function getData(Request $request)
@@ -23,6 +26,7 @@ class TestReportController extends Controller
 
     public function sendMail(Request $request, $id )
     {
+
         $user = User::where('id', '=', $id)->first();
         $data = [
             'imsi' => $request->get('imsi'),
@@ -45,7 +49,7 @@ class TestReportController extends Controller
         }else{
             $data['asu_test'] = 'Failed';
         }
-        if ($data['csq'] &&  $data['voltage_test'] == 'passed'){
+        if ($data['csq'] &&  $data['voltage_test'] == 'Passed'){
             $data['test'] = 'Pass';
         }else{
             $data['test'] = 'Fail';
@@ -54,35 +58,23 @@ class TestReportController extends Controller
 
         $t =time();
         $data['date']=date("Y-m-d",$t);
-        $data['time']=date('H:i:s',$t);;
+        $data['time']=date('H:i:s',$t);
 
         $pdf = PDF::loadView('mails.test_report', compact('data'));
 
         // save mail to directory
         $filename = $data['name']."_".$data['qr_number'] . '_testReport.pdf';
+
         Storage::put('public/testReport/' . $filename, $pdf->output());
         $url = '/home/kiarie/Desktop/Antenna-Monitor/storage/app/public/testReport/' . $filename;
 
-        //send mail
-        try {
-            Mail::send('mails.test_report', $data, function ($message) use ($url, $data, $pdf) {
-                $message->to('iot@adcea.com')->subject('Test Report!')
-                    ->subject('Test Report Certificate')
-                    ->attach($url);
-            });
-        } catch (JWTException $exception) {
-            $this->serverstatuscode = "0";
-            $this->serverstatusdes = $exception->getMessage();
-        }
-        if (Mail::failures()) {
-            $this->statusdesc = "Error sending mail";
-            $this->statuscode = "0";
+        Log::info("Request cycle without Queues started");
 
-        } else {
+        $when = now()->addMinutes(5);
+        Mail::to('gnjokikiarie@gmail.com')->later($when,new TestReportEmail($url));
 
-            $this->statusdesc = "Message sent Succesfully";
-            $this->statuscode = "1";
-        }
-        return response()->json(compact('this'));
+
+        Log::info("Request cycle without Queues finished");
+        return response()->json(['status'=>'success'],200);
     }
 }
