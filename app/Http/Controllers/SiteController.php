@@ -8,11 +8,15 @@ use Illuminate\Http\Request;
 
 class SiteController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function uploadCsvFile()
     {
         $path = request()->file('sitelist')->getRealPath(); //find the files location
         return $path;
-
     }
 
 
@@ -45,7 +49,6 @@ class SiteController extends Controller
                     'vendor' => $row_data[12],
                     'lat' => $row_data[14],
                     'long' => $row_data[15]
-
                 ];
                 Site::create($data);
                 $count++;
@@ -96,14 +99,28 @@ class SiteController extends Controller
     {
         $this->saveSites();
         $this->saveCells();
+        $sites = Site::all();
+        return redirect('/sites');
     }
 
     //display sitelist
-
     public function showSitelist()
     {
         $sites = Site::all();
-        return $sites;
+        return view('sites.sitelist', compact('sites'));
+    }
+
+    //display sitelist
+    public function showCellsList()
+    {
+        $cells = Cell::all();
+        return view('sites.celllist', compact('cells'));
+    }
+
+    //display upload sitelist
+    public function showUploadSitelist()
+    {
+        return view('sites.upload-sites');
     }
 
     public function showCells()

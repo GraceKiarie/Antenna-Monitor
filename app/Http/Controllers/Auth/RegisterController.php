@@ -40,7 +40,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('auth');
     }
     public function showRegistrationForm()
     {
@@ -49,6 +49,27 @@ class RegisterController extends Controller
         $contractors= Contractor::all();
         $teams= Team::all();
         return view('auth.register' ,compact('contractors','roles','teams'));
+    }
+
+    public function showUserlist()
+    {
+        $users = User::all();
+        return view('auth.userlist' ,compact('users'));
+    }
+
+    public function showAddAdminForm()
+    {
+        return view('auth.register_admin');
+    }
+
+    public function showAddContractorForm()
+    {
+        return view('auth.register_contractor');
+    }
+
+    public function showAddTeamForm()
+    {
+        return view('auth.register_team');
     }
     /**
      * Get a validator for an incoming registration request.
