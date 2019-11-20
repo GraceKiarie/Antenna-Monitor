@@ -1,11 +1,11 @@
 @extends('layouts.main')
 
 @push('pre-template-styles')
-    <link rel="stylesheet" href="./assets/datatables/datatables.min.css" />
+    <link rel="stylesheet" href="{{ asset('assets/datatables/datatables.min.css') }}" />
 @endpush
 
 @push('post-app-styles')
-    <link rel="stylesheet" href="./assets/css/datatables.css" />
+    <link rel="stylesheet" href="{{ asset('assets/css/datatables.css') }}" />
 @endpush
 
 @section('content-detail')
@@ -70,9 +70,9 @@
 @endsection
 
 @push('app-scripts')
-    <script src="./assets/datatables/datatables.min.js"></script>
+    <script src="{{ asset('assets/datatables/datatables.min.js') }}"></script>
 @endpush
 
 @push('page-scripts')
-    <script src="./assets/scripts/userlist.js"></script>
+    <script src="{{ asset('assets/scripts/userlist.js') }}"></script>
 @endpush

@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Varela+Round&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Quicksand:500&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Alata&display=swap');
 
 body {
     font-family: 'Varela Round', sans-serif;
@@ -90,6 +90,12 @@ input[type=number] {
     min-height: 575px;
 }
 
+.menu-item {
+    font-family: 'Quicksand', sans-serif;
+    font-size: .9rem;
+    color: black;
+}
+
 .mm-active-m {
     color: red;
 }
@@ -109,7 +115,11 @@ input[type=number] {
     border-top: 2px solid rgb(206, 205, 218);
 }
 
-
+.es-site-name, .ec-cell-name {
+    color: rgb(45, 57, 82);
+    font-family: 'Alata', sans-serif;
+    font-weight: 200;
+}
 
 .app-page-title-m{
     margin:-30px -30px 5px;
@@ -130,9 +140,49 @@ input[type=number] {
     padding-top: .8rem;
 }
 
+.site-basic-info {
+    font-family: 'Quicksand', sans-serif;
+}
+.es-site-name .ec-cell-name {
+    display: inline;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.es-site-id {
+    font-size: 1rem;
+    font-weight: 500;
+    float: right;
+    text-align: right !important;
+}
+
+.ec-site-name {
+    display: inline;
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+#mapid { 
+    height: 180px; 
+}
+
+.nav-tabs-m {
+    padding-left: 2rem;
+    font-size: 1rem;
+}
+
+.tab-content-m {
+    border-bottom: 1px solid #dde0e4;
+}
+
+.nav-link-m{
+    color: #244684;
+    font-family: 'Quicksand', sans-serif;
+}
 .content-detail-title {
     padding-top: .9rem;
-    font-size: 1.3rem;
+    font-size: 1.1rem;
+    text-transform: uppercase;
     display: inline;
 }
 

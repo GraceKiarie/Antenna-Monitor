@@ -14,10 +14,10 @@
 -->
 <!-- FRAMEWORK CSS FOR PAGE -->
 @stack('pre-template-styles')
-<link href="./assets/css/template.css" rel="stylesheet">
+<link href="{{ asset('assets/css/template.css') }}" rel="stylesheet">
 @stack('post-template-styles')
 
 <!-- CUSTOM PAGE CSS -->
 @stack('pre-app-styles')
-<link href="./assets/css/app.css" rel="stylesheet">
+<link href="{{ asset('assets/css/app.css') }}" rel="stylesheet">
 @stack('post-app-styles')
