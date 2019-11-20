@@ -12,7 +12,7 @@ use App\User;
 use App\Contractor;
 use App\Code;
 use AfricasTalking\SDK\AfricasTalking;
-
+use App\Role;
 class UserController extends Controller
 {
     /**
@@ -88,6 +88,7 @@ class UserController extends Controller
         //if user exists and the password matches the email, send an authentication code via text
         $user = $request->user();
         $phone = $user->phone;
+
         $code = rand(100000, 900000);
         $message = "<#> Your authentication code is  " . $code;
 
@@ -111,6 +112,7 @@ class UserController extends Controller
     public function generateToken($id, Request $request)
     {
         $user = User::where('id', '=', $id)->first();
+
         $code = Code::where('user_id', '=', $id)->first();
         if ($request->get('code') == $code->code) {
 

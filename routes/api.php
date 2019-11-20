@@ -18,27 +18,30 @@ Route::group(['prefix' => 'v1'], function () {
     Route::post('login/authentication/{id}', 'API\Auth\UserController@generateToken');
     Route::post('signin', 'API\Auth\UserController@loginWeb');
 
-    Route::post('/sendmail/{id}', 'API\TestApp\TestReportController@sendMail')->name('mail');
+    ;
 
     Route::post('roles/add', 'TestController@createRoles');
+    Route::post('teams/add', 'TestController@createTeams');
+    Route::get('teams', 'TestController@allTeams');
+    Route::post('contractors/add', 'TestController@createContractors');
+
+
 
     Route::group(['middleware' => 'auth:api'], function () {
 
-        Route::post('teams/add', 'TestController@createTeams');
-        Route::get('teams', 'TestController@allTeams');
-        Route::post('contractors/add', 'TestController@createContractors');
         Route::patch('password/reset', 'API\Auth\UserController@updatePassword');
-
-        //application app routes
-        Route::get('sitelist', 'API\InstallationApp\SiteController@showSitelist');
-
-
-
-
 
         //testapp routes
         Route::post('qr', 'API\TestApp\TestController@qrTest');
         Route::post('imsi', 'API\TestApp\TestController@ImsiTest');
+        Route::post('/sendmail/{id}', 'API\TestApp\TestReportController@sendMail')->name('mail');
+
+        //application app routes
+        Route::get('sitelist', 'API\InstallationApp\InstallationController@showSitelist');
+
     });
+    Route::post('technologies', 'API\InstallationApp\InstallationController@listSiteTechnologies');
+    Route::post('cells', 'API\InstallationApp\InstallationController@listCells');
+    Route::post('validate', 'API\InstallationApp\InstallationController@validateCellID');
 });
 
