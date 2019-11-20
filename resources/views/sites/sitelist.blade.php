@@ -48,26 +48,9 @@
                     <table id="sitelist_table" class="display table table-striped table-border row-border table-hover table-sm nowrap" style="width:100%">
                         <thead>
                             <tr>
-                                {{-- 
-                                    <th>Date</th>
-                                    <th>Node_ID</th>
-                                    <th>Huawei Enodeb ID</th>
-                                    <th>Node_Name</th> 
-                                --}}
                                 <th>SiteID</th>
                                 <th>SiteName</th>
-                                {{-- 
-                                    <th>LAC</th>
-                                    <th>MCC</th>
-                                    <th>MNC</th> 
-                                --}}
                                 <th>Vendor</th>
-                                {{-- 
-                                    <th>LATITUDE_DEC</th>
-                                    <th>LONGITUDE_DEC</th>
-                                    <th>BCCH/UARFCN/EARFCN</th>
-                                    <th>BSCI/PSC/PCI</th> 
-                                --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -76,7 +59,7 @@
                                 $site_name = str_replace('_', ' ', str_replace($site->site_id.'-', '', $site->site_name));
                             ?>
                                 <tr>
-                                    <td> {{ $site->site_id }} </td>
+                                    <td><a href="/site/{{ $site->site_id }}" > {{ $site->site_id }} </a> </td>
                                     <td> {{ $site_name }} </td>
                                     <td> {{ $site->vendor }} </td>
                                 </tr>
@@ -84,30 +67,9 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                {{-- 
-                                    <th>Date</th>
-                                    <th>Node_ID</th>
-                                    <th>Huawei Enodeb ID</th>
-                                    <th>Node_Name</th> 
-                                --}}
                                 <th>SiteID</th>
                                 <th>SiteName</th>
-                                <th>cellName</th>
-                                <th>Cell_ID</th>
-                                {{-- 
-                                    <th>LAC</th>
-                                    <th>MCC</th>
-                                    <th>MNC</th> 
-                                --}}
-                                <th>Status</th>
                                 <th>Vendor</th>
-                                <th>TECHNOLOGY</th>
-                                {{-- 
-                                    <th>LATITUDE_DEC</th>
-                                    <th>LONGITUDE_DEC</th>
-                                    <th>BCCH/UARFCN/EARFCN</th>
-                                    <th>BSCI/PSC/PCI</th> 
-                                --}}
                             </tr>
                         </tfoot>
                     </table>

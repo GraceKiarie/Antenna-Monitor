@@ -23,8 +23,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 | DASHBOARD ROUTES
 |--------------------------------------------------------------------------
 */
-Route::get('/', 'DashboardController@showMainDashboard')->name('main_dash');
-Route::get('/main_dash', 'DashboardController@showMainDashboard')->name('main_dash');
+Route::get('/', 'DashboardController@showMainDashboard')->name('dash');
+Route::get('/dash', 'DashboardController@showMainDashboard')->name('dash');
 Route::get('/sites_dash', 'DashboardController@showSitesDashboard')->name('sites_dash');
 Route::get('/alerts_dash', 'DashboardController@showAlertsDashboard')->name('alerts_dash');
 
@@ -36,8 +36,9 @@ Route::get('/alerts_dash', 'DashboardController@showAlertsDashboard')->name('ale
 Route::post('/update/sitelist', 'SiteController@uploadSitelist')->name('upload-sitelist');
 Route::get('/upload_sitelist', 'SiteController@showUploadSitelist');
 Route::get('/sites', 'SiteController@showSitelist')->name('sitelist');
+Route::get('/site/{site_id}', 'SiteController@showSite')->name('site');
 Route::get('/cells', 'SiteController@showCellsList')->name('celllist');
-
+Route::get('/cell/{cell_id}', 'SiteController@showCell')->name('cell');
 /*
 |--------------------------------------------------------------------------
 | USER AND AUTHENTICATION ROUTES
