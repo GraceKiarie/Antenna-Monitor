@@ -57,11 +57,19 @@
                         <tbody>
                             @foreach ($cells as $cell)
                             <?php 
-                                $cell_name = str_replace('_', ' ', str_replace($cell->site_id.'-', '', $cell->cell_name));
+                                // $cell_name = str_replace('_', ' ', str_replace($cell->site_id.'-', '', $cell->cell_name));
+
+                                // $cell_name = str_replace($cell->site_id, '', $cell->cell_name);
+
+                                // Make Cell name readable
+                                $name_arr = explode("-", $cell->cell_name);
+                                $remove_id = array_splice($name_arr, 1);
+                                $raw_name = implode("-", $remove_id);
+                                $cell->cell_name = str_replace('_', ' ', $raw_name);
                             ?>
                                 <tr>
-                                    <td> {{ $cell->cell_id }} </td>
-                                    <td> {{ $cell_name }} </td>
+                                    <td><a href="/cell/{{ $cell->cell_id }}"> {{ $cell->cell_id }} </a> </td>
+                                    <td> {{ $cell->cell_name }} </td>
                                     <td> {{ $cell->status }} </td>
                                     <td> {{ $cell->technology }} </td>
                                 </tr>

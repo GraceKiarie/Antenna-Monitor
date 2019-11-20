@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Site;
 use App\Cell;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SiteController extends Controller
 {
@@ -18,7 +19,6 @@ class SiteController extends Controller
         $path = request()->file('sitelist')->getRealPath(); //find the files location
         return $path;
     }
-
 
     public function saveSites()
     {
@@ -108,6 +108,57 @@ class SiteController extends Controller
     {
         $sites = Site::all();
         return view('sites.sitelist', compact('sites'));
+    }
+
+    //SHOW SITE DATA
+    public function showSite($site_id)
+    {
+        $siteData =  DB::table('cells')
+                    ->join('sites', 'cells.site_id', '=', 'sites.site_id')
+                    ->where('sites.site_id', '=', $site_id)
+                    ->select('cells.cell_id as cell', 
+                             'cells.cell_name', 
+                             'cells.mnc', 
+                             'cells.status', 
+                             'cells.technology', 
+                             'cells.bcch_uarfcn_earfcn', 
+                             'cells.bsci_psc_pci', 
+                             'cells.created_at', 
+                             'cells.updated_at', 
+                             'sites.site_id as site', 
+                             'sites.site_name', 
+                             'sites.node_id', 
+                             'sites.node_name', 
+                             'sites.lac', 
+                             'sites.mcc', 
+                             'sites.vendor', 
+                             'sites.lat', 
+                             'sites.long')
+                    ->get();
+        return view('sites.edit-site', compact('siteData'));
+    }
+
+    public function showCell($cell_id)
+    {
+        $cellData =  DB::table('cells')
+                    ->join('sites', 'cells.site_id', '=', 'sites.site_id')
+                    ->where('cells.cell_id', '=', $cell_id)
+                    ->select('cells.cell_id', 
+                            'cells.cell_name', 
+                            'cells.mnc', 
+                            'cells.status', 
+                            'cells.technology', 
+                            'cells.bcch_uarfcn_earfcn', 
+                            'cells.bsci_psc_pci', 
+                            'cells.created_at', 
+                            'cells.updated_at',  
+                            'sites.site_id', 
+                            'sites.site_name', 
+                            'sites.vendor', 
+                            'sites.lat', 
+                            'sites.long')
+                    ->get();
+        return view('sites.edit-cell', compact('cellData'));
     }
 
     //display sitelist
