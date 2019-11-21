@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Monitor extends Model
+class TestReport extends Model
 {
-
     protected $fillable =
         [
-            'qr_number','imsi','cell_id'
+            'qr_number', 'test_report','status', 'user_id'
+
         ];
 }

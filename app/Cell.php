@@ -9,7 +9,8 @@ class Cell extends Model
 
     public $incrementing = false;
 
-    protected $fillable = ['site_id','cell_id','cell_name','mnc','status','technology','bcch_uarfcn_earfcn','bsci_psc_pci'];
+    protected $fillable = ['site_id','cell_id','sector_id','cell_name','mnc','status','technology','bcch_uarfcn_earfcn','bsci_psc_pci','heading',
+        'pitch','roll'];
 
     //relationship
     public function site()

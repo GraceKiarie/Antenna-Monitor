@@ -4,8 +4,8 @@ namespace App\Http\Controllers\API\TestApp;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Monitor;
-Use App\Report;
+use App\MonitorData;
+Use App\TestReport;
 
 class TestController extends Controller
 {
@@ -16,7 +16,7 @@ class TestController extends Controller
     public function qrTest(Request $request)
     {
         $qr_number = $request->get('qr_number');
-        $code = Monitor::where('qr_number', '=', $qr_number)->exists();
+        $code = MonitorData::where('qr_number', '=', $qr_number)->exists();
         if ($code) {
             return response()->json(['status' => 'success', 'data' => ['message' => 'match found', 'qr_number' => $qr_number]], 200);
 
@@ -36,7 +36,7 @@ class TestController extends Controller
     {
         $imsi = $request->get('imsi');
         $qr_number = $request->get('qr_number');
-        $code = Monitor::where('imsi', '=', $imsi)->where('qr_number', '=', $qr_number)->select('voltage','csq')->first();
+        $code =MonitorData::where('imsi', '=', $imsi)->where('qr_number', '=', $qr_number)->select('voltage','csq')->first();
 
         if ($code) {
             return response()->json(['status' => 'success', 'data' => ['voltage' => $code->voltage, 'csq' => $code->csq, 'qr_number' => $qr_number, 'imsi' => $imsi]], 200);
