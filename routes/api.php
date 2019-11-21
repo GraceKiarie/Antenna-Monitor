@@ -38,10 +38,11 @@ Route::group(['prefix' => 'v1'], function () {
 
         //application app routes
         Route::get('sitelist', 'API\InstallationApp\InstallationController@showSitelist');
+        Route::post('technologies', 'API\InstallationApp\InstallationController@listSiteTechnologies');
+        Route::post('cells', 'API\InstallationApp\InstallationController@listCells');
+        Route::post('validate', 'API\InstallationApp\InstallationController@validateCellID');
 
     });
-    Route::post('technologies', 'API\InstallationApp\InstallationController@listSiteTechnologies');
-    Route::post('cells', 'API\InstallationApp\InstallationController@listCells');
-    Route::post('validate', 'API\InstallationApp\InstallationController@validateCellID');
+
 });
 

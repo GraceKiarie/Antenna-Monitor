@@ -90,7 +90,7 @@ class UserController extends Controller
         $phone = $user->phone;
 
         $code = rand(100000, 900000);
-        $message = "<#> Your authentication code is  " . $code;
+        $message = "<#> Your authentication code is  " .$code."  L3Lp8YFxrFq";
 
         //send message
         $result = $this->sendMessage($phone, $message);
@@ -111,7 +111,8 @@ class UserController extends Controller
 
     public function generateToken($id, Request $request)
     {
-        $user = User::where('id', '=', $id)->first();
+        $user = User::with('role')->where('id', '=', $id)->first();
+
 
         $code = Code::where('user_id', '=', $id)->first();
         if ($request->get('code') == $code->code) {
@@ -123,6 +124,7 @@ class UserController extends Controller
             return response()->json([
                 'status' => 'success',
                 'access_token' => $tokenResult->accessToken,
+                'role' => $user->role->role_name,
                 'type' => 'Bearer'
             ], 200);
         } else {
