@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMonitorsTable extends Migration
+class CreateInstallationReportsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateMonitorsTable extends Migration
      */
     public function up()
     {
-
-        Schema::create('monitors', function (Blueprint $table) {
-
-
+        Schema::create('installation_reports', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('cell_id');
             $table->string('qr_number');
-            $table->string('imsi');
+            $table->string('installation_report');
+            $table->string('status')->default('Pending');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->OnDelete('cascade');
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ class CreateMonitorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('monitors');
+        Schema::dropIfExists('installation_reports');
     }
 }

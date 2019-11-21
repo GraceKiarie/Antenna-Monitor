@@ -30,25 +30,20 @@ class SiteController extends Controller
         while (!feof($file))//while its not end of the file opened do the following
         {
             $row_data = fgetcsv($file);
-            if (!empty($row_data[1])) {
-                $node_id = $row_data[1];
-            } else {
-                $node_id = $row_data[2];
-            }
 
-            if (!empty($row_data) && !Site::where(['site_id' => $row_data[4]])->exists()) {
+
+            if (!empty($row_data) && !Site::where(['site_id' => $row_data[2]])->exists()) {
 
                 // save sites
                 $data = [
-                    'node_id' => $node_id,
-                    'node_name' => $row_data[3],
-                    'site_id' => $row_data[4],
-                    'site_name' => $row_data[5],
-                    'lac' => $row_data[8],
-                    'mcc' => $row_data[9],
-                    'vendor' => $row_data[12],
-                    'lat' => $row_data[14],
-                    'long' => $row_data[15]
+                    'node_id' => $row_data[1],
+                    'site_id' => $row_data[2],
+                    'site_name' => $row_data[3],
+                    'lac' => $row_data[7],
+                    'mcc' => $row_data[8],
+                    'vendor' => $row_data[11],
+                    'lat' => $row_data[13],
+                    'long' => $row_data[14]
                 ];
                 Site::create($data);
                 $count++;
@@ -72,18 +67,22 @@ class SiteController extends Controller
         {
             $row_data = fgetcsv($file);
 
-            if ($row_data) {
+            if ($row_data && !Cell::where(['cell_id' => $row_data[6]])->exists()) {
 
                 // save cells
                 $data = [
-                    'site_id' =>$row_data[4],
-                    'cell_name' => $row_data[6],
-                    'cell_id' => $row_data[7],
-                    'mnc' => $row_data[10],
-                    'status' => $row_data[11],
-                    'technology' => $row_data[13],
-                    'bcch_uarfcn_earfcn' => $row_data[16],
-                    'bsci_psc_pci' => $row_data[17],
+                    'site_id' =>$row_data[2],
+                    'cell_name' => $row_data[4],
+                    'sector_id' => $row_data[5],
+                    'cell_id' => $row_data[6],
+                    'mnc' => $row_data[9],
+                    'status' => $row_data[10],
+                    'technology' => $row_data[12],
+                    'bcch_uarfcn_earfcn' => $row_data[15],
+                    'bsci_psc_pci' => $row_data[16],
+                    'heading' => $row_data[17],
+                    'pitch' => $row_data[18],
+                    'roll' => $row_data[19],
                 ];
                 Cell::create($data);
                 $count++;
@@ -113,52 +112,14 @@ class SiteController extends Controller
     //SHOW SITE DATA
     public function showSite($site_id)
     {
-        $siteData =  DB::table('cells')
-                    ->join('sites', 'cells.site_id', '=', 'sites.site_id')
-                    ->where('sites.site_id', '=', $site_id)
-                    ->select('cells.cell_id as cell', 
-                             'cells.cell_name', 
-                             'cells.mnc', 
-                             'cells.status', 
-                             'cells.technology', 
-                             'cells.bcch_uarfcn_earfcn', 
-                             'cells.bsci_psc_pci', 
-                             'cells.created_at', 
-                             'cells.updated_at', 
-                             'sites.site_id as site', 
-                             'sites.site_name', 
-                             'sites.node_id', 
-                             'sites.node_name', 
-                             'sites.lac', 
-                             'sites.mcc', 
-                             'sites.vendor', 
-                             'sites.lat', 
-                             'sites.long')
-                    ->get();
+        $siteData = Site::all();
         return view('sites.edit-site', compact('siteData'));
     }
 
-    public function showCell($cell_id)
+    public function cellDetails($cell_id)
     {
-        $cellData =  DB::table('cells')
-                    ->join('sites', 'cells.site_id', '=', 'sites.site_id')
-                    ->where('cells.cell_id', '=', $cell_id)
-                    ->select('cells.cell_id', 
-                            'cells.cell_name', 
-                            'cells.mnc', 
-                            'cells.status', 
-                            'cells.technology', 
-                            'cells.bcch_uarfcn_earfcn', 
-                            'cells.bsci_psc_pci', 
-                            'cells.created_at', 
-                            'cells.updated_at',  
-                            'sites.site_id', 
-                            'sites.site_name', 
-                            'sites.vendor', 
-                            'sites.lat', 
-                            'sites.long')
-                    ->get();
-        return view('sites.edit-cell', compact('cellData'));
+        $cellData = Cell::with('site')->where('cell_id', '=', $cell_id)->first();
+        return view('sites.cell_details', compact('cellData'));
     }
 
     //display sitelist
@@ -174,12 +135,4 @@ class SiteController extends Controller
         return view('sites.upload-sites');
     }
 
-    public function showCells()
-    {
-        $cells = Cell::all();
-        foreach ($cells as $cell){
-            echo $cell;
-        }
-        return $cells;
-    }
 }

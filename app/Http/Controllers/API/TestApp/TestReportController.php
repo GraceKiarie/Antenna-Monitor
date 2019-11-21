@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API\TestApp;
 
 use App\Http\Controllers\Controller;
-use App\Mail\TestReportEmail;
 use App\User;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -75,6 +74,6 @@ class TestReportController extends Controller
         dispatch($emailJob);
 
         Log::info("Request cycle without Queues finished");
-        return response()->json(['status'=>'success'],200);
+        return response()->json(['status'=>'success', 'data'=>$data],200);
     }
 }

@@ -15,7 +15,8 @@ class CreateContractorsTable extends Migration
     {
         Schema::create('contractors', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('contractor_name');
+            $table->string('contractor_name')->unique();
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }
