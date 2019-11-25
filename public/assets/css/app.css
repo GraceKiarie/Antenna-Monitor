@@ -156,6 +156,58 @@ input[type=number] {
     text-align: right !important;
 }
 
+.es-row-o {
+    background: #f1f1f1;
+    padding-top: .5rem;
+}
+
+.es-row-o h5 {
+    color: rgba(13, 27, 62, 0.897);
+}
+.es-row-e {
+    background: #ffffff;
+    padding-top: .5rem;
+    border-bottom: 2px solid #cccccc;
+    margin-bottom: 1.3rem;
+}
+
+.es-row-title {
+    padding-top: .5rem;
+    margin-bottom: 0;
+}
+
+.es-row-title h5 {
+    margin-bottom: 0;
+    color: rgba(13,27,62,0.7)
+}
+
+.card-title-m {
+    margin-bottom: 0;
+    font-weight: normal;
+    font-size: 1.2rem;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.card-text-m {
+    font-weight: normal;
+    font-size: 2.9rem;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.card-text-footer {
+    font-size: .9rem;
+    color: rgba(46, 46, 46, 0.7);
+    margin-bottom: 0;
+}
+
+.border-info-m {
+    text-align: center;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    border: 2px solid #a8a7a7 ;
+    border-radius: calc(.5rem - 1px) calc(.5rem - 1px) calc(.5rem - 1px) calc(.5rem - 1px);
+}
+
 .ec-site-name {
     display: inline;
     font-size: 1.3rem;
@@ -169,6 +221,10 @@ input[type=number] {
 .nav-tabs-m {
     padding-left: 2rem;
     font-size: 1rem;
+}
+
+.col-md-6 h6 {
+    text-align: right;
 }
 
 .tab-content-m {
