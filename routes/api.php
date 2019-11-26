@@ -24,6 +24,9 @@ Route::group(['prefix' => 'v1'], function () {
     Route::post('teams/add', 'TestController@createTeams');
     Route::get('teams', 'TestController@allTeams');
     Route::post('contractors/add', 'TestController@createContractors');
+    Route::get('nearby/sites', 'API\InstallationApp\InstallationController@scopeCloseTo');
+
+    Route::post('upload', 'API\InstallationApp\InstallationController@uploadImage');
 
 
 
@@ -39,7 +42,7 @@ Route::group(['prefix' => 'v1'], function () {
         //application app routes
         Route::get('sitelist', 'API\InstallationApp\InstallationController@showSitelist');
         Route::post('technologies', 'API\InstallationApp\InstallationController@listSiteTechnologies');
-        Route::post('cells', 'API\InstallationApp\InstallationController@listCells');
+        Route::post('sectors', 'API\InstallationApp\InstallationController@listCells');
         Route::post('validate', 'API\InstallationApp\InstallationController@validateCellID');
 
     });
