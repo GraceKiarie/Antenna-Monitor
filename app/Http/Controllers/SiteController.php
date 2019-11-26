@@ -112,8 +112,8 @@ class SiteController extends Controller
     //SHOW SITE DATA
     public function showSite($site_id)
     {
-        $siteData = Site::all();
-        return view('sites.edit-site', compact('siteData'));
+        $siteData = Cell::with('site')->where('site_id', '=', $site_id)->get();
+        return view('sites.site_details', compact('siteData'));
     }
 
     public function cellDetails($cell_id)
@@ -134,5 +134,4 @@ class SiteController extends Controller
     {
         return view('sites.upload-sites');
     }
-
 }

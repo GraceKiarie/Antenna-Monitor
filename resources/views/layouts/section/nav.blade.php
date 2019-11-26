@@ -64,7 +64,7 @@
 
                                 <!-- AVATAR -->
                                 <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
-                                    <img width="42" class="rounded-circle" src="assets/images/avatars/100.jpg" alt="">
+                                    <img width="42" class="rounded-circle" src="{{ asset('assets/images/avatars/100.jpg') }}" alt="">
                                     <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                 </a>
                                 <!-- /AVATAR -->
