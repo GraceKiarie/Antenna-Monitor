@@ -18,7 +18,6 @@ class CreateSitesTable extends Migration
             $table->string('site_id',50)->unique()->primary();
             $table->string('site_name');
             $table->string('node_id');
-            $table->string('node_name');
             $table->string('lac');
             $table->string('mcc');
             $table->string('vendor');

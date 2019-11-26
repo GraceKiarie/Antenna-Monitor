@@ -68,7 +68,6 @@ class InstallationController extends Controller
         }else{
             return response()->json(['status' => 'failure','data'=>'no data available'],404);
         }
-
     }
 
     public function uploadImage( Request $request)
@@ -80,16 +79,15 @@ class InstallationController extends Controller
         $file = $request->file('image');
         $random = rand(1000000, 400000000) . "_" . rand(1000000, 400000000);
         $name =   $name = $random . "." . $file->extension();;
-        $path = Storage::put('installationImages/', $name
-        );
-
-
-
+        $path = Storage::put('installationImages/', $name);
         return $name;
-
     }
     public function getNearbySites(Request $request)
     {
+        $request->validate([
+            'lat' => 'required',
+            'long' => 'required',
+        ]);
 
         $lat = $request->get('lat');  //-4.03375
         $long = $request->get('long'); //39.6864
@@ -97,9 +95,10 @@ class InstallationController extends Controller
 
          $sites =$this->nearbySites($lat,$long, $radius);
          if ($sites){
-
-         }else{
-
+             return response()->json(['status'=>'success','data'=> $sites],200);
+         }
+         else{
+             return response()->json(['status'=>'success','message'=> 'something went wrong'],200);
          }
     }
 

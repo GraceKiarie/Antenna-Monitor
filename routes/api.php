@@ -24,7 +24,7 @@ Route::group(['prefix' => 'v1'], function () {
     Route::post('teams/add', 'TestController@createTeams');
     Route::get('teams', 'TestController@allTeams');
     Route::post('contractors/add', 'TestController@createContractors');
-    Route::get('nearby/sites', 'API\InstallationApp\InstallationController@getNearbySites');
+
 
     Route::post('upload', 'API\InstallationApp\InstallationController@uploadImage');
 
@@ -40,6 +40,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('/sendmail/{id}', 'API\TestApp\TestReportController@sendMail')->name('mail');
 
         //application app routes
+        Route::post('nearby/sites', 'API\InstallationApp\InstallationController@getNearbySites');
         Route::get('sitelist', 'API\InstallationApp\InstallationController@showSitelist');
         Route::post('technologies', 'API\InstallationApp\InstallationController@listSiteTechnologies');
         Route::post('sectors', 'API\InstallationApp\InstallationController@listCells');
