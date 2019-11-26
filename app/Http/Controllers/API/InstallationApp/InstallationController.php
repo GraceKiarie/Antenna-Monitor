@@ -9,9 +9,11 @@ use App\Cell;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use App\Http\Traits\ApiTraits;
 
 class InstallationController extends Controller
 {
+    use ApiTraits;
 
     //display sitelist
     public function showSitelist()
@@ -86,38 +88,19 @@ class InstallationController extends Controller
         return $name;
 
     }
-
-    public function getNearbySites()
+    public function getNearbySites(Request $request)
     {
 
-        $lat =114.99073;
-        $long = 106.70797;
-        $radius = 0.3;
+        $lat = $request->get('lat');  //-4.03375
+        $long = $request->get('long'); //39.6864
+        $radius = 1;
 
-        return $query= DB::table('sites')
-            ->selectRaw('( 6371 * acos( cos( radians(?) ) *
-                               cos( radians( lat ) )
-                               * cos( radians( long ) - radians(?)
-                               ) + sin( radians(?) ) *
-                               sin( radians( lat ) ) )
-                             ) AS distance', [$lat, $long, $lat])
-            ->havingRaw("distance < ?", [$radius])
-            ->get();
+         $sites =$this->nearbySites($lat,$long, $radius);
+         if ($sites){
 
+         }else{
 
+         }
     }
-    public function scopeCloseTo()
-    {
-        $lat =114.99073;
-        $long = 106.70797;
-        $radius = 5;
-       $query=Site::whereRaw('
-       ST_Distance_Sphere(
-            point(long, lat),
-            point('.$long.', '.$lat.')
-        )  < '.$radius.'
-    ')->get();
 
-       dd($query);
-    }
 }

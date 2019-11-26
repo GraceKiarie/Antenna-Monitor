@@ -7,6 +7,7 @@ use App\Jobs\SaveTestReportJob;
 use App\User;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
@@ -22,6 +23,8 @@ class TestReportController extends Controller
 
 
     }
+
+
 
     public function sendMail(Request $request, $id )
     {

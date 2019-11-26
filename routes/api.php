@@ -24,7 +24,7 @@ Route::group(['prefix' => 'v1'], function () {
     Route::post('teams/add', 'TestController@createTeams');
     Route::get('teams', 'TestController@allTeams');
     Route::post('contractors/add', 'TestController@createContractors');
-    Route::get('nearby/sites', 'API\InstallationApp\InstallationController@scopeCloseTo');
+    Route::get('nearby/sites', 'API\InstallationApp\InstallationController@getNearbySites');
 
     Route::post('upload', 'API\InstallationApp\InstallationController@uploadImage');
 

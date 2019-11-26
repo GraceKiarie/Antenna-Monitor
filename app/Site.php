@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Site extends Model
 {
-
+    protected $primaryKey = 'site_id';
 
     protected $fillable = ['node_id','node_name','site_id','site_name','lac','mcc','vendor','lat','long'];
 
