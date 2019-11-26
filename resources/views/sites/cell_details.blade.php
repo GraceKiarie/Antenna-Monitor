@@ -39,7 +39,7 @@
 
                     <div class="row">
                             <div class="col-md-12">
-                                <ul class="nav nav-tabs nav-tabs-m" id="myTab" role="tablist">
+                                <ul class="nav nav-tabs nav-tabs-m" id="cellsTab" role="tablist">
                                     <li class="nav-item">
                                         <a class="nav-link active nav-link-m" id="overview-tab" data-toggle="tab" href="#overview" role="tab"
                                             aria-controls="overview" aria-selected="true">Overview</a>
@@ -64,14 +64,85 @@
                                 </ul>
                                 <div class="tab-content tab-content-m" id="">
                                     <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
-                                        <p>
-                                            echo basic info
-                                        </p>
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-md-12 site-cell-info">
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="tab-pane fade" id="alerts" role="tabpanel" aria-labelledby="alerts-tab">
-                                        <p>
-                                            alerts info
-                                        </p>
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-md-12 site-cell-info">
+                                                    <table id="site_cells_table" class="display table table-striped table-border row-border table-hover table-sm nowrap" style="width:100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Alert Type</th>
+                                                                <th>Value</th>
+                                                                <th>Threshold</th>
+                                                                <th>Alert Status</th>
+                                                                <th>Time</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach ($cellData as $site)
+                                                            <?php 
+                                                                // for demo purposes only
+                                                                $types = array('Voltage', 'Pitch', 'Heading', 'Roll' );
+                                                                $type = $types[array_rand($types)];
+
+                                                                $status = array('New/Pending', 'Optimization In Progress', 'Closed');
+                                                                $status = $status[array_rand($status)];
+
+                                                                if ($type == "Voltage") {
+                                                                    $threshold = '4.8';
+                                                                    $value = round($threshold - rand(1,2)/1.37, 2);
+
+                                                                    $threshold = '4.8'.'volts';
+                                                                    $value = $value.'volts';
+                                                                } elseif ($type == "Heading") {
+                                                                    $threshold = round(rand(40,340)/1.17, 2);
+                                                                    $value = round($threshold - rand(2,3)/1.07, 2);
+
+                                                                    $threshold = round(rand(40,340)/1.17, 2).'&deg;';
+                                                                    $value = $value.'&deg;';
+                                                                } elseif ($type == "Pitch" OR $type == "Roll") {
+                                                                    $v = array('-1', '1');
+                                                                    $threshold = round(rand(2,88)*$v[array_rand($v)]/1.17, 2);
+                                                                    $value = round($threshold - rand(2,3)/1.07, 2);
+
+                                                                    $threshold = $threshold.'&deg;';
+                                                                    $value = $value.'&deg;';
+                                                                }
+
+                                                                if ($status == "New/Pending") {
+                                                                    $status = '<a href="#" >'.$status.'</a>';
+                                                                }
+                                                            ?>
+                                                            <tr class="<?php if ($status == "New/Pending")  { echo 'bg-danger'; } ?>">
+                                                                <td><?php echo $types[array_rand($types)]; ?></td>
+                                                                <td><?php echo $value; ?> </td>
+                                                                <td><?php echo $threshold; ?> </td>
+                                                                <td><?php echo $status; ?> </td>
+                                                                <td><?php echo rand(10,23).":".str_pad(rand(0,59), 2, "0", STR_PAD_LEFT); ?> HRS </td>
+                                                            </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                        <tfoot>
+                                                            <tr>
+                                                                <th>Alert Type</th>
+                                                                <th>Value</th>
+                                                                <th>Threshold</th>
+                                                                <th>Alert Status</th>
+                                                                <th>Time</th>
+                                                            </tr>
+                                                        </tfoot>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="tab-pane fade" id="threshold" role="tabpanel" aria-labelledby="threshold-tab">
                                         <p>
@@ -99,5 +170,5 @@
 @endpush
 
 @push('page-scripts')
-    <script src="{{ asset('assets/scripts/edit_site.js') }}"></script>
+    <script src="{{ asset('assets/scripts/edit_cell.js') }}"></script>
 @endpush
