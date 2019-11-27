@@ -39,6 +39,14 @@ Route::get('/sites', 'SiteController@showSitelist')->name('sitelist');
 Route::get('/site/{site_id}', 'SiteController@showSite')->name('site');
 Route::get('/cells', 'SiteController@showCellsList')->name('celllist');
 Route::get('/cell/{cell_id}', 'SiteController@cellDetails')->name('cell');
+
+/*
+|--------------------------------------------------------------------------
+| ALERTS ROUTES
+|--------------------------------------------------------------------------
+*/
+Route::get('/alerts', 'AlertController@showAlertslist')->name('alertlist');
+
 /*
 |--------------------------------------------------------------------------
 | USER AND AUTHENTICATION ROUTES

@@ -50,7 +50,7 @@
 
                     <div class="row">
                             <div class="col-md-12">
-                                <ul class="nav nav-tabs nav-tabs-m" id="myTab" role="tablist">
+                                <ul class="nav nav-tabs nav-tabs-m" id="sitesTab" role="tablist">
                                     <li class="nav-item">
                                         <a class="nav-link active nav-link-m" id="overview-tab" data-toggle="tab" href="#overview" role="tab"
                                             aria-controls="overview" aria-selected="true">Overview</a>
@@ -202,9 +202,43 @@
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="alerts" role="tabpanel" aria-labelledby="alerts-tab">
-                                        <p>
-                                            echo some info
-                                        </p>
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-md-12 site-cell-info">
+                                                        <table id="site_cells_table" class="display table table-striped table-border row-border table-hover table-sm nowrap" style="width:100%">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Cell Name</th>
+                                                                        <th>Alerts</th>
+                                                                        <th>Technology</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @foreach ($siteData as $site)
+                                                                    <?php 
+                                                                        $name_arr = explode("-", $site->cell_name);
+                                                                        $remove_id = array_splice($name_arr, 1);
+                                                                        $raw_name = implode("-", $remove_id);
+                                                                        $cell_name = str_replace('_', ' ', $raw_name);
+                                                                    ?>
+                                                                    <tr>
+                                                                        <td><a href="/cell/{{ $site->cell_id }}"> {{ $cell_name }} </a></td>
+                                                                        <td><a href="/cell/{{ $site->cell_id }}#alerts"><?php echo rand(2,5); ?></a></td>
+                                                                        <td> {{ $site->technology }} </td>
+                                                                    </tr>
+                                                                    @endforeach
+                                                                </tbody>
+                                                                <tfoot>
+                                                                    <tr>
+                                                                        <th>Cell Name</th>
+                                                                        <th>Alerts</th>
+                                                                        <th>Technology</th>
+                                                                    </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="tab-pane fade" id="location" role="tabpanel" aria-labelledby="location-tab">
                                         <p>echo location info</p>
