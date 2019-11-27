@@ -50,6 +50,8 @@ return array(
     'App\\Http\\Middleware\\TrimStrings' => $baseDir . '/app/Http/Middleware/TrimStrings.php',
     'App\\Http\\Middleware\\TrustProxies' => $baseDir . '/app/Http/Middleware/TrustProxies.php',
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
+    'App\\Http\\Traits\\ApiTraits' => $baseDir . '/app/Http/Traits/ApiTraits.php',
+    'App\\InstallationImage' => $baseDir . '/app/InstallationImage.php',
     'App\\InstallationReport' => $baseDir . '/app/InstallationReport.php',
     'App\\Jobs\\SaveTestReportJob' => $baseDir . '/app/Jobs/SaveTestReportJob.php',
     'App\\Jobs\\SendTestReportEmailJob' => $baseDir . '/app/Jobs/SendTestReportEmailJob.php',

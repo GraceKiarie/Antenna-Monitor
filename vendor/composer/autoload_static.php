@@ -580,6 +580,8 @@ class ComposerStaticInit9a988f426bebd196fa42fc8b99a5f18b
         'App\\Http\\Middleware\\TrimStrings' => __DIR__ . '/../..' . '/app/Http/Middleware/TrimStrings.php',
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
+        'App\\Http\\Traits\\ApiTraits' => __DIR__ . '/../..' . '/app/Http/Traits/ApiTraits.php',
+        'App\\InstallationImage' => __DIR__ . '/../..' . '/app/InstallationImage.php',
         'App\\InstallationReport' => __DIR__ . '/../..' . '/app/InstallationReport.php',
         'App\\Jobs\\SaveTestReportJob' => __DIR__ . '/../..' . '/app/Jobs/SaveTestReportJob.php',
         'App\\Jobs\\SendTestReportEmailJob' => __DIR__ . '/../..' . '/app/Jobs/SendTestReportEmailJob.php',

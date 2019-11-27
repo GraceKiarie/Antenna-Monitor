@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\API\InstallationApp;
 
 use App\Http\Controllers\Controller;
+use App\InstallationImage;
 use App\Monitor;
 use App\MonitorData;
 use App\Site;
@@ -74,13 +75,21 @@ class InstallationController extends Controller
     {
         $request->validate([
             'image' => 'required',
+            'cell_id' => 'required',
 
         ]);
         $file = $request->file('image');
         $random = rand(1000000, 400000000) . "_" . rand(1000000, 400000000);
         $name =   $name = $random . "." . $file->extension();;
-        $path = Storage::put('installationImages/', $name);
-        return $name;
+        $file->move( 'Storage/app/installationMessages/', $name);
+
+        $image=InstallationImage::create([
+            'cell_id' => $request->get('cell_id'),
+            'image' => $name,
+        ]);
+        if($image){
+            return response()->json(['status'=> 'success','message'=>'upload successful']);
+        }
     }
     public function getNearbySites(Request $request)
     {
