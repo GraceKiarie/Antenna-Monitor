@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c230d45925b6d1f5334606f2d7f4003d",
+    "content-hash": "a5440c4534dce955acbdaa9512e62b87",
     "packages": [
         {
             "name": "africastalking/africastalking",

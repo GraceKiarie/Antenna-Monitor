@@ -7,11 +7,8 @@ use App\Jobs\SaveTestReportJob;
 use App\User;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Contracts\Mail\Mailable;
 use App\Jobs\SendTestReportEmailJob;
 use Carbon\Carbon;
 class TestReportController extends Controller

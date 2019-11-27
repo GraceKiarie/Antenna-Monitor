@@ -561,6 +561,7 @@ class ComposerStaticInit9a988f426bebd196fa42fc8b99a5f18b
         'App\\Http\\Controllers\\API\\InstallationApp\\InstallationController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/InstallationApp/InstallationController.php',
         'App\\Http\\Controllers\\API\\TestApp\\TestController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/TestApp/TestController.php',
         'App\\Http\\Controllers\\API\\TestApp\\TestReportController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/TestApp/TestReportController.php',
+        'App\\Http\\Controllers\\AlertController' => __DIR__ . '/../..' . '/app/Http/Controllers/AlertController.php',
         'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
         'App\\Http\\Controllers\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LoginController.php',
