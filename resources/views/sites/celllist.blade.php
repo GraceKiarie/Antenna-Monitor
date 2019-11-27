@@ -50,6 +50,7 @@
                             <tr>
                                 <th>Cell ID</th>
                                 <th>Cell Name</th>
+                                <th>New Alerts</th>
                                 <th>Status</th>
                                 <th>Technology</th>
                             </tr>
@@ -70,6 +71,7 @@
                                 <tr>
                                     <td><a href="/cell/{{ $cell->cell_id }}"> {{ $cell->cell_id }} </a> </td>
                                     <td> {{ $cell->cell_name }} </td>
+                                    <td><a href="/cell/{{ $cell->cell_id }}#alerts"><?php echo rand(1,6); ?></a></td>
                                     <td> {{ $cell->status }} </td>
                                     <td> {{ $cell->technology }} </td>
                                 </tr>
@@ -79,6 +81,7 @@
                                 <tr>
                                     <th>Cell ID</th>
                                     <th>Cell Name</th>
+                                    <th>New Alerts</th>
                                     <th>Status</th>
                                     <th>Technology</th>
                                 </tr>

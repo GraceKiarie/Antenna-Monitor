@@ -82,9 +82,9 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" class="menu-item">
+                                    <a href="/alerts" class="menu-item">
                                         <i class="metismenu-icon"></i>
-                                        Optimizations
+                                        Alerts
                                     </a>
                                 </li>
                             </ul>

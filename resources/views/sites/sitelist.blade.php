@@ -50,7 +50,8 @@
                             <tr>
                                 <th>SiteID</th>
                                 <th>SiteName</th>
-                                <th>Vendor</th>
+                                <th>Active Cells</th>
+                                <th>New/Pending Alerts</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -61,7 +62,8 @@
                                 <tr>
                                     <td><a href="/site/{{ $site->site_id }}" > {{ $site->site_id }} </a> </td>
                                     <td> {{ $site_name }} </td>
-                                    <td> {{ $site->vendor }} </td>
+                                    <td><?php echo rand(1,6); ?></td>
+                                    <td><a href="/site/{{ $site->site_id }}#alerts" > <?php echo rand(15,35);  ?> </a></td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -69,7 +71,8 @@
                             <tr>
                                 <th>SiteID</th>
                                 <th>SiteName</th>
-                                <th>Vendor</th>
+                                <th>Active Cells</th>
+                                <th>New/Pending Alerts</th>
                             </tr>
                         </tfoot>
                     </table>
