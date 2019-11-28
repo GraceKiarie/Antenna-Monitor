@@ -38,7 +38,7 @@ Route::get('/upload_sitelist', 'SiteController@showUploadSitelist');
 Route::get('/sites', 'SiteController@showSitelist')->name('sitelist');
 Route::get('/site/{site_id}', 'SiteController@showSite')->name('site');
 Route::get('/cells', 'SiteController@showCellsList')->name('celllist');
-Route::get('/cell/{cell_id}', 'SiteController@cellDetails')->name('cell');
+Route::get('/cell/{cell_id}', 'SiteController@showCellDetails')->name('cell');
 
 /*
 |--------------------------------------------------------------------------

@@ -116,7 +116,7 @@ class SiteController extends Controller
         return view('sites.site_details', compact('siteData'));
     }
 
-    public function cellDetails($cell_id)
+    public function showCellDetails($cell_id)
     {
         $cellData = Cell::with('site')->where('cell_id', '=', $cell_id)->first();
         return view('sites.cell_details', compact('cellData'));
@@ -125,7 +125,7 @@ class SiteController extends Controller
     //display sitelist
     public function showCellsList()
     {
-        $cells = Cell::all();
+        $cells = Cell::with('site')->get();
         return view('sites.celllist', compact('cells'));
     }
 

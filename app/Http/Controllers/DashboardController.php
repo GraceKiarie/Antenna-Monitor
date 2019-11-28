@@ -18,11 +18,11 @@ class DashboardController extends Controller
 
     public function showSiteDashBoard()
     {
-        return view('dashboard.sites_dash');
+        return view('sites.sites_dash');
     }
 
     public function showAlertsDashboard()
     {
-        return view('dashboard.alerts_dash');
+        return view('sites.alerts_dash');
     }
 }

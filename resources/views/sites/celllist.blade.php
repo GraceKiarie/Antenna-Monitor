@@ -48,43 +48,63 @@
                     <table id="celllist_table" class="display table table-striped table-border row-border table-hover table-sm nowrap" style="width:100%">
                         <thead>
                             <tr>
+                                <th>Site ID</th>
+                                <th>Site Name</th>
                                 <th>Cell ID</th>
                                 <th>Cell Name</th>
                                 <th>New Alerts</th>
+                                <th>Signal Strength</th>
+                                <th>Sector</th>
+                                <th>Azimuth</th>
+                                <th>Roll</th>
+                                <th>Tilt</th>
+                                <th>Battery</th>
                                 <th>Status</th>
-                                <th>Technology</th>
+                                <th>Time</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($cells as $cell)
                             <?php 
-                                // $cell_name = str_replace('_', ' ', str_replace($cell->site_id.'-', '', $cell->cell_name));
-
-                                // $cell_name = str_replace($cell->site_id, '', $cell->cell_name);
-
                                 // Make Cell name readable
-                                $name_arr = explode("-", $cell->cell_name);
+                                $name_arr = explode("-", $cell->site_name);
                                 $remove_id = array_splice($name_arr, 1);
                                 $raw_name = implode("-", $remove_id);
                                 $cell->cell_name = str_replace('_', ' ', $raw_name);
                             ?>
                                 <tr>
+                                    <td> {{ $cell->site->site_id }} </td>
+                                    <td><a href="#">{{ $cell->site->site_name }} </a></td>
                                     <td><a href="/cell/{{ $cell->cell_id }}"> {{ $cell->cell_id }} </a> </td>
                                     <td> {{ $cell->cell_name }} </td>
                                     <td><a href="/cell/{{ $cell->cell_id }}#alerts"><?php echo rand(1,6); ?></a></td>
+                                    <td> Signal Strength </td>
+                                    <td> Sector </td>
+                                    <td> Azimuth </td>
+                                    <td> Roll </td>
+                                    <td> Tilt </td>
+                                    <td> Battery </td>
                                     <td> {{ $cell->status }} </td>
                                     <td> {{ $cell->technology }} </td>
                                 </tr>
                             @endforeach
                         </tbody>
                         <tfoot>
-                                <tr>
-                                    <th>Cell ID</th>
-                                    <th>Cell Name</th>
-                                    <th>New Alerts</th>
-                                    <th>Status</th>
-                                    <th>Technology</th>
-                                </tr>
+                            <tr>
+                                <th>Site ID</th>
+                                <th>Site Name</th>
+                                <th>Cell ID</th>
+                                <th>Cell Name</th>
+                                <th>New Alerts</th>
+                                <th>Signal Strength</th>
+                                <th>Sector</th>
+                                <th>Azimuth</th>
+                                <th>Roll</th>
+                                <th>Tilt</th>
+                                <th>Battery</th>
+                                <th>Status</th>
+                                <th>Time</th>
+                            </tr>
                         </tfoot>
                     </table>
 

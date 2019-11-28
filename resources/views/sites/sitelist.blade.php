@@ -48,22 +48,28 @@
                     <table id="sitelist_table" class="display table table-striped table-border row-border table-hover table-sm nowrap" style="width:100%">
                         <thead>
                             <tr>
-                                <th>SiteID</th>
-                                <th>SiteName</th>
+                                <th>Site ID</th>
+                                <th>Site Name</th>
                                 <th>Active Cells</th>
                                 <th>New/Pending Alerts</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($sites as $site)
-                            <?php 
-                                $site_name = str_replace('_', ' ', str_replace($site->site_id.'-', '', $site->site_name));
+                            <?php
+                                $id = explode("-", $site->site_name);
+                                $site_id = array_shift($id);
+
+                                $name_arr = explode("-", $site->site_name);
+                                $remove_id = array_splice($name_arr, 1);
+                                $raw_name = implode("-", $remove_id);
+                                $site_name = str_replace('_', ' ', $raw_name);
                             ?>
                                 <tr>
-                                    <td><a href="/site/{{ $site->site_id }}" > {{ $site->site_id }} </a> </td>
+                                    <td><a href="/site/{{ $site_id }}" > {{ $site_id }} </a> </td>
                                     <td> {{ $site_name }} </td>
                                     <td><?php echo rand(1,6); ?></td>
-                                    <td><a href="/site/{{ $site->site_id }}#alerts" > <?php echo rand(15,35);  ?> </a></td>
+                                    <td><a href="/site/{{ $site_id }}#alerts" > <?php echo rand(15,35);  ?> </a></td>
                                 </tr>
                             @endforeach
                         </tbody>

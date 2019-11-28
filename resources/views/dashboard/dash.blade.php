@@ -4,7 +4,8 @@
 <div class="row scroll-area-x">
         <div class="col-md-12 col-lg-12 scrollbar-container">
                 <div class="row">
-                        <div class="col-md-6 col-xl-4">
+                    <div class="col-md-6 col-xl-4">
+                        <a href="/alerts" class="dash-card">
                             <div class="card mb-3 widget-content bg-midnight-bloom">
                                 <div class="widget-content-wrapper text-white">
                                     <div class="widget-content-left">
@@ -16,8 +17,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 col-xl-4">
+                        </a>
+                    </div>
+                    <div class="col-md-6 col-xl-4">
+                        <a href="" class="dash-card">
                             <div class="card mb-3 widget-content bg-asteroid">
                                 <div class="widget-content-wrapper text-white">
                                     <div class="widget-content-left">
@@ -29,8 +32,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 col-xl-4">
+                        </a>
+                    </div>
+                    <div class="col-md-6 col-xl-4">
+                        <a href="" class="dash-card">
                             <div class="card mb-3 widget-content bg-slick-carbon">
                                 <div class="widget-content-wrapper text-white">
                                     <div class="widget-content-left">
@@ -42,7 +47,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
+                    </div>
                         <div class="d-xl-none d-lg-block col-md-6 col-xl-4">
                             <div class="card mb-3 widget-content bg-premium-dark">
                                 <div class="widget-content-wrapper text-white">

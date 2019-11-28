@@ -36,31 +36,17 @@
                         <li>
                             <a href="/dash" class="menu-item">
                                 <i class="metismenu-icon pe-7s-timer"></i>
-                                Main Dashboard
+                                Dashboard
                             </a>
-                        </li>
-                        <li>
-                            <a href="#" class="menu-item">
-                                <i class="metismenu-icon pe-7s-graph3"></i>
-                                    Other DashBoards
-                                <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
-                            </a>
-                            <ul>
-                                <li>
-                                    <a href="/sites_dash" class="menu-item">
-                                        <i class="metismenu-icon"></i>
-                                        Sites Dashboard
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/alerts_dash" class="menu-item">
-                                        <i class="metismenu-icon"></i>
-                                        Alerts Dashboard
-                                    </a>
-                                </li>
-                            </ul>
                         </li>
                     <li class="app-sidebar__heading app-sidebar__heading-m">Sites</li>
+                        <li>
+                            <a href="/sites_dash" class="menu-item">
+                                <i class="metismenu-icon pe-7s-graph1"></i>
+                                Sites Dashboard
+                            </a>
+                        </li>
+                        
                         <li>
                             <a href="#" class="menu-item">
                                 <i class="metismenu-icon pe-7s-network"></i>
@@ -84,7 +70,7 @@
                                 <li>
                                     <a href="/alerts" class="menu-item">
                                         <i class="metismenu-icon"></i>
-                                        Alerts
+                                        Optimizations
                                     </a>
                                 </li>
                             </ul>
@@ -112,8 +98,21 @@
                         </li>
                         <li class="app-sidebar__heading app-sidebar__heading-m">Alerts</li>
                         <li>
-                            <a href="#" class="menu-item">
+                            <a href="/alerts_dash" class="menu-item">
+                                <i class="metismenu-icon pe-7s-graph"></i>
+                                Alerts Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/alerts" class="menu-item">
                                 <i class="metismenu-icon pe-7s-attention"></i>
+                                Alerts List
+                            </a>
+                        </li>
+                            
+                        <li>
+                            <a href="#" class="menu-item">
+                                <i class="metismenu-icon pe-7s-signal"></i>
                                 Monitors
                                 <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                             </a>
@@ -125,46 +124,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
-                        <li>
-                                <a href="#" class="menu-item">
-                                    <i class="metismenu-icon pe-7s-battery"></i>
-                                    Alert Thresholds
-                                    <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
-                                </a>
-                                <ul>
-                                    <li>
-                                        <a href="#" class="menu-item">
-                                            <i class="metismenu-icon"></i>
-                                            Azimuth Thresholds
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="menu-item">
-                                            <i class="metismenu-icon"></i>
-                                            Tilt Thresholds
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="menu-item">
-                                            <i class="metismenu-icon"></i>
-                                            Roll Thresholds
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="menu-item">
-                                            <i class="metismenu-icon"></i>
-                                            Battery Thresholds
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="menu-item">
-                                            <i class="metismenu-icon"></i>
-                                            Communcation Timeouts
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>                        
+                        </li>                      
                         
                         <li class="app-sidebar__heading app-sidebar__heading-m">System</li>
                         <li>
