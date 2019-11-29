@@ -244,9 +244,28 @@ input[type=number] {
 
 .page-subtitle-hr {
     margin-top: 1.3rem;
+    border-top: 2px solid rgb(223, 221, 235);
 }
 
 .content-detail-btns {
     float: right;
     margin-top: -0.3rem;
 }
+
+/* DASHBOARD STYLES */
+/* MAIN DASHBOARD */
+
+.dash-card {
+    opacity: 0.85;
+    transition-property: opacity;
+    transition-duration: .1s;
+	transition-delay: .1s;
+	transition-timing-function: ease-in-out;
+}
+
+.dash-card:hover {
+    text-decoration: none;
+    opacity: 1.0;
+    transition-timing-function: ease-in-out;
+}
+
