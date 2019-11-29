@@ -16,7 +16,7 @@ class DashboardController extends Controller
         return view('dashboard.dash');
     }
 
-    public function showSiteDashBoard()
+    public function showSitesDashBoard()
     {
         return view('sites.sites_dash');
     }
