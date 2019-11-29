@@ -1,28 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\API\TestApp;
+namespace App\Http\Controllers\API\InstallationApp;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\SaveTestReportJob;
-use App\User;
-use Illuminate\Http\Request;
-use Barryvdh\DomPDF\Facade as PDF;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Log;
 use App\Jobs\SendTestReportEmailJob;
+use App\User;
+use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
-class TestReportController extends Controller
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+
+class InstallationReportController extends Controller
 {
-    public function getData(Request $request)
-    {
-
-        //dd($data);
-
-
-    }
-
-
-
     public function sendMail(Request $request, $id )
     {
 
@@ -37,7 +28,7 @@ class TestReportController extends Controller
             'email' => $user->email,
             'role' => $user->role->role_name,
         ];
-        
+
         if ($data['voltage'] >4.8){
             $data['voltage_test'] = 'Passed';
         }else{
