@@ -12,23 +12,20 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
 Route::group(['prefix' => 'v1'], function () {
     Route::post('register', 'API\Auth\UserController@register');
     Route::post('login', 'API\Auth\UserController@login');
     Route::post('login/authentication/{id}', 'API\Auth\UserController@generateToken');
     Route::post('signin', 'API\Auth\UserController@loginWeb');
 
-    ;
+    Route::post('installation/certificate/{id}', 'API\InstallationApp\InstallationReportController@sendMail');
+    Route::post('upload', 'API\InstallationApp\InstallationController@uploadImage');
 
     Route::post('roles/add', 'TestController@createRoles');
     Route::post('teams/add', 'TestController@createTeams');
     Route::get('teams', 'TestController@allTeams');
     Route::post('contractors/add', 'TestController@createContractors');
-
-
-    Route::post('upload', 'API\InstallationApp\InstallationController@uploadImage');
-
-
 
     Route::group(['middleware' => 'auth:api'], function () {
 
@@ -43,8 +40,10 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('nearby/sites', 'API\InstallationApp\InstallationController@getNearbySites');
         Route::get('sitelist', 'API\InstallationApp\InstallationController@showSitelist');
         Route::post('technologies', 'API\InstallationApp\InstallationController@listSiteTechnologies');
-        Route::post('sectors', 'API\InstallationApp\InstallationController@listCells');
+        Route::post('sectors', 'API\InstallationApp\InstallationController@listSectors');
         Route::post('validate', 'API\InstallationApp\InstallationController@validateCellID');
+
+
 
     });
 

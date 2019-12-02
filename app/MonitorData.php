@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class MonitorData extends Model
 {
+    public function cells()
+    {
+        return $this->belongsTo(Cell::class);
+    }
 
     protected $fillable =
         [

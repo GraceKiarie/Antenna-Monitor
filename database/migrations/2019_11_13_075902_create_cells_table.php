@@ -19,7 +19,7 @@ class CreateCellsTable extends Migration
             $table->string('cell_name');
             $table->string('sector_id');
             $table->string('site_id');
-            $table->foreign('site_id')->references('site_id')->on('sites')->onDelete('cascade');;
+            $table->foreign('site_id')->references('site_id')->on('sites')->onDelete('cascade');
             $table->string('mnc');
             $table->string('status');
             $table->string('technology');

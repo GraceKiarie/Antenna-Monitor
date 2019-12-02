@@ -8,20 +8,10 @@ use App\User;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Log;
-use App\Jobs\SendTestReportEmailJob;
+use App\Jobs\SendReportEmailJob;
 use Carbon\Carbon;
 class TestReportController extends Controller
 {
-    public function getData(Request $request)
-    {
-
-        //dd($data);
-
-
-    }
-
-
 
     public function sendMail(Request $request, $id )
     {
@@ -65,18 +55,16 @@ class TestReportController extends Controller
         $filename = $data['name']."_".$data['qr_number'] . '_testReport.pdf';
         Storage::put('public/testReport/' . $filename, $pdf->output());
         $uri = '/home/kiarie/Desktop/Antenna-Monitor/storage/app/public/testReport/' . $filename;
-
-        Log::info("Request cycle without Queues started");
+        $subject= 'Test Report Certificate';
 
         //save report info to db
         $savetodbJob = (new SaveTestReportJob($data))->delay(Carbon::now()->addSeconds(2));
         dispatch($savetodbJob );
 
         //send report to email
-        $emailJob = (new SendTestReportEmailJob($uri))->delay(Carbon::now()->addSeconds(3));
+        $emailJob = (new SendReportEmailJob($uri,$subject))->delay(Carbon::now()->addSeconds(3));
         dispatch($emailJob);
 
-        Log::info("Request cycle without Queues finished");
         return response()->json(['status'=>'success', 'data'=>$data],200);
     }
 }
