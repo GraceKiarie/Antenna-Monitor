@@ -13,7 +13,7 @@ trait ApiTraits
     {
 
         $query = DB::select("SELECT * FROM
-        (SELECT site_id,site_name,lat,long, (6371 * acos(cos(radians($lat)) * cos(radians(lat)) *
+        (SELECT site_id,site_name,lat,long,vendor, (6371 * acos(cos(radians($lat)) * cos(radians(lat)) *
             cos(radians(long) - radians($long)) +
             sin(radians($lat)) * sin(radians(lat))))
    AS distance

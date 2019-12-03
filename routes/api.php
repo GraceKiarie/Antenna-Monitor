@@ -20,7 +20,8 @@ Route::group(['prefix' => 'v1'], function () {
     Route::post('signin', 'API\Auth\UserController@loginWeb');
 
     Route::post('installation/certificate/{id}', 'API\InstallationApp\InstallationReportController@sendMail');
-    Route::post('upload', 'API\InstallationApp\InstallationController@uploadImage');
+    Route::post('u', 'API\InstallationApp\InstallationController@uploadImage');
+    Route::get('cron', 'AlertController@cronjob');
 
     Route::post('roles/add', 'TestController@createRoles');
     Route::post('teams/add', 'TestController@createTeams');
@@ -42,7 +43,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('technologies', 'API\InstallationApp\InstallationController@listSiteTechnologies');
         Route::post('sectors', 'API\InstallationApp\InstallationController@listSectors');
         Route::post('validate', 'API\InstallationApp\InstallationController@validateCellID');
-
+        Route::post('upload', 'API\InstallationApp\InstallationController@uploadImage');
 
 
     });
