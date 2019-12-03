@@ -9,6 +9,6 @@ class Monitor extends Model
 
     protected $fillable =
         [
-            'qr_number','imsi','cell_id'
+            'qr_number','imsi','cell_id','installation_time'
         ];
 }

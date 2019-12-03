@@ -1,26 +1,45 @@
 <?php
 
-namespace App\Http\Controllers;
-
-use App\Alert;
+namespace App\Console\Commands;
 use App\Cell;
 use App\Monitor;
 use App\MonitorData;
+Use App\Alert;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
+use Illuminate\Console\Command;
 
-class AlertController extends Controller
+class AlertsCron extends Command
 {
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'alerts:cron';
 
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Check for Alerts';
 
-    //display alert list
-    public function showAlertslist()
+    /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct()
     {
-        $cellData = Cell::with('site')->get();
-        return view('sites.alertlist', compact('cellData'));
+        parent::__construct();
     }
 
-    /*public function cronjob()
+    /**
+     * Execute the console command.
+     *
+     * @return mixed
+     */
+    public function handle()
     {
         $currentTime = Carbon::now();
         $now = Carbon::now();
@@ -28,13 +47,13 @@ class AlertController extends Controller
         //dd(strtotime($last30min->format('H:i:s')));
         $cell_id = Monitor::whereBetween('installation_time', [strtotime($last30min->format('H:i:s')), strtotime($currentTime->format('H:i:s'))])
             ->pluck('cell_id')->toArray();
-        dd($cell_id);
+        //dd($cell_id);
         //check monitor data
         $alerts = MonitorData::whereIn('cell_id', $cell_id)
             ->select('heading','roll','pitch','voltage','cell_id')
             ->distinct('cell_id')
             ->get();
-       //dd($alerts);// 1575382853 1575383030 1575397459 1575381931
+        //dd($alerts);// 1575382853 1575383030 1575397459 1575381931
 
         foreach ($alerts as $alert) {
 
@@ -50,7 +69,7 @@ class AlertController extends Controller
             }
             //Voltage Drop alert
             $cell = MonitorData::where('cell_id', $alert->cell_id)->orderBy('created_at', 'desc')
-              ->limit(2)->get();
+                ->limit(2)->get();
             //dd($cell);
             $currentVoltage=$cell[0]['voltage'];
             $previousVoltage=$cell[1]['voltage'];
@@ -101,8 +120,9 @@ class AlertController extends Controller
             }
 
         }
-        return "success";
+       $this->info('Alerts sent');
 
-    }*/
 
+
+    }
 }

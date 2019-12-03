@@ -25,9 +25,9 @@ class CreateCellsTable extends Migration
             $table->string('technology');
             $table->string('bcch_uarfcn_earfcn');
             $table->string('bsci_psc_pci');
-            $table->string('heading');
-            $table->string('pitch');
-            $table->string('roll');
+            $table->float('heading');
+            $table->float('pitch');
+            $table->float('roll');
             $table->timestamps();
         });
     }

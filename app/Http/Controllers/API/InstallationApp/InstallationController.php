@@ -1,12 +1,14 @@
 <?php
 namespace App\Http\Controllers\API\InstallationApp;
 
+use App\Alert;
 use App\Http\Controllers\Controller;
 use App\InstallationImage;
 use App\Monitor;
 use App\MonitorData;
 use App\Site;
 use App\Cell;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Traits\ApiTraits;
 
@@ -68,14 +70,18 @@ class InstallationController extends Controller
 
     public function monitorRecords($cell_id)
     {
+        $time =strtotime(Carbon::now()->format('H:i:s')) ;
+
         $monitor = MonitorData::where('cell_id',$cell_id)
             ->first();
 
-        $m=Monitor::create([
-            'cell_id' => $monitor->cell_id,
-            'qr_number' => $monitor->qr_number,
-            'imsi' => $monitor->imsi,
-        ]);
+        $m=Monitor::firstOrCreate(
+            ['cell_id' => $monitor->cell_id],
+            [   'qr_number' => $monitor->qr_number,
+                'imsi' => $monitor->imsi,
+                'installation_time' => $time
+            ]);
+
         return $m;
 
     }
@@ -87,6 +93,7 @@ class InstallationController extends Controller
             'cell_id' => 'required',
 
         ]);
+
         if ($request->hasFile('image')){
             $file = $request->file('image');
             $cell_id=$request->get('cell_id');
@@ -97,6 +104,7 @@ class InstallationController extends Controller
             $image=InstallationImage::create([
                 'cell_id' => $cell_id,
                 'image' => $filename,
+
             ]);
 
 
@@ -118,7 +126,7 @@ class InstallationController extends Controller
 
         $lat = $request->get('lat');  //-4.03375
         $long = $request->get('long'); //39.6864
-        $radius = 1;
+        $radius = 0.5;
 
          $sites =$this->nearbySites($lat,$long, $radius);
          if ($sites){
@@ -129,4 +137,7 @@ class InstallationController extends Controller
          }
     }
 
+
+
 }
+

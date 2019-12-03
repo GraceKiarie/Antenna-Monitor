@@ -25,6 +25,7 @@ return array(
     'App\\Alert' => $baseDir . '/app/Alert.php',
     'App\\Cell' => $baseDir . '/app/Cell.php',
     'App\\Code' => $baseDir . '/app/Code.php',
+    'App\\Console\\Commands\\AlertsCron' => $baseDir . '/app/Console/Commands/AlertsCron.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Contractor' => $baseDir . '/app/Contractor.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
