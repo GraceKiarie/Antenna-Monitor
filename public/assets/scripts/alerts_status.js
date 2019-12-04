@@ -1,10 +1,11 @@
 $(document).ready(function() {
 
-    $('#alerts_table').DataTable({
+    $('table.display').DataTable({
         "scrollY": 300,
         "scrollX": true,
+        responsive: true,
         "lengthMenu": [[10, 20, 50, 100, -1], [10, 20, 50, 100, "All"]]
-    });
+    }).columns.adjust().draw();
 
     // https://webdesign.tutsplus.com/tutorials/how-to-add-deep-linking-to-the-bootstrap-4-tabs-component--cms-31180
     let url = location.href.replace(/\/$/, "");

@@ -29,6 +29,7 @@ return array(
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Http\\Controllers\\API\\Auth\\UserController' => $baseDir . '/app/Http/Controllers/API/Auth/UserController.php',
     'App\\Http\\Controllers\\API\\InstallationApp\\InstallationController' => $baseDir . '/app/Http/Controllers/API/InstallationApp/InstallationController.php',
+    'App\\Http\\Controllers\\API\\InstallationApp\\InstallationReportController' => $baseDir . '/app/Http/Controllers/API/InstallationApp/InstallationReportController.php',
     'App\\Http\\Controllers\\API\\TestApp\\TestController' => $baseDir . '/app/Http/Controllers/API/TestApp/TestController.php',
     'App\\Http\\Controllers\\API\\TestApp\\TestReportController' => $baseDir . '/app/Http/Controllers/API/TestApp/TestReportController.php',
     'App\\Http\\Controllers\\AlertController' => $baseDir . '/app/Http/Controllers/AlertController.php',

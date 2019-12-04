@@ -1,6 +1,18 @@
-// Chart.defaults.global.defaultFontFamily = 'Varela Round', sans-serif;
+Chart.defaults.global.defaultFontFamily = 'Varela Round', 'sans-serif';
+Chart.defaults.global.defaultFontColor = 'black';
 
-new Chart(document.getElementById("dash-pie-chart"), {
+Chart.defaults.global.animation.duration = 700;
+Chart.defaults.global.animation.easing = 'linear';
+
+// TITLE CONFIGURTAION
+Chart.defaults.global.title.fontSize = 16;
+Chart.defaults.global.title.fontStyle = 'normal';
+Chart.defaults.global.title.fontColor = 'rgb(65, 65, 65)';
+
+Chart.defaults.global.legend.labels.fontSize = 12;
+Chart.defaults.global.legend.labels.fontStyle = 'normal';
+
+var dashPieChart = new Chart(document.getElementById("dash-pie-chart"), {
   type: 'pie',
   data: {
     labels: ["Azimuth", "Pitch", "Roll", "Signal Strength", "Battery"],
@@ -15,22 +27,17 @@ new Chart(document.getElementById("dash-pie-chart"), {
       position: 'bottom',
       align: 'start',
       labels: {
-        fontFamily: 'Varela Round',
-        fontColor: 'black',
         fontSize: 15
       }
     },
     title: {
       display: true,
-      fontFamily: 'Varela Round',
-      fontColor: 'black',
-      fontSize: 17,
       text: 'Comparisson of Alerts By Type'
     }
   }
 });
 
-new Chart(document.getElementById("dash-bar-chart-horizontal"), {
+var dashBarChartHorizantal = new Chart(document.getElementById("dash-bar-chart-horizontal"), {
   type: 'horizontalBar',
   data: {
     labels: ["Azimuth", "Pitch", "Roll", "Signal Strength", "Battery"],
@@ -46,24 +53,18 @@ new Chart(document.getElementById("dash-bar-chart-horizontal"), {
     legend: {
       display: false,
       labels: {
-        fontFamily: 'Varela Round',
-        fontColor: 'black',
         fontSize: 15
       }
     },
     title: {
       display: true,
-      fontFamily: 'Varela Round',
-      fontColor: 'black',
-      fontSize: 17,
       text: 'Alert Count Trends (Over Last 10 Months)'
     }
   }
 });
 
-
 // Bar chart
-new Chart(document.getElementById("dash-line-chart"), {
+var dashLineChart = new Chart(document.getElementById("dash-line-chart"), {
   type: 'line',
   data: {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
@@ -98,16 +99,11 @@ new Chart(document.getElementById("dash-line-chart"), {
   options: {
     legend: {
       labels: {
-        fontFamily: 'Varela Round',
-        fontColor: 'black',
         fontSize: 15
       }
     },
     title: {
       display: true,
-      fontFamily: 'Varela Round',
-      fontColor: 'black',
-      fontSize: 17,
       text: 'Alert Trends (This Year)'
     }
   }
