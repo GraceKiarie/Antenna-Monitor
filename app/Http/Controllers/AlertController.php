@@ -20,11 +20,11 @@ class AlertController extends Controller
         return view('sites.alertlist', compact('cellData'));
     }
 
-    /*public function cronjob()
+    public function cronjob()
     {
         $currentTime = Carbon::now();
         $now = Carbon::now();
-        $last30min = $now->subHours(18);
+        $last30min = $now->subMinutes(160);
         //dd(strtotime($last30min->format('H:i:s')));
         $cell_id = Monitor::whereBetween('installation_time', [strtotime($last30min->format('H:i:s')), strtotime($currentTime->format('H:i:s'))])
             ->pluck('cell_id')->toArray();
@@ -103,6 +103,6 @@ class AlertController extends Controller
         }
         return "success";
 
-    }*/
+    }
 
 }

@@ -126,14 +126,15 @@ class InstallationController extends Controller
 
         $lat = $request->get('lat');  //-4.03375
         $long = $request->get('long'); //39.6864
-        $radius = 0.5;
+        $radius = 1;
 
          $sites =$this->nearbySites($lat,$long, $radius);
+        // dd($sites);
          if ($sites){
              return response()->json(['status'=>'success','data'=> $sites],200);
          }
          else{
-             return response()->json(['status'=>'success','data'=>['message'=> 'something went wrong']],200);
+             return response()->json(['status'=>'success','data'=>['message'=> 'No sites found']],200);
          }
     }
 

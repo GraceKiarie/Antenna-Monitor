@@ -34,7 +34,8 @@ class TestController extends Controller
 
     public function ImsiTest(Request $request)
     {
-        $imsi = $request->get('imsi');
+        $serial = $request->get('imsi');
+        $imsi=
         $qr_number = $request->get('qr_number');
         $code =MonitorData::where('imsi', '=', $imsi)->where('qr_number', '=', $qr_number)->select('voltage','csq')->first();
 
