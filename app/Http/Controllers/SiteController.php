@@ -102,6 +102,11 @@ class SiteController extends Controller
         return redirect('/sites');
     }
 
+    public function showSitesDashBoard()
+    {
+        return view('sites.sites_dash');
+    }
+    
     //display sitelist
     public function showSitelist()
     {

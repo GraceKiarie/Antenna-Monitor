@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Varela+Round&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Quicksand:500&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Alata&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700&display=swap');
 
 body {
     font-family: 'Varela Round', sans-serif;
@@ -269,3 +270,131 @@ input[type=number] {
     transition-timing-function: ease-in-out;
 }
 
+.sd-dash-card, .ad-dash-card{
+    opacity: 0.75;
+    transition-property: opacity;
+    transition-duration: .1s;
+	transition-delay: .1s;
+	transition-timing-function: ease-in-out;
+}
+
+.sd-dash-card:hover, .ad-dash-card:hover {
+    text-decoration: none;
+    background-color: #979797;
+    opacity: 1.0;
+    transition-timing-function: ease-in-out;
+}
+
+/* SITES DASHBOARD*/
+.sd-card-body-m {
+    text-align: center;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    border: 2px solid #5c5c5c;
+    color: #252525;
+    border-radius: calc(.5rem - 1px) calc(.5rem - 1px) calc(.5rem - 1px) calc(.5rem - 1px);
+}
+
+.sd-card-title {
+    text-align: left;
+    vertical-align: center;
+    padding-left: 1rem;
+    color: #696969;
+    font-size: 1.2rem;
+    font-style: normal;
+    text-transform: capitalize;
+}
+
+.sd-cards-hr {
+    margin-top: .9rem;
+    border-top: 1px solid rgb(223, 221, 235);
+}
+
+.sd-card-subtitle {
+    text-align: left;
+    padding-left: 1rem;
+    color: #696969;
+    margin-top: .4rem;
+    margin-bottom: 0;
+    font-size: .7rem;
+}
+
+.sd-card-number {
+    text-align: right;
+    color: rgb(22, 170, 255);
+    font-size: 2.9rem;
+    padding-right: 1rem;
+    font-style: normal;
+    margin-bottom: 0;
+}
+
+.sd-card-subtitle {
+    font-size: .9rem;
+}
+
+.sd-card-no, .sd-card-h {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* ALERTS DASHBOARD*/
+.ad-card-body-m {
+    text-align: center;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    border: 2px solid #686868;
+    border-radius: calc(.5rem - 1px) calc(.5rem - 1px) calc(.5rem - 1px) calc(.5rem - 1px);
+}
+
+.ad-card-title {
+    text-align: left;
+    vertical-align: center;
+    padding-left: 1rem;
+    color: #1f1f1f;
+    font-size: 1.2rem;
+    font-style: normal;
+    text-transform: capitalize;
+}
+
+.ad-cards-hr {
+    margin-top: .9rem;
+    border-top: 1px solid rgb(223, 221, 235);
+}
+
+.ad-card-subtitle {
+    text-align: left;
+    padding-left: 1rem;
+    color: #424242;
+    margin-top: .4rem;
+    margin-bottom: 0;
+    font-size: .7rem;
+}
+
+.ad-card-number {
+    text-align: right;
+    color: rgb(20, 111, 163);
+    font-size: 2.9rem;
+    padding-right: 1rem;
+    font-style: normal;
+    margin-bottom: 0;
+}
+
+.ad-card-subtitle {
+    font-size: .9rem;
+}
+
+.ad-card-no, .ad-card-h {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.ad-h5 {
+    margin-bottom: .9rem;
+    color: #424242;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+}
+
+#top_ten_table thead tr {
+    font-size: 2.4rem;
+}

@@ -25,8 +25,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 */
 Route::get('/', 'DashboardController@showMainDashboard')->name('dash');
 Route::get('/dash', 'DashboardController@showMainDashboard')->name('dash');
-Route::get('/sites_dash', 'DashboardController@showSitesDashboard')->name('sites_dash');
-Route::get('/alerts_dash', 'DashboardController@showAlertsDashboard')->name('alerts_dash');
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +33,7 @@ Route::get('/alerts_dash', 'DashboardController@showAlertsDashboard')->name('ale
 */
 Route::post('/update/sitelist', 'SiteController@uploadSitelist')->name('upload-sitelist');
 Route::get('/upload_sitelist', 'SiteController@showUploadSitelist');
+Route::get('/sites_dash', 'SiteController@showSitesDashboard')->name('sites_dash');
 Route::get('/sites', 'SiteController@showSitelist')->name('sitelist');
 Route::get('/site/{site_id}', 'SiteController@showSite')->name('site');
 Route::get('/cells', 'SiteController@showCellsList')->name('celllist');
@@ -45,7 +44,14 @@ Route::get('/cell/{cell_id}', 'SiteController@showCellDetails')->name('cell');
 | ALERTS ROUTES
 |--------------------------------------------------------------------------
 */
-Route::get('/alerts', 'AlertController@showAlertslist')->name('alertlist');
+Route::get('/alerts', 'AlertController@showFullAlertslist')->name('alertlist');
+Route::get('/alerts_dash', 'AlertController@showAlertsDashBoard')->name('alerts_dash');
+Route::get('/alerts/types', 'AlertController@showAlertsByTypes')->name('alerts_types');
+Route::get('/alerts/status', 'AlertController@showAlertsByStatus')->name('alerts_status');
+Route::get('/alerts/{cell_id}/new_alerts', 'AlertController@showNewAlertslist')->name('cell_new_alerts');
+Route::get('/alerts/{cell_id}/pending_alerts', 'AlertController@showPendingAlertslist')->name('cell_pending_alerts');
+Route::get('/alerts/{cell_id}/progress_alerts', 'AlertController@showProgressAlertslist')->name('cell_progress_alerts');
+Route::get('/alerts/{cell_id}/closed_alerts', 'AlertController@showClosedAlertslist')->name('cell_closed_alerts');
 
 /*
 |--------------------------------------------------------------------------
