@@ -83,7 +83,7 @@ class UserController extends Controller
 
         //check if user exists
         if (!Auth::attempt($credentials))
-            return response()->json(['status' => 'failure', 'displayMessage' => 'Wrong email or password'], 401);
+            return response()->json(['status' => 'failure', 'data'=>['message' => 'Wrong email or password']], 401);
 
         //if user exists and the password matches the email, send an authentication code via text
         $user = $request->user();
@@ -128,7 +128,7 @@ class UserController extends Controller
                 'type' => 'Bearer'
             ], 200);
         } else {
-            return response()->json(['status' => 'failure', 'displayMessage' => 'something went wrong'], 400);
+            return response()->json(['status' => 'failure', 'data'=>['message' => 'wrong code']], 400);
         }
     }
 
@@ -141,7 +141,7 @@ class UserController extends Controller
         if ($user->save()) {
             return response()->json(['status' => 'success', 'data' => $user], 200);
         } else {
-            return response()->json(['status' => 'failure', 'message' => 'an error occurred'], 404);
+            return response()->json(['status' => 'failure', 'data'=>['message' => 'password update failed']], 404);
         }
 
     }

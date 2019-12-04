@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Mail\TestReportEmail;
+use App\Mail\ReportEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -10,7 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 
-class SendTestReportEmailJob implements ShouldQueue
+class SendReportEmailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -21,10 +21,12 @@ class SendTestReportEmailJob implements ShouldQueue
      */
 
     public $uri;
+    public $subject;
 
-    public function __construct($uri)
+    public function __construct($uri,$subject)
     {
         $this->uri =$uri;
+        $this->subject =$subject;
     }
 
     /**
@@ -34,6 +36,6 @@ class SendTestReportEmailJob implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to('gnjokikiarie@gmail.com')->send(new TestReportEmail($this->uri));
+        Mail::to('gnjokikiarie@gmail.com')->send(new ReportEmail($this->uri, $this->subject ));
     }
 }

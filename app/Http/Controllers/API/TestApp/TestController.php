@@ -21,7 +21,7 @@ class TestController extends Controller
             return response()->json(['status' => 'success', 'data' => ['message' => 'match found', 'qr_number' => $qr_number]], 200);
 
         } else {
-            return response()->json(['status' => 'failure', 'message' => 'match not found in the database'], 404);
+            return response()->json(['status' => 'failure','data'=>['message' => 'match not found in the database'] ], 404);
         }
 
     }
@@ -42,7 +42,7 @@ class TestController extends Controller
             return response()->json(['status' => 'success', 'data' => ['voltage' => $code->voltage, 'csq' => $code->csq, 'qr_number' => $qr_number, 'imsi' => $imsi]], 200);
 
         } else {
-            return response()->json(['status' => 'failure', 'message' => 'communication not established '], 404);
+            return response()->json(['status' => 'failure', 'data'=>['message' => 'communication not established ']], 404);
         }
     }
 }

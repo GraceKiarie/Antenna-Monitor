@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 
-class TestReportEmail extends Mailable
+class ReportEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -18,11 +18,12 @@ class TestReportEmail extends Mailable
      *
      * @return void
      */
-    public $data = [];
+    public $subject;
     public $url ;
-    public function __construct($url)
+    public function __construct($url,$subject)
     {
       $this->url = $url;
+        $this->subject =$subject;
 
     }
 
@@ -36,11 +37,11 @@ class TestReportEmail extends Mailable
 
         $sender= 'notifications@hodi.io';
         $name = 'HODI';
-        $subject = 'Test Report';
+        $subject = 'Report';
 
         return $this->view('mails.mail_message')
             ->from($sender, $name)
-            ->subject($subject)
+            ->subject($this->subject)
             ->attach($this->url);
     }
 }

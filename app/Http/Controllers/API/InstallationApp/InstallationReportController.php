@@ -4,8 +4,10 @@ namespace App\Http\Controllers\API\InstallationApp;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\SaveTestReportJob;
-use App\Jobs\SendTestReportEmailJob;
+use App\Jobs\SendReportEmailJob;
 use App\User;
+use App\Cell;
+use App\MonitorData;
 use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -19,52 +21,44 @@ class InstallationReportController extends Controller
 
         $user = User::where('id', '=', $id)->first();
         $data = [
-            'imsi' => $request->get('imsi'),
-            'qr_number' => $request->get('qr_number'),
-            'voltage' => $request->get('voltage'),
-            'csq' => $request->get('csq'),
+            'site_name' => $request->get('site_name'),
+            'site_id' => $request->get('site_id'),
+            'technology' => $request->get('technology'),
+            'cell_id' => $request->get('cell_id'),
             'name' => $user->name,
             'user_id' => $user->id,
             'email' => $user->email,
             'role' => $user->role->role_name,
         ];
 
-        if ($data['voltage'] >4.8){
-            $data['voltage_test'] = 'Passed';
-        }else{
-            $data['voltage_test'] = 'Failed';
-        }
-        if ($data['csq'] >7){
-            $data['asu_test'] = 'Passed';
-        }else{
-            $data['asu_test'] = 'Failed';
-        }
-        if ($data['asu_test'] =='Passed' && $data['voltage_test'] == 'Passed'){
-            $data['test'] = 'Pass';
-        }else{
-            $data['test'] = 'Fail';
-        }
-        $data['test_id'] =rand(100000, 900000).'ADC';
+        $data['report_id'] =rand(100000, 900000).'ADC';
 
         $t =time();
         $data['date']=date("Y-m-d",$t);
         $data['time']=date('H:i:s',$t);
+        $count =$data['cell_id'] ;
+        $data['sectors_count'] = count($count);
+
+        $readings= Cell::with('monitorData')->whereIn('cell_id',$request->get('cell_id'))
+            ->get()->toArray();
+      //  dd($readings[0]['monitor_data'][0]['heading']);
+
+
+
+
 
         //generate pdf and save to directory
 
-        $pdf = PDF::loadView('mails.test_report', compact('data'));
-        $filename = $data['name']."_".$data['qr_number'] . '_testReport.pdf';
-        Storage::put('public/testReport/' . $filename, $pdf->output());
-        $uri = '/home/kiarie/Desktop/Antenna-Monitor/storage/app/public/testReport/' . $filename;
+        $pdf = PDF::loadView('mails.installation_report', compact('data','readings'));
+        $filename = $data['site_name']."_".$data['technology'] . '_InstallationReport.pdf';
+        Storage::put('public/InstallationReport/' . $filename, $pdf->output());
+        $uri = '/home/kiarie/Desktop/Antenna-Monitor/storage/app/public/InstallationReport/' . $filename;
+        $subject= 'Installation Report';
 
         Log::info("Request cycle without Queues started");
 
-        //save report info to db
-        $savetodbJob = (new SaveTestReportJob($data))->delay(Carbon::now()->addSeconds(2));
-        dispatch($savetodbJob );
-
         //send report to email
-        $emailJob = (new SendTestReportEmailJob($uri))->delay(Carbon::now()->addSeconds(3));
+        $emailJob = (new SendReportEmailJob($uri,$subject))->delay(Carbon::now()->addSeconds(3));
         dispatch($emailJob);
 
         Log::info("Request cycle without Queues finished");

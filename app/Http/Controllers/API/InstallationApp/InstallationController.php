@@ -1,15 +1,15 @@
 <?php
 namespace App\Http\Controllers\API\InstallationApp;
 
+use App\Alert;
 use App\Http\Controllers\Controller;
 use App\InstallationImage;
 use App\Monitor;
 use App\MonitorData;
 use App\Site;
 use App\Cell;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\DB;
 use App\Http\Traits\ApiTraits;
 
 class InstallationController extends Controller
@@ -24,9 +24,8 @@ class InstallationController extends Controller
         {
             return response()->json(['status' => 'success','data'=>$sites],200);
         }else{
-            return response()->json(['status' => 'failure','data'=>'no data'],404);
+            return response()->json(['status' => 'failure','data'=>['message'=>'no data']],404);
         }
-
     }
 
     public function listSiteTechnologies(Request $request)
@@ -39,12 +38,11 @@ class InstallationController extends Controller
         if($technologies){
             return response()->json(['status' => 'success','data'=>$technologies],200);
         }else{
-            return response()->json(['status' => 'failure','data'=>'no data available'],404);
+            return response()->json(['status' => 'failure','data'=>['message'=>'no data available']],404);
         }
-
     }
 
-    public function listCells(Request $request)
+    public function listSectors(Request $request)
     {
         $request->validate([
             'technology' => 'required',
@@ -54,9 +52,8 @@ class InstallationController extends Controller
         if($cells){
             return response()->json(['status' => 'success','data'=>$cells],200);
         }else{
-            return response()->json(['status' => 'failure','data'=>'no data available'],404);
+            return response()->json(['status' => 'failure','data'=>['message'=>'no data available']],404);
         }
-
     }
 
     public function validateCellID(Request $request)
@@ -65,31 +62,60 @@ class InstallationController extends Controller
             'cell_id' => 'required',
         ]);
         if(MonitorData::where('cell_id' ,'=', $request->get('cell_id'))->exists()){
-            return response()->json(['status' => 'success','data'=>'match found'],200);
+            return response()->json(['status' => 'success','data'=>['message'=>'match found']],200);
         }else{
-            return response()->json(['status' => 'failure','data'=>'no data available'],404);
+            return response()->json(['status' => 'failure','data'=>['message'=>'no data available']],404);
         }
+    }
+
+    public function monitorRecords($cell_id)
+    {
+        $time =strtotime(Carbon::now()->format('H:i:s')) ;
+
+        $monitor = MonitorData::where('cell_id',$cell_id)
+            ->first();
+
+        $m=Monitor::firstOrCreate(
+            ['cell_id' => $monitor->cell_id],
+            [   'qr_number' => $monitor->qr_number,
+                'imsi' => $monitor->imsi,
+                'installation_time' => $time
+            ]);
+
+        return $m;
+
     }
 
     public function uploadImage( Request $request)
     {
         $request->validate([
-            'image' => 'required',
+            'image' => 'required|image',
             'cell_id' => 'required',
 
         ]);
-        $file = $request->file('image');
-        $random = rand(1000000, 400000000) . "_" . rand(1000000, 400000000);
-        $name =   $name = $random . "." . $file->extension();;
-        $file->move( 'Storage/app/installationMessages/', $name);
 
-        $image=InstallationImage::create([
-            'cell_id' => $request->get('cell_id'),
-            'image' => $name,
-        ]);
-        if($image){
-            return response()->json(['status'=> 'success','message'=>'upload successful']);
+        if ($request->hasFile('image')){
+            $file = $request->file('image');
+            $cell_id=$request->get('cell_id');
+            $extension = $file->getClientOriginalExtension();
+            $filename  = 'installation-image-' . time() . '.' . $extension;
+            $path = $file->storeAs('installationImages', $filename);
+
+            $image=InstallationImage::create([
+                'cell_id' => $cell_id,
+                'image' => $filename,
+
+            ]);
+
+
+            if($image){
+                $this->monitorRecords($cell_id);
+                return response()->json(['status'=> 'success','data'=>['message'=>'upload successful']],201);
+            }else{
+                return response()->json(['status' => 'failure','data'=>['message'=>'photo upload failed']],404);
+            }
         }
+
     }
     public function getNearbySites(Request $request)
     {
@@ -100,15 +126,18 @@ class InstallationController extends Controller
 
         $lat = $request->get('lat');  //-4.03375
         $long = $request->get('long'); //39.6864
-        $radius = 1;
+        $radius = 0.5;
 
          $sites =$this->nearbySites($lat,$long, $radius);
          if ($sites){
              return response()->json(['status'=>'success','data'=> $sites],200);
          }
          else{
-             return response()->json(['status'=>'success','message'=> 'something went wrong'],200);
+             return response()->json(['status'=>'success','data'=>['message'=> 'something went wrong']],200);
          }
     }
 
+
+
 }
+

@@ -25,9 +25,9 @@ class CreateMonitorDataTable extends Migration
             $table->string('calibrate_flag');
             $table->string('temperature');
             $table->string('voltage');
-            $table->string('heading');
-            $table->string('pitch');
-            $table->string('roll');
+            $table->float('heading');
+            $table->float('pitch');
+            $table->float('roll');
             $table->string('accel_x');
             $table->string('accel_y');
             $table->string('accel_z');
