@@ -104,12 +104,32 @@
                             </a>
                         </li>
                         <li>
-                            <a href="/alerts" class="menu-item">
+                            <a href="#" class="menu-item">
                                 <i class="metismenu-icon pe-7s-attention"></i>
-                                Alerts List
+                                    Alerts
+                                <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                             </a>
+                            <ul>
+                                <li>
+                                    <a href="/alerts" class="menu-item">
+                                        <i class="metismenu-icon"></i>
+                                        All Alerts
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/alerts/status" class="menu-item">
+                                        <i class="metismenu-icon"></i>
+                                        Alerts By Status
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/alerts/types" class="menu-item">
+                                        <i class="metismenu-icon"></i>
+                                        Alerts By Type
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-                            
                         <li>
                             <a href="#" class="menu-item">
                                 <i class="metismenu-icon pe-7s-signal"></i>
