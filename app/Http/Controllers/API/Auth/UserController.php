@@ -13,6 +13,7 @@ use App\Contractor;
 use App\Code;
 use AfricasTalking\SDK\AfricasTalking;
 use App\Role;
+
 class UserController extends Controller
 {
     /**
@@ -83,14 +84,14 @@ class UserController extends Controller
 
         //check if user exists
         if (!Auth::attempt($credentials))
-            return response()->json(['status' => 'failure', 'data'=>['message' => 'Wrong email or password']], 401);
+            return response()->json(['status' => 'failure', 'data' => ['message' => 'Wrong email or password']], 401);
 
         //if user exists and the password matches the email, send an authentication code via text
         $user = $request->user();
         $phone = $user->phone;
 
         $code = rand(100000, 900000);
-        $message = "<#> Your authentication code is  " .$code."  L3Lp8YFxrFq";
+        $message = "<#> Your authentication code is  " . $code . "  L3Lp8YFxrFq";
 
         //send message
         $result = $this->sendMessage($phone, $message);
@@ -128,7 +129,7 @@ class UserController extends Controller
                 'type' => 'Bearer'
             ], 200);
         } else {
-            return response()->json(['status' => 'failure', 'data'=>['message' => 'wrong code']], 400);
+            return response()->json(['status' => 'failure', 'data' => ['message' => 'wrong code']], 400);
         }
     }
 
@@ -141,7 +142,7 @@ class UserController extends Controller
         if ($user->save()) {
             return response()->json(['status' => 'success', 'data' => $user], 200);
         } else {
-            return response()->json(['status' => 'failure', 'data'=>['message' => 'password update failed']], 404);
+            return response()->json(['status' => 'failure', 'data' => ['message' => 'password update failed']], 404);
         }
 
     }
@@ -157,6 +158,37 @@ class UserController extends Controller
         return response()->json([
             'message' => 'Successfully logged out'
         ], 200);
+    }
+
+    /**
+     * forgot password
+     * @params - phone
+     */
+    public function forgotPassword(Request $request)
+    {
+
+        //validate input
+        $request->validate([
+            'phone' => 'required',
+        ]);
+        $phone = $request->get('phone');
+        $generatedCode = rand(200000, 999999);
+        $message = "Your new password is  " . $generatedCode;
+        $user = User::where('phone', $phone)->first();
+        //dd($user);
+
+        if ($user) {
+            $user->password = Hash::make($generatedCode);
+            $user->password_change_at = false;
+            $user->save();
+
+            $result = $this->sendMessage($phone, $message);
+            return response()->json(['status' => $result['status'], 'data' => 'Password sent'], 200);
+
+        } else {
+            return response()->json(['status' => 'Failure', 'data' => 'Phone number does not exist'], 404);
+        }
+
     }
 
 }

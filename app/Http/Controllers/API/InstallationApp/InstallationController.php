@@ -126,7 +126,7 @@ class InstallationController extends Controller
 
         $lat = $request->get('lat');  //-4.03375
         $long = $request->get('long'); //39.6864
-        $radius = 1;
+        $radius = 5;
 
          $sites =$this->nearbySites($lat,$long, $radius);
         // dd($sites);
