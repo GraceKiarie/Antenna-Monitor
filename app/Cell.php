@@ -21,7 +21,7 @@ class Cell extends Model
 
     public function monitorData()
     {
-        return $this->hasMany(MonitorData::class, 'cell_id','cell_id');
+        return $this->hasOne(MonitorData::class, 'cell_id','cell_id')->latest();
     }
 
 }

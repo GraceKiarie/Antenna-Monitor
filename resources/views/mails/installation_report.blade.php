@@ -39,11 +39,10 @@
 
 
                         <td>{{$value['sector_id']}}</td>
-                        @foreach($value['monitor_data'] as $r)
-                        <td>{{$r['heading']}}</td>
-                        <td>{{$r['pitch']}}</td>
-                        <td>{{$r['roll']}}</td>
-                            @endforeach
+                        <td>{{$value['monitor_data']['heading']}}</td>
+                        <td>{{$value['monitor_data']['pitch']}}</td>
+                        <td>{{$value['monitor_data']['roll']}}</td>
+
                     </tr>
 
 

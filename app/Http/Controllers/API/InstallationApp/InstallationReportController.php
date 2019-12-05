@@ -40,8 +40,8 @@ class InstallationReportController extends Controller
         $data['sectors_count'] = count($count);
 
         $readings= Cell::with('monitorData')->whereIn('cell_id',$request->get('cell_id'))
-            ->get()->toArray();
-      //  dd($readings[0]['monitor_data'][0]['heading']);
+            ->distinct('cell_id')->get()->toArray();
+      //dd($readings);
 
 
 
@@ -62,6 +62,6 @@ class InstallationReportController extends Controller
         dispatch($emailJob);
 
         Log::info("Request cycle without Queues finished");
-        return response()->json(['status'=>'success', 'data'=>$data],200);
+        return response()->json(['status'=>'success', 'message'=>'installation certificate generated successfully'],200);
     }
 }

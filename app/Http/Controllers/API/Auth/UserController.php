@@ -13,7 +13,7 @@ use App\Contractor;
 use App\Code;
 use AfricasTalking\SDK\AfricasTalking;
 use App\Role;
-
+use GuzzleHttp;
 class UserController extends Controller
 {
     /**
@@ -83,31 +83,26 @@ class UserController extends Controller
         $credentials = request(['email', 'password']);
 
         //check if user exists
-        if (!Auth::attempt($credentials))
+        if (!Auth::attempt($credentials)){
             return response()->json(['status' => 'failure', 'data' => ['message' => 'Wrong email or password']], 401);
 
-        //if user exists and the password matches the email, send an authentication code via text
-        $user = $request->user();
-        $phone = $user->phone;
 
-        $code = rand(100000, 900000);
-        $message = "<#> Your authentication code is  " . $code . "  L3Lp8YFxrFq";
-
-        //send message
-        $result = $this->sendMessage($phone, $message);
-
-        //save the code in the db
-        if ($result['status'] == "success") {
-            $user_id = $user->id;
-            if (Code::where('user_id', '=', $user_id)->delete()) {
-                Code::create(['user_id' => $user_id, 'code' => $code]);
-            } else {
-                Code::create(['user_id' => $user_id, 'code' => $code]);
-
-            }
-            return response()->json(['status' => $result['status'], 'data' => $user], 200);
         }
 
+        $http = new GuzzleHttp\Client;
+
+        $response = $http->post(url('oauth/token'), [
+            'form_params' => [
+                'grant_type' => 'password',
+                'client_id' => 6,
+                'client_secret' => 'edPZRwBlm8p4l4FNcrW8w44E22ZYxD6jdLxtg9yX',
+                'username' => $request->get('email'),
+                'password' => $request->get('password'),
+                'scope' => '',
+            ],
+        ]);
+
+        return $response->getBody();
     }
 
     public function generateToken($id, Request $request)
