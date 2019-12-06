@@ -81,48 +81,49 @@ class UserController extends Controller
             'password' => 'required|string',
         ]);
         $credentials = request(['email', 'password']);
-
         //check if user exists
-        if (!Auth::attempt($credentials)){
+        if (!Auth::attempt($credentials))
             return response()->json(['status' => 'failure', 'data' => ['message' => 'Wrong email or password']], 401);
-
-
+        //if user exists and the password matches the email, send an authentication code via text
+        $user = $request->user();
+        $phone = $user->phone;
+        $code = rand(100000, 900000);
+        $message = "<#> Your authentication code is  " . $code . "  L3Lp8YFxrFq";
+        //send message
+        $result = $this->sendMessage($phone, $message);
+        //save the code in the db
+        if ($result['status'] == "success") {
+            $user_id = $user->id;
+            if (Code::where('user_id', '=', $user_id)->delete()) {
+                Code::create(['user_id' => $user_id, 'code' => $code]);
+            } else {
+                Code::create(['user_id' => $user_id, 'code' => $code]);
+            }
+            return response()->json(['status' => $result['status'], 'data' => $user], 200);
         }
-
-        $http = new GuzzleHttp\Client;
-
-        $response = $http->post(url('oauth/token'), [
-            'form_params' => [
-                'grant_type' => 'password',
-                'client_id' => 6,
-                'client_secret' => 'edPZRwBlm8p4l4FNcrW8w44E22ZYxD6jdLxtg9yX',
-                'username' => $request->get('email'),
-                'password' => $request->get('password'),
-                'scope' => '',
-            ],
-        ]);
-
-        return $response->getBody();
     }
 
     public function generateToken($id, Request $request)
     {
         $user = User::with('role')->where('id', '=', $id)->first();
-
-
         $code = Code::where('user_id', '=', $id)->first();
         if ($request->get('code') == $code->code) {
 
-            $tokenResult = $user->createToken('Personal Access Token');
+            $http = new GuzzleHttp\Client;
 
-            //delete authentication code after successful login
-            Code::find($code->id)->delete();
-            return response()->json([
-                'status' => 'success',
-                'access_token' => $tokenResult->accessToken,
-                'role' => $user->role->role_name,
-                'type' => 'Bearer'
-            ], 200);
+            $response = $http->post('http://localhost:8001/oauth/token', [
+                'form_params' => [
+                    'grant_type' => 'password',
+                    'client_id' => 6,
+                    'client_secret' => 'edPZRwBlm8p4l4FNcrW8w44E22ZYxD6jdLxtg9yX',
+                    'username' => $user->email,
+                    'password' => $user->password,
+                    'scope' => '',
+                ],
+            ]);
+            $token= json_decode($response->getBody(), true);
+            return response()->json(['status' => 'sucess', [$token,['role'=>$user->role->role_name]]], 200);
+
         } else {
             return response()->json(['status' => 'failure', 'data' => ['message' => 'wrong code']], 400);
         }

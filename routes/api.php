@@ -23,6 +23,7 @@ Route::group(['prefix' => 'v1'], function () {
     Route::post('signin', 'API\Auth\UserController@loginWeb');
     Route::post('password/reset', 'API\Auth\UserController@forgotPassword');
     Route::post('imsi', 'API\TestApp\TestController@ImsiTest');
+    Route::post('qr', 'API\TestApp\TestController@qrTest');
 
     //protected routes
     Route::group(['middleware' => 'auth:api'], function () {
@@ -31,7 +32,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::patch('password/reset', 'API\Auth\UserController@updatePassword');
 
         //test app routes
-        Route::post('qr', 'API\TestApp\TestController@qrTest');
+       // Route::post('qr', 'API\TestApp\TestController@qrTest');
 
         Route::post('/sendmail/{id}', 'API\TestApp\TestReportController@sendMail')->name('mail');
 
