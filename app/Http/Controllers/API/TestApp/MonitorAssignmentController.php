@@ -13,9 +13,7 @@ class MonitorAssignmentController extends Controller
     public function listInstallationEngineers()
     {
         $engineers = User::where('role_id' ,3)->get();
-        
         return response()->json(['status' => 'success' , 'data'=>$engineers],200);
-
     }
 
     public function assignMonitors(Request $request)
@@ -33,13 +31,8 @@ class MonitorAssignmentController extends Controller
             MonitorAssignment::create([
                 'user_id' => $request->get('user_id'),
                 'qr_number' => $qr_number,
-
             ]);
         }
-
         return response()->json(['status' => 'success' , 'data' => ['message' => 'Assignment successful!' ]]);
-
-
-        
     } 
 }
