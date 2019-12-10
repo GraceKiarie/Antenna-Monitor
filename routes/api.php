@@ -21,6 +21,8 @@ Route::group(['prefix' => 'v1'], function () {
     Route::post('login/authentication/{id}', 'API\Auth\UserController@generateToken');
     Route::post('signin', 'API\Auth\UserController@loginWeb');
     Route::post('password/reset', 'API\Auth\UserController@forgotPassword');
+    Route::get('engineers', 'API\TestApp\MonitorAssignmentController@listInstallationEngineers');
+    Route::post('assign/monitors', 'API\TestApp\MonitorAssignmentController@assignMonitors');
 
     //protected routes
     Route::group(['middleware' => 'auth:api'], function () {

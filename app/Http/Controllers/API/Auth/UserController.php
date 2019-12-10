@@ -186,7 +186,7 @@ class UserController extends Controller
             return response()->json(['status' => $result['status'], 'data' => 'Password sent'], 200);
 
         } else {
-            return response()->json(['status' => 'Failure', 'data' => 'Phone number does not exist'], 404);
+            return response()->json(['status' => 'Failure', 'data' => ['message'=> 'Phone number does not exist']], 404);
         }
 
     }
