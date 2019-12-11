@@ -67,7 +67,7 @@
                         <hr />
 
                         <!-- HIDDEN INPUT FOR ROLE -->
-                        <input type="hidden" name="role_id" value="0">
+                        <input type="hidden" name="role_id" value="1">
                         <button class="mt-1 btn btn-primary btn-app">Submit</button>
                     </form>
                     </div>

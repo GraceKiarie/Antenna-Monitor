@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Log;
 
 class Handler extends ExceptionHandler
 {
@@ -34,8 +35,15 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        parent::report($exception);
+        if ($this->shouldntReport($exception)) {
+            return;
+        }
+        Log::channel('daily')->error(
+            $exception->getMessage(),
+            array_merge($this->context(), ['exception' => $exception])
+        );
     }
+
 
     /**
      * Render an exception into an HTTP response.
