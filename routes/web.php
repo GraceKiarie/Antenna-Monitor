@@ -23,8 +23,11 @@ Route::get('/home', 'HomeController@index')->name('home');
 | DASHBOARD ROUTES
 |--------------------------------------------------------------------------
 */
+Route::group(['middleware' => ['auth', 'admin']], function() {
+    Route::get('/dash', 'DashboardController@showMainDashboard')->name('dash');
+
 Route::get('/', 'DashboardController@showMainDashboard')->name('dash');
-Route::get('/dash', 'DashboardController@showMainDashboard')->name('dash');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -66,3 +69,4 @@ Route::get('/add_contractor', 'AuthRegisterController@showAddContractorForm')->n
 Route::get('/add_team', 'Auth\RegisterController@showAddTeamForm')->name('add_team');
 
 Route::get('/pdf', 'API\TestApp\TestReportController@generatePdf')->name('pdf');
+});
