@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use App\User;
@@ -83,10 +84,16 @@ class UserController extends Controller
         $credentials = request(['email', 'password']);
 
         //check if user exists
+        $email =$request->get('email');
         if (!Auth::attempt($credentials))
+        {
+
+            Log::info('User failed to login  :'.$email,[ 'result' => 'failure']);
             return response()->json(['status' => 'failure', 'data' => ['message' => 'Wrong email or password']], 401);
 
+        }
         //if user exists and the password matches the email, send an authentication code via text
+       // dd(request()->headers);
         $user = $request->user();
         $phone = $user->phone;
 
@@ -122,6 +129,7 @@ class UserController extends Controller
 
             //delete authentication code after successful login
             Code::find($code->id)->delete();
+            Log::info('Login successful',['type' =>'access','result' => 'success']);
             return response()->json([
                 'status' => 'success',
                 'access_token' => $tokenResult->accessToken,
