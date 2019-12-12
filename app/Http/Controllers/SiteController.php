@@ -10,6 +10,7 @@ use App\MonitorData;
 use App\TestReport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class SiteController extends Controller
 {
@@ -102,6 +103,7 @@ class SiteController extends Controller
     {
         $this->saveSites();
         $this->saveCells();
+        Log::info('New sitelist uploaded successfully',['type' =>'update','result' => 'success']);
         $sites = Site::all();
         return redirect('/sites');
     }

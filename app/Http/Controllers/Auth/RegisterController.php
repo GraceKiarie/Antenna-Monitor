@@ -92,8 +92,8 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'phone' => $data['phone'],
             'role_id' => $data['role_id'],
-            'contractor_id' => array_key_exists('contractor_id', $data) ? $data['contractor_id'] : '0',
-            'team_id' => array_key_exists('team_id', $data) ? $data['team_id'] : '0',
+            'contractor_id' => array_key_exists('contractor_id', $data) ? $data['contractor_id'] : Null,
+            'team_id' => array_key_exists('team_id', $data) ? $data['team_id'] : Null,
             'password' => Hash::make($data['phone']),
         ]);
     }

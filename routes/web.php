@@ -23,8 +23,11 @@ Route::get('/home', 'HomeController@index')->name('home');
 | DASHBOARD ROUTES
 |--------------------------------------------------------------------------
 */
+Route::group(['middleware' => ['auth', 'admin']], function() {
+    Route::get('/dash', 'DashboardController@showMainDashboard')->name('dash');
+
 Route::get('/', 'DashboardController@showMainDashboard')->name('dash');
-Route::get('/dash', 'DashboardController@showMainDashboard')->name('dash');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -73,3 +76,4 @@ Route::get('/teams', 'TeamController@showTeamList');
 Route::get('/register_team', 'TeamController@showAddTeamForm');
 
 Route::get('/pdf', 'API\TestApp\TestReportController@generatePdf')->name('pdf');
+});
