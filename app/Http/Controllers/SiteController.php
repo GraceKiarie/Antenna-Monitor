@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Alert;
 use App\Site;
 use App\Cell;
+use App\InstallationReport;
+use App\MonitorData;
+use App\TestReport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -102,16 +106,19 @@ class SiteController extends Controller
         return redirect('/sites');
     }
 
-    public function showSitesDashBoard()
-    {
-        return view('sites.sites_dash');
-    }
-    
     //display sitelist
     public function showSitelist()
     {
         $sites = Site::all();
-        return view('sites.sitelist', compact('sites'));
+        $alerts = Alert::all();
+        return view('sites.sitelist', compact('sites', 'alerts'));
+    }
+
+    //display sitelist
+    public function showCellOptimizationsList()
+    {
+        $cellData = Cell::all();
+        return view('sites.cell_opt', compact('cellData'));
     }
 
     //SHOW SITE DATA
@@ -120,6 +127,15 @@ class SiteController extends Controller
         $siteData = Cell::with('site')->where('site_id', '=', $site_id)->get();
         return view('sites.site_details', compact('siteData'));
     }
+
+    //DISPLAY SITE REPORTS PAGE
+    public function showSiteReports()
+    {
+        $installData = InstallationReport::all();
+        $testData = TestReport::all();
+        return view('sites.site_reports', compact('installData', 'testData'));
+    }
+
 
     public function showCellDetails($cell_id)
     {
@@ -130,8 +146,9 @@ class SiteController extends Controller
     //display sitelist
     public function showCellsList()
     {
-        $cells = Cell::with('site')->get();
-        return view('sites.celllist', compact('cells'));
+        $cells = Cell::all();
+        $alerts = Alert::all();
+        return view('sites.celllist', compact('cells', 'alerts'));
     }
 
     //display upload sitelist

@@ -12,14 +12,28 @@ Chart.defaults.global.title.fontColor = 'rgb(65, 65, 65)';
 Chart.defaults.global.legend.labels.fontSize = 12;
 Chart.defaults.global.legend.labels.fontStyle = 'normal';
 
+/*
+|--------------------------------------------------------------------------
+| PIE CHART
+|--------------------------------------------------------------------------
+*/
+//GET LABELS AND DATA ... DEFINED IN HTML/BLADE
+var pieChartLabels = [];
+var alertTypeCount = [];
+for(var i in pc_data) {
+	pieChartLabels.push(pc_data[i].alert_type)
+	alertTypeCount.push(pc_data[i].count);
+}
+
+// DRAW PIE CHART
 var dashPieChart = new Chart(document.getElementById("dash-pie-chart"), {
   type: 'pie',
   data: {
-    labels: ["Azimuth", "Pitch", "Roll", "Signal Strength", "Battery"],
+    labels: pieChartLabels,
     datasets: [{
       label: "Alerts Count",
       backgroundColor: ["#3e95cd", "#58ffff","#3cba9f","#f8e646","#c45850"],
-      data: [478,267,734,784,133]
+      data: alertTypeCount
     }]
   },
   options: {
@@ -32,20 +46,35 @@ var dashPieChart = new Chart(document.getElementById("dash-pie-chart"), {
     },
     title: {
       display: true,
-      text: 'Comparisson of Alerts By Type'
+      text: 'TOTAL ALERTS BY TYPE'
     }
   }
 });
 
+/*
+|--------------------------------------------------------------------------
+| BAR GRAPH
+|--------------------------------------------------------------------------
+*/
+
+//GET LABELS ... DEFINED IN HTML/BLADE
+var barChartLabels = [];
+var totalAlertCount = [];
+
+for(var i in bc_data) {
+	barChartLabels.push(bc_data[i].cell_id)
+	totalAlertCount.push(bc_data[i].num);
+}
+// DRAW BAR CHART
 var dashBarChartHorizantal = new Chart(document.getElementById("dash-bar-chart-horizontal"), {
   type: 'horizontalBar',
   data: {
-    labels: ["Azimuth", "Pitch", "Roll", "Signal Strength", "Battery"],
+    labels: barChartLabels,
     datasets: [
       {
         label: "Alert Count",
         backgroundColor: ["#3e95cd", "#58ffff","#3cba9f","#f8e646","#c45850"],
-        data: [47,26,13,28,43]
+        data: totalAlertCount
       }
     ]
   },
@@ -58,42 +87,187 @@ var dashBarChartHorizantal = new Chart(document.getElementById("dash-bar-chart-h
     },
     title: {
       display: true,
-      text: 'Alert Count Trends (Over Last 10 Months)'
+      text: 'TOP 5 CELLS BY ALERT COUNT (Over Last 6 Months)'
+	},
+	scales: {
+        xAxes: [{
+			scaleLabel: {
+				display: true,
+				labelString: 'Alert Count',
+				fontSize: 15
+			},
+            ticks: {
+                beginAtZero: true
+            }
+        }],
+        yAxes: [{
+			scaleLabel: {
+				display: true,
+				labelString: 'Cell ID',
+				fontSize: 15
+			}
+        }]
     }
   }
 });
 
-// Bar chart
+/*
+|--------------------------------------------------------------------------
+| LINE GRAPH
+|--------------------------------------------------------------------------
+*/
+var ac_my = [0,1,2,3,4,5,6,7,8,9,10,11];
+var ac_em = [];
+for(var i=1;i<lc_azim.length;i++){
+	ac_em.push(lc_azim[i]['mon']);
+}
+for(var i=1;i<ac_my.length;i++){
+	if(ac_em.indexOf(parseInt(ac_my[i])) < 0){
+		var zeroObject = {
+		"mon": i,
+		"count": 0
+		};
+		lc_azim.push(zeroObject);
+	}
+}
+ac = [];
+for(var i in lc_azim) {
+	ac.push(lc_azim[i].count);
+}
+
+var tc_my = [0,1,2,3,4,5,6,7,8,9,10,11];
+var tc_em = [];
+for(var i=1;i<lc_tilt.length;i++){
+	tc_em.push(lc_tilt[i]['mon']);
+}
+for(var i=1;i<tc_my.length;i++){
+	if(tc_em.indexOf(parseInt(tc_my[i])) < 0){
+		var zeroObject = {
+		"mon": i,
+		"count": 0
+		};
+		lc_tilt.push(zeroObject);
+	}
+}
+tc = [];
+for(var i in lc_tilt) {
+	tc.push(lc_tilt[i].count);
+}
+
+var rollAlertCount = [];
+var rc_my = [0,1,2,3,4,5,6,7,8,9,10,11];
+var rc_em = [];
+for(var i=1;i<lc_roll.length;i++){
+	rc_em.push(lc_roll[i]['mon']);
+}
+for(var i=1;i<rc_my.length;i++){
+	if(rc_em.indexOf(parseInt(rc_my[i])) < 0){
+		var zeroObject = {
+		"mon": i,
+		"count": 0
+		};
+		lc_roll.push(zeroObject);
+	}
+}
+rc = [];
+for(var i in lc_roll) {
+	rc.push(lc_roll[i].count);
+}
+
+var vc_my = [0,1,2,3,4,5,6,7,8,9,10,11];
+var vc_em = [];
+for(var i=1;i<lc_volts.length;i++){
+	vc_em.push(lc_volts[i]['mon']);
+}
+for(var i=1;i<vc_my.length;i++){
+	if(vc_em.indexOf(parseInt(vc_my[i])) < 0){
+		var zeroObject = {
+		"mon": i,
+		"count": 0
+		};
+		lc_volts.push(zeroObject);
+	}
+}
+vc = [];
+for(var i in lc_volts) {
+	vc.push(lc_volts[i].count);
+}
+
+var sc_my = [0,1,2,3,4,5,6,7,8,9,10,11];
+var sc_em = [];
+for(var i=1;i<lc_signal.length;i++){
+	sc_em.push(lc_signal[i]['mon']);
+}
+for(var i=1;i<sc_my.length;i++){
+	if(sc_em.indexOf(parseInt(tc_my[i])) < 0){
+		var zeroObject = {
+		"mon": i,
+		"count": 0
+		};
+		lc_signal.push(zeroObject);
+	}
+}
+sc = [];
+for(var i in lc_signal) {
+	sc.push(lc_signal[i].count);
+}
+
+var cc_my = [0,1,2,3,4,5,6,7,8,9,10,11];
+var cc_em = [];
+for(var i=1;i<lc_comm.length;i++){
+	cc_em.push(lc_comm[i]['mon']);
+}
+for(var i=1;i<cc_my.length;i++){
+	if(cc_em.indexOf(parseInt(cc_my[i])) < 0){
+		var zeroObject = {
+		"mon": i,
+		"count": 0
+		};
+		lc_comm.push(zeroObject);
+	}
+}
+cc = [];
+for(var i in lc_comm) {
+	cc.push(lc_comm[i].count);
+}
+
+
+// DRAW LINE CHART
 var dashLineChart = new Chart(document.getElementById("dash-line-chart"), {
   type: 'line',
   data: {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
     datasets: [{ 
-        data: [12,6,11,10,10,10,11,13,22,15,20],
+        data: ac,
         label: "Azimuth",
         borderColor: "#3e95cd",
         fill: false
-      }, { 
-        data: [23,28,35,41,50,63,53,61,48,45,43],
-        label: "Pitch",
+	  }, {
+		data: tc,
+        label: "Tilt",
+        borderColor: "#66ff66",
+        fill: false
+	  }, {
+		data: rc,
+        label: "Roll",
         borderColor: "#58ffff",
         fill: false
-      }, { 
-        data: [14,16,17,17,19,20,27,40,54,67,73],
-        label: "Roll",
+	  }, {
+		data: vc,
+        label: "Voltage",
         borderColor: "#3cba9f",
         fill: false
-      }, { 
-        data: [37,40,20,10,16,24,38,74,16,50,78],
-        label: "Signal Strength",
+	  }, {
+		data: sc,
+        label: "Signal",
         borderColor: "#f8e646",
         fill: false
-      }, { 
-        data: [4,6,3,2,2,7,2,8,0,3,4],
-        label: "Battery",
+	  }, {
+		data: cc,
+        label: "No Comm.",
         borderColor: "#c45850",
         fill: false
-      }
+	  }
     ]
   },
   options: {

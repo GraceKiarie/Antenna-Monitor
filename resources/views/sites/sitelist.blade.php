@@ -8,14 +8,6 @@
     <link rel="stylesheet" href="./assets/css/datatables.css" />
 @endpush
 
-@section('content-title')
-<div class="page-title-heading page-title-heading-m">
-    <div>
-        <h3>SITES</h3>
-    </div>
-</div>
-@endsection
-
 @section('content-detail')
 <div class="row scroll-area-x">
     <div class="col-md-12 col-lg-12 scrollbar-container">
@@ -50,8 +42,8 @@
                             <tr>
                                 <th>Site ID</th>
                                 <th>Site Name</th>
-                                <th>Active Cells</th>
-                                <th>New/Pending Alerts</th>
+                                <th>Vendor</th>
+                                <th>Created At</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -64,21 +56,22 @@
                                 $remove_id = array_splice($name_arr, 1);
                                 $raw_name = implode("-", $remove_id);
                                 $site_name = str_replace('_', ' ', $raw_name);
+
                             ?>
                                 <tr>
                                     <td><a href="/site/{{ $site_id }}" > {{ $site_id }} </a> </td>
                                     <td> {{ $site_name }} </td>
-                                    <td><?php echo rand(1,6); ?></td>
-                                    <td><a href="/site/{{ $site_id }}#alerts" > <?php echo rand(15,35);  ?> </a></td>
+                                    <td> {{ $site->vendor }} </td>
+                                    <td> {{ $site->created_at }} </td>
                                 </tr>
                             @endforeach
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th>SiteID</th>
-                                <th>SiteName</th>
-                                <th>Active Cells</th>
-                                <th>New/Pending Alerts</th>
+                                <th>Site ID</th>
+                                <th>Site Name</th>
+                                <th>Vendor</th>
+                                <th>Created At</th>
                             </tr>
                         </tfoot>
                     </table>

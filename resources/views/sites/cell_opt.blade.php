@@ -1,11 +1,11 @@
 @extends('layouts.main')
 
 @push('pre-template-styles')
-    <link rel="stylesheet" href="./assets/datatables/datatables.min.css" />
+    <link rel="stylesheet" href="{{ asset('assets/datatables/datatables.min.css') }}" />
 @endpush
 
 @push('post-app-styles')
-    <link rel="stylesheet" href="./assets/css/datatables.css" />
+    <link rel="stylesheet" href="{{ asset('assets/css/datatables.css') }}" />
 @endpush
 
 @section('content-title')
@@ -21,7 +21,7 @@
     <div class="col-md-12 col-lg-12 scrollbar-container">
         <div class="main-card mb-3 card main-card-m">
             <div class="page-title-heading page-title-heading-m">
-                <h3>ALERTS <small></small></h3>
+                <h3>CELLS <small></small></h3>
             </div>
 
             <hr class="page-title-hr" />
@@ -29,15 +29,17 @@
             <div class="main-card mb-3 card">
                 <div class="card-body card-body-m">
 
-                    <h5 class="content-detail-title">Alerts Types</h5>
+                    <h5 class="content-detail-title">OPTIMIZATIONS</h5>
 
                     <div class="content-detail-btns">
+                        {{-- 
                         <button onclick="window.location.href = '/alerts/status';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
                             View Alerts By Status
                         </button>
                         <button onclick="window.location.href = '/alerts';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
                             View All Alerts
                         </button>
+                         --}}
                         <button onclick="window.history.back();" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
                             Back
                         </button>
@@ -46,11 +48,17 @@
                     <hr class="page-subtitle-hr" />
 
                     <div class="row">
+                        <div class="col-md-12">
+                            <h6>Cells Under Optimization</h6>
+                        </div>
+                    </div>
+
+                    <div class="row">
                             <div class="col-md-12">
                                 <ul class="nav nav-tabs nav-tabs-m" id="alertsTab" role="tablist">
                                     <li class="nav-item">
                                         <a class="nav-link active nav-link-m" id="all-tab" data-toggle="tab" href="#all" role="tab"
-                                            aria-controls="all" aria-selected="true">All Alerts</a>
+                                            aria-controls="all" aria-selected="true">All Optimizations</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link nav-link-m" id="azimuth-tab" data-toggle="tab" href="#azimuth" role="tab"

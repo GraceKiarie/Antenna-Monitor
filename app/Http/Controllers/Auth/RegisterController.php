@@ -8,6 +8,7 @@ use App\User;
 use App\Role;
 use App\Team;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -42,13 +43,10 @@ class RegisterController extends Controller
     {
         $this->middleware('auth');
     }
+
     public function showRegistrationForm()
     {
-
-        $roles= Role::all();
-        $contractors= Contractor::all();
-        $teams= Team::all();
-        return view('auth.register' ,compact('contractors','roles','teams'));
+        return view('auth.register');
     }
 
     public function showUserlist()
@@ -57,20 +55,14 @@ class RegisterController extends Controller
         return view('auth.userlist' ,compact('users'));
     }
 
-    public function showAddAdminForm()
+    public function showAddUserForm()
     {
-        return view('auth.register_admin');
+        $roles= Role::all();
+        $cons = Contractor::all();
+        $teams= Team::all();
+        return view('auth.register_user',compact('cons','roles','teams'));
     }
 
-    public function showAddContractorForm()
-    {
-        return view('auth.register_contractor');
-    }
-
-    public function showAddTeamForm()
-    {
-        return view('auth.register_team');
-    }
     /**
      * Get a validator for an incoming registration request.
      *

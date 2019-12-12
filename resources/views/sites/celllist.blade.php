@@ -8,14 +8,6 @@
     <link rel="stylesheet" href="./assets/css/datatables.css" />
 @endpush
 
-@section('content-title')
-<div class="page-title-heading page-title-heading-m">
-    <div>
-        <h3>SITES</h3>
-    </div>
-</div>
-@endsection
-
 @section('content-detail')
 <div class="row scroll-area-x">
     <div class="col-md-12 col-lg-12 scrollbar-container">
@@ -49,61 +41,44 @@
                         <thead>
                             <tr>
                                 <th>Site ID</th>
-                                <th>Site Name</th>
                                 <th>Cell ID</th>
                                 <th>Cell Name</th>
                                 <th>New Alerts</th>
-                                <th>Signal Strength</th>
-                                <th>Sector</th>
-                                <th>Azimuth</th>
-                                <th>Roll</th>
-                                <th>Tilt</th>
-                                <th>Battery</th>
                                 <th>Status</th>
-                                <th>Time</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($cells as $cell)
                             <?php 
                                 // Make Cell name readable
-                                $name_arr = explode("-", $cell->site_name);
+                                $name_arr = explode("-", $cell->cell_name);
                                 $remove_id = array_splice($name_arr, 1);
                                 $raw_name = implode("-", $remove_id);
                                 $cell->cell_name = str_replace('_', ' ', $raw_name);
+
+                                $alert_count = array();
+                                foreach ($alerts as $alert) {
+                                    if ($alert->cell_id == $cell->cell_id && $alert->status == 'new') {
+                                        array_push($alert_count, $alert->cell_id);
+                                    }
+                                }
                             ?>
                                 <tr>
-                                    <td> {{ $cell->site->site_id }} </td>
-                                    <td><a href="#">{{ $cell->site->site_name }} </a></td>
-                                    <td><a href="/cell/{{ $cell->cell_id }}"> {{ $cell->cell_id }} </a> </td>
+                                    <td> {{ $cell->site_id }} </td>
+                                    <td><a href="/cell/{{ $cell->cell_id }}">{{ $cell->cell_id }} </a></td>
                                     <td> {{ $cell->cell_name }} </td>
-                                    <td><a href="/cell/{{ $cell->cell_id }}#alerts"><?php echo rand(1,6); ?></a></td>
-                                    <td> Signal Strength </td>
-                                    <td> Sector </td>
-                                    <td> Azimuth </td>
-                                    <td> Roll </td>
-                                    <td> Tilt </td>
-                                    <td> Battery </td>
+                                    <td><a href="/cell/{{ $cell->cell_id }}#alerts"> {{ count($alert_count) }} </a></td>
                                     <td> {{ $cell->status }} </td>
-                                    <td> {{ $cell->technology }} </td>
                                 </tr>
                             @endforeach
                         </tbody>
                         <tfoot>
                             <tr>
                                 <th>Site ID</th>
-                                <th>Site Name</th>
                                 <th>Cell ID</th>
                                 <th>Cell Name</th>
                                 <th>New Alerts</th>
-                                <th>Signal Strength</th>
-                                <th>Sector</th>
-                                <th>Azimuth</th>
-                                <th>Roll</th>
-                                <th>Tilt</th>
-                                <th>Battery</th>
                                 <th>Status</th>
-                                <th>Time</th>
                             </tr>
                         </tfoot>
                     </table>
