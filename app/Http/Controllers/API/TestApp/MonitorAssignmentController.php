@@ -2,17 +2,38 @@
 
 namespace App\Http\Controllers\API\TestApp;
 
+use App\Contractor;
 use App\Http\Controllers\Controller;
 
 use App\MonitorAssignment;
+use App\Team;
 use App\User;
 use Illuminate\Http\Request;
 
 class MonitorAssignmentController extends Controller
 {
-    public function listInstallationEngineers()
+    public function contractors()
     {
-        $engineers = User::where('role_id' ,3)->get();
+        $contractors = Contractor::all();
+        return response()->json(['status' => 'success' , 'data' => $contractors],200);
+    }
+
+    public function teams(Request $request)
+    {
+        $request->validate([
+            'team_id' => 'required',
+        ]);
+        $teams = Team::where('contractor_id' ,$request->get('contractor_id'))->get();
+        return response()->json(['status' => 'success' , 'data' => $teams],200);
+
+
+    }
+    public function listInstallationEngineers(Request $request)
+    {
+        $request->validate([
+            'role_id' => 'required',
+        ]);
+        $engineers = User::where('team_id' , $request->get('team_id'))->where('role_id' ,3)->get();
         return response()->json(['status' => 'success' , 'data'=>$engineers],200);
     }
 
