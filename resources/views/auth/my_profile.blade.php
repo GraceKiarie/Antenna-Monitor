@@ -11,7 +11,7 @@
             <hr class="page-title-hr" />
             <div class="main-card mb-3 card">
                  <div class="card-body card-body-m">
-                        <h5 class="content-detail-title">EDIT USER - {{$userDetails[0]->name}}</h5>
+                        <h5 class="content-detail-title">EDIT USER - {{$myDetails[0]->name}}</h5>
 
                         <div class="content-detail-btns">
                             <button onclick="window.location.href = '/users';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
@@ -29,7 +29,7 @@
                         </div>
 
                         <hr class="page-subtitle-hr" />
-                        <form action="/{{ $userDetails[0]->id }}/updateUser" method="POST">
+                        <form action="/{{ $myDetails[0]->id }}/updateUser" method="POST">
                             @csrf
                         <div>
                             @if ($errors->any())
@@ -42,7 +42,7 @@
                                         <i class="metismenu-icon pe-7s-user"></i>
                                     </span>
                                 </div>
-                            <input placeholder="Full Names" value="{{ $userDetails[0]->name }}" name="name" type="text" class="form-control input-field form-control-m">
+                            <input placeholder="Full Names" value="{{ $myDetails[0]->name }}" name="name" type="text" class="form-control input-field form-control-m">
                             </div>
                             <br />
                             <div class="input-group col-md-8">
@@ -51,7 +51,7 @@
                                         <i class="metismenu-icon pe-7s-mail"></i>
                                     </span>
                                 </div>
-                                <input placeholder="Email Address" value="{{ $userDetails[0]->email }}" name="email" type="text" class="form-control input-field form-control-m">
+                                <input placeholder="Email Address" value="{{ $myDetails[0]->email }}" name="email" type="text" class="form-control input-field form-control-m">
                             </div>
                             <br />
                             <div class="input-group col-md-8">
@@ -64,13 +64,13 @@
                                             <fieldset class="position-relative form-group">
                                                 <div class="position-relative form-check">
                                                     <label class="form-check-label">
-                                                        <input name="status" value="1" type="radio" class="form-check-input" required <?php echo ($userDetails[0]->status == 1) ? 'checked="checked"' : ''; ?>> 
+                                                        <input name="status" value="1" type="radio" class="form-check-input" required <?php echo ($myDetails[0]->status == 1) ? 'checked="checked"' : ''; ?>> 
                                                         Active
                                                     </label>
                                                 </div>
                                                 <div class="position-relative form-check">
                                                     <label class="form-check-label">
-                                                        <input name="status" value="0" type="radio" class="form-check-input" <?php echo ($userDetails[0]->status == 0) ? 'checked="checked"' : ''; ?> > 
+                                                        <input name="status" value="0" type="radio" class="form-check-input" <?php echo ($myDetails[0]->status == 0) ? 'checked="checked"' : ''; ?> > 
                                                         Disabled
                                                     </label>
                                                 </div>
@@ -86,14 +86,14 @@
                                         <i class="metismenu-icon pe-7s-phone"></i>
                                     </span>
                                 </div>
-                                <input placeholder="Cell Phone" value="{{ $userDetails[0]->phone }}" name="phone" type="number" class="form-control input-field form-control-m">
+                                <input placeholder="Cell Phone" value="{{ $myDetails[0]->phone }}" name="phone" type="number" class="form-control input-field form-control-m">
                             </div>
                             <br>
                         </div>
                         <hr />
 
                         <!-- HIDDEN INPUT FOR ROLE -->
-                        <input type="hidden" name="user_id" value="{{ $userDetails[0]->id }}">
+                        <input type="hidden" name="user_id" value="{{ $myDetails[0]->id }}">
                         <button class="mt-1 btn btn-primary btn-app">Submit</button>
                     </form>
                     </div>

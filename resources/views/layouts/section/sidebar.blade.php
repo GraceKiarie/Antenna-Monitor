@@ -132,6 +132,13 @@
                                         Users
                                     </a>
                                 </li>
+
+                                <li>
+                                    <a href="/roles" class="menu-item">
+                                        <i class="metismenu-icon"></i>
+                                        Roles
+                                    </a>
+                                </li>
                                 
                                 <li>
                                     <a href="/contractors" class="menu-item">

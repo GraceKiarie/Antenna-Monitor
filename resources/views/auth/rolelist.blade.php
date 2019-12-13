@@ -13,20 +13,17 @@
     <div class="col-md-12 col-lg-12 scrollbar-container">
         <div class="main-card mb-3 card main-card-m">
             <div class="page-title-heading page-title-heading-m">
-                <h3>SYSTEM - <small>Contractors Management</small></h3>
+                <h3>SYSTEM - <small>Role Management</small></h3>
             </div>
 
             <hr class="page-title-hr" />
             <div class="main-card mb-3 card">
                  <div class="card-body card-body-m">
-                        <h5 class="content-detail-title">Contractors</h5>
+                        <h5 class="content-detail-title">Roles</h5>
 
                         <div class="content-detail-btns">
-                            <button onclick="window.location.href = '/register_contractor';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
-                                Add Contractor
-                            </button>
-                            <button onclick="window.location.href = '/teams';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
-                                Teams
+                            <button onclick="window.location.href = '/add_role';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
+                                Add Role
                             </button>
                             <button onclick="window.location.href = '/users';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
                                 Users
@@ -41,32 +38,21 @@
                         <table id="userlist_table" class="display table table-striped table-border row-border table-hover table-sm nowrap" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>Contractor Name</th>
-                                    <th>Status</th>
+                                    <th>Role Name</th>
                                     <th>Date Created</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($cons as $con)
+                                @foreach ($roles as $role)
                                     <tr>
-                                        <td><a href="/{{ $con->id }}/edit_contractor"> {{ $con->contractor_name}} </a></td>
-                                        <td>
-                                            <?php 
-                                                if ($con->status == 1) {
-                                                    echo 'Active';
-                                                } else {
-                                                    echo 'Disabled';
-                                                }
-                                            ?>
-                                        </td>
-                                        <td> {{ $con->created_at}} </td>
+                                        <td><a href="/{{ $role->id }}/update_role"> {{ $role->role_name}} </a></td>
+                                        <td> {{ $role->created_at}} </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th>Contractor Name</th>
-                                    <th>Status</th>
+                                    <th>Role Name</th>
                                     <th>Date Created</th>
                                 </tr>
                             </tfoot>

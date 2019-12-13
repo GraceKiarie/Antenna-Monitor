@@ -5,20 +5,17 @@
     <div class="col-md-12 col-lg-12 scrollbar-container">
         <div class="main-card mb-3 card main-card-m">
             <div class="page-title-heading page-title-heading-m">
-                <h3>SYSTEM - <small>User Management</small></h3>
+                <h3>SYSTEM - <small>Role Management</small></h3>
             </div>
 
             <hr class="page-title-hr" />
             <div class="main-card mb-3 card">
                  <div class="card-body card-body-m">
-                        <h5 class="content-detail-title">Add Team</h5>
+                        <h5 class="content-detail-title">Add Role</h5>
 
                         <div class="content-detail-btns">
-                            <button onclick="window.location.href = '/teams';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
-                                Teams
-                            </button>
-                            <button onclick="window.location.href = '/contractors';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
-                                Contractors
+                            <button onclick="window.location.href = '/roles';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
+                                All Roles
                             </button>
                             <button onclick="window.location.href = '/users';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
                                 Users
@@ -29,7 +26,7 @@
                         </div>
 
                         <hr class="page-subtitle-hr" />
-                        <form action="/register" method="POST">
+                        <form action="/addRole" method="POST">
                             @csrf
                         <div>
                             @if ($errors->any())
@@ -42,24 +39,13 @@
                                         <i class="metismenu-icon pe-7s-user"></i>
                                     </span>
                                 </div>
-                                <input placeholder="Team Name" 
-                                       name="name" 
+                                <input placeholder="Role Name" 
+                                       name="role_name" 
                                        class="form-control input-field form-control-m"
                                        pattern=".{3,100}" 
                                        type="text"   
                                        required 
-                                       title="3 characters minimum">
-                            </div>
-                            <br />
-                            <div class="input-group col-md-8">
-                                <label class="form-check-label" style="width: 100%;">
-                                    <select class="form-control" id="roles" name="rol" style="width: 100%!;">
-                                        <option value="" selected>Choose Contractor</option>
-                                        @foreach ($cons as $con)
-                                            <option value=" {{ $con->id }} "> {{ $con->contractor_name }} </option>
-                                        @endforeach
-                                    </select>
-                                </label>
+                                       title="3 characters minimum" />
                             </div>
                             <br />
                         </div>

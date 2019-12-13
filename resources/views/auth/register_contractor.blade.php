@@ -5,7 +5,7 @@
     <div class="col-md-12 col-lg-12 scrollbar-container">
         <div class="main-card mb-3 card main-card-m">
             <div class="page-title-heading page-title-heading-m">
-                <h3>SYSTEM - <small>User Management</small></h3>
+                <h3>SYSTEM - <small>Contractor Management</small></h3>
             </div>
 
             <hr class="page-title-hr" />
@@ -29,7 +29,7 @@
                         </div>
 
                         <hr class="page-subtitle-hr" />
-                        <form action="/register" method="POST">
+                        <form action="/addContractor" method="POST">
                             @csrf
                         <div>
                             @if ($errors->any())
@@ -42,7 +42,13 @@
                                         <i class="metismenu-icon pe-7s-user"></i>
                                     </span>
                                 </div>
-                                <input placeholder="Contractor Names" name="name" type="text" class="form-control input-field form-control-m">
+                                <input placeholder="Contractor Name" 
+                                       name="contractor_name" 
+                                       class="form-control input-field form-control-m"
+                                       pattern=".{3,100}" 
+                                       type="text"   
+                                       required 
+                                       title="3 characters minimum" />
                             </div>
                             <br />
                             <div class="input-group col-md-8">
@@ -55,13 +61,13 @@
                                             <fieldset class="position-relative form-group">
                                                 <div class="position-relative form-check">
                                                     <label class="form-check-label">
-                                                        <input name="radio1" type="radio" class="form-check-input"> 
+                                                        <input name="status" value="1" type="radio" class="form-check-input" required> 
                                                         Active
                                                     </label>
                                                 </div>
                                                 <div class="position-relative form-check">
                                                     <label class="form-check-label">
-                                                        <input name="radio1" type="radio" class="form-check-input"> 
+                                                        <input name="status" value="0" type="radio" class="form-check-input" checked="checked" > 
                                                         Disabled
                                                     </label>
                                                 </div>
@@ -69,15 +75,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                
                             </div>
                             <br>
                         </div>
                         <hr />
 
-                        <!-- HIDDEN INPUT FOR ROLE -->
-                        <input type="hidden" name="role_id" value="2">
                         <button class="mt-1 btn btn-primary btn-app">Submit</button>
+                        <input class="btn btn-primary" type="reset" value="Clear Form">
                     </form>
                     </div>
             </div>

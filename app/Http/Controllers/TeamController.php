@@ -11,7 +11,8 @@ class TeamController extends Controller
     public function showTeamList()
     {
         $teams = Team::all();
-        return view('auth.teamlist', compact('teams'));
+        $cons = Contractor::all();
+        return view('auth.teamlist', compact('teams', 'cons'));
     }
 
     public function showAddTeamForm()

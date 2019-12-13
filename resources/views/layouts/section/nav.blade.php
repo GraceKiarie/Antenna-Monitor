@@ -72,7 +72,7 @@
                                 <!-- /ACCOUNT DETAILS DROPDOWN  -->
                                 <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
                                     <button type="button" tabindex="0" class="dropdown-item">
-                                        <a href="/{{ Auth::user()->id }}/profile">
+                                        <a href="/{{ Auth::user()->id }}/my_profile">
                                             Account Settings
                                         </a>
                                     </button>
@@ -96,7 +96,7 @@
 
                             <!-- USER NAMES -->
                             <div class="widget-heading widget-heading-app">
-                                    {{ Auth::user()->name ?? 'John Doe' }}
+                                    {{ Auth::user()->name }}
                             </div>
 
                             <!-- USER ROLE -->

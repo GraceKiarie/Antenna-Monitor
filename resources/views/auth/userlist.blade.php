@@ -25,11 +25,11 @@
                             <button onclick="window.location.href = '/register_user';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
                                 Add User
                             </button>
-                            <button onclick="window.location.href = '/register_contractor';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
-                                Add Contractor
+                            <button onclick="window.location.href = '/contractors';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
+                                Contractors
                             </button>
-                            <button onclick="window.location.href = '/register_team';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
-                                Add Team
+                            <button onclick="window.location.href = '/teams';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
+                                Teams
                             </button>
                         </div>
 
@@ -42,15 +42,29 @@
                                     <th>Role</th>
                                     <th>Phone Number</th>
                                     <th>Email</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($users as $user)
                                     <tr>
-                                        <td> {{ $user->name}} </td>
-                                        <td> {{ $user->role_id}} </td>
+                                        <td><a href="/{{ $user->id }}/user_profile"> {{ $user->name}} </a> </td>
+                                        @foreach ($roles as $role)
+                                            @if ($user->role_id == $role->id)
+                                                <td> {{ $role->role_name}} </td>
+                                            @endif
+                                        @endforeach
                                         <td> {{ $user->phone}} </td>
                                         <td> {{ $user->email}} </td>
+                                        <td>
+                                            <?php 
+                                                if ($user->status == 1) {
+                                                    echo 'Active';
+                                                } else {
+                                                    echo 'Disabled';
+                                                }
+                                            ?>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -60,6 +74,7 @@
                                     <th>Role</th>
                                     <th>Phone Number</th>
                                     <th>Email</th>
+                                    <th>Status</th>
                                 </tr>
                             </tfoot>
                         </table>
