@@ -31,11 +31,28 @@ class TestController extends Controller
      * @param  [string] imsi
      * @param  [string] qr_number
      */
+    public function serialToImsi($serialnumber)
+    {
+        $imsi= str_split($serialnumber);
+
+        for ($i=0; $i<5; $i++){
+            unset($imsi[$i]);
+        }
+        unset($imsi[11]);
+        unset($imsi[19]);
+        $imsi="639". implode($imsi);
+
+        return $imsi;
+    }
 
     public function ImsiTest(Request $request)
     {
-        $imsi = $request->get('imsi');
+        $serial = $request->get('imsi');
         $qr_number = $request->get('qr_number');
+
+        //convert sim serial to imsi
+        $imsi = $this->serialToImsi($serial);
+
         $code =MonitorData::where('imsi', '=', $imsi)->where('qr_number', '=', $qr_number)->select('voltage','csq')->first();
 
         if ($code) {

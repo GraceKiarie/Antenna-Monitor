@@ -33,8 +33,13 @@ return [
     |                    "custom", "stack"
     |
     */
-
     'channels' => [
+        'custom' => [
+            'driver' => 'custom',
+            'via' => App\Logs\LogCrudOperations::class,
+        ],
+
+
         'stack' => [
             'driver' => 'stack',
             'channels' => ['daily'],

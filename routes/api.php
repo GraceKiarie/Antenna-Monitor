@@ -14,37 +14,34 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['prefix' => 'v1'], function () {
+
+    //Auth Routes
     Route::post('register', 'API\Auth\UserController@register');
     Route::post('login', 'API\Auth\UserController@login');
     Route::post('login/authentication/{id}', 'API\Auth\UserController@generateToken');
     Route::post('signin', 'API\Auth\UserController@loginWeb');
+    Route::post('password/reset', 'API\Auth\UserController@forgotPassword');
+    Route::get('engineers', 'API\TestApp\MonitorAssignmentController@listInstallationEngineers');
+    Route::post('assign/monitors', 'API\TestApp\MonitorAssignmentController@assignMonitors');
 
-    Route::post('installation/certificate/{id}', 'API\InstallationApp\InstallationReportController@sendMail');
-    Route::post('u', 'API\InstallationApp\InstallationController@uploadImage');
-    Route::get('cron', 'AlertController@cronjob');
-
-    Route::post('roles/add', 'TestController@createRoles');
-    Route::post('teams/add', 'TestController@createTeams');
-    Route::get('teams', 'TestController@allTeams');
-    Route::post('contractors/add', 'TestController@createContractors');
-
+    //protected routes
     Route::group(['middleware' => 'auth:api'], function () {
 
+        //set new password
         Route::patch('password/reset', 'API\Auth\UserController@updatePassword');
 
-        //testapp routes
+        //test app routes
         Route::post('qr', 'API\TestApp\TestController@qrTest');
         Route::post('imsi', 'API\TestApp\TestController@ImsiTest');
         Route::post('/sendmail/{id}', 'API\TestApp\TestReportController@sendMail')->name('mail');
 
-        //application app routes
+        //Installation app routes;
         Route::post('nearby/sites', 'API\InstallationApp\InstallationController@getNearbySites');
-        Route::get('sitelist', 'API\InstallationApp\InstallationController@showSitelist');
         Route::post('technologies', 'API\InstallationApp\InstallationController@listSiteTechnologies');
         Route::post('sectors', 'API\InstallationApp\InstallationController@listSectors');
         Route::post('validate', 'API\InstallationApp\InstallationController@validateCellID');
         Route::post('upload', 'API\InstallationApp\InstallationController@uploadImage');
-
+        Route::post('installation/certificate/{id}', 'API\InstallationApp\InstallationReportController@sendMail');
 
     });
 

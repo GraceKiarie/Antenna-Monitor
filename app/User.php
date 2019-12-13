@@ -19,6 +19,12 @@ class User extends Authenticatable
         return $this->belongsTo(Team::class);
     }
 
+    public function devices()
+    {
+        return $this->hasMany(MonitorAssignment::class);
+
+    }
+
     /**
      * The attributes that are mass assignable.
      *
