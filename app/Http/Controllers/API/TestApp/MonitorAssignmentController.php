@@ -21,7 +21,7 @@ class MonitorAssignmentController extends Controller
     public function teams(Request $request)
     {
         $request->validate([
-            'team_id' => 'required',
+            'contractor_id' => 'required',
         ]);
         $teams = Team::where('contractor_id' ,$request->get('contractor_id'))->get();
         return response()->json(['status' => 'success' , 'data' => $teams],200);
@@ -31,7 +31,7 @@ class MonitorAssignmentController extends Controller
     public function listInstallationEngineers(Request $request)
     {
         $request->validate([
-            'role_id' => 'required',
+            'team_id' => 'required',
         ]);
         $engineers = User::where('team_id' , $request->get('team_id'))->where('role_id' ,3)->get();
         return response()->json(['status' => 'success' , 'data'=>$engineers],200);

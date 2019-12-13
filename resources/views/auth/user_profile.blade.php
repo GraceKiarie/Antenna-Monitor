@@ -28,6 +28,7 @@
                             </button>
                         </div>
 
+
                         <hr class="page-subtitle-hr" />
                         <form action="/register" method="POST">
                             @csrf

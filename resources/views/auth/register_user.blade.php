@@ -58,7 +58,7 @@
                                     <div class="input-group col-md-4">
                                         <div class="position-relative form-check" style="width: 100%;">
                                             <label class="form-check-label" style="width: 100%;">
-                                                <select class="form-control" id="roles" name="rol" style="width: 100%!;">
+                                                <select class="form-control" id="roles" name="role_id" style="width: 100%!;">
                                                     <option value="" selected>Choose Role</option>
                                                     @foreach ($roles as $role)
                                                         <option value=" {{ $role->id }} "> {{ $role->role_name }} </option>
