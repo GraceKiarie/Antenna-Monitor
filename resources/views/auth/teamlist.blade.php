@@ -22,7 +22,7 @@
                         <h5 class="content-detail-title">Team List</h5>
 
                         <div class="content-detail-btns">
-                            <button onclick="window.location.href = '/register_user';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
+                            <button onclick="window.location.href = '/register_team';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
                                 Add Team
                             </button>
                             <button onclick="window.location.href = '/contractors';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
@@ -30,6 +30,9 @@
                             </button>
                             <button onclick="window.location.href = '/users';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
                                 Users
+                            </button>
+                            <button onclick="window.history.back();" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
+                                Back
                             </button>
                         </div>
 
@@ -48,11 +51,15 @@
                                 @foreach ($teams as $team)
                                     <tr>
                                         <td> {{ $team->team_name}} </td>
-                                        <td> {{ $team->contractor_id}} </td>
+                                        @foreach ($cons as $con)
+                                            @if ($team->contractor_id == $con->id)
+                                                <td> {{ $con->contractor_name}} </td>
+                                            @endif
+                                        @endforeach
                                         <td> 
                                             <?php 
                                                 if ($team->status == 1) {
-                                                    echo 'Enabled';
+                                                    echo 'Active';
                                                 } else {
                                                     echo 'Disabled';
                                                 }

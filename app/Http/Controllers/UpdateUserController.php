@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class UpdateUserController extends Controller
 {
@@ -21,6 +21,12 @@ class UpdateUserController extends Controller
         $this->middleware('auth');
     }
 
+    public function showMyProfile($user_id)
+    {
+        $myDetails = DB::table('users')->where('id', '=', $user_id)->get();
+        return view('auth.my_profile' ,compact('myDetails'));
+    }
+
     public function showUserProfile($user_id)
     {
         $userDetails = DB::table('users')->where('id', '=', $user_id)->get();
@@ -29,39 +35,41 @@ class UpdateUserController extends Controller
 
     public function updateUserDetails(Request $request)
     {
-        $user = User::find($request->input('id'));
+        $user = User::find($request->input('user_id'));
         if ($request->isMethod('post')) {
             if ($request->filled('name')) {
-                Validator::make($request->all(), [
-                    'name' => 'string|max:255',
+                $request->validate([
+                    'name' => [
+                        'required', 
+                        'string', 
+                        'max:255'
+                    ],
                 ]);
                 $user->name = $request->input('name');
             }
             if ($request->filled('email')) {
-                Validator::make($request->all(), [
-                    'email' => 'string|email|max:255',
+                $request->validate([
+                    'email' => [
+                        'required',
+                        'max:15',
+                        Rule::unique('users')->ignore($user->id),
+                    ],
                 ]);
                 $user->email = $request->input('email');
             }
             if ($request->filled('phone')) {
-                Validator::make($request->all(), [
-                    'name' => 'string|max:255',
+                $request->validate([
+                    'phone' => [
+                        'required',
+                        'unique:users',
+                        'max:5', 
+                        Rule::unique('users')->ignore($user->id),
+                    ],
                 ]);
                 $user->phone = $request->input('phone');
             }
             $user->save();
         }
+        return redirect('/users');
     }
-
-    protected function validate(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'phone' => $data['phone'],
-            'password' => Hash::make($data['phone'])
-        ]);
-    }
-
-    
 }

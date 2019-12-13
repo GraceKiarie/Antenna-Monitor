@@ -64,12 +64,23 @@ Route::get('/alerts/{cell_id}/closed_alerts', 'AlertController@showClosedAlertsl
 //USERS
 Route::get('/users', 'Auth\RegisterController@showUserlist')->name('userlist');
 Route::get('/register_user', 'Auth\RegisterController@showAddUserForm');
-Route::get('/{user_id}/profile', 'UpdateUserController@showUserProfile');
-Route::post('/{user_id}/profile', 'UpdateUserController@updateUserDetails');
+Route::get('/{user_id}/user_profile', 'UpdateUserController@showUserProfile');
+Route::get('/{user_id}/my_profile', 'UpdateUserController@showUserProfile');
+Route::post('/{user_id}/updateUser', 'UpdateUserController@updateUserDetails');
+
+//ROLES
+Route::get('/roles', 'RoleController@showRolesList');
+Route::get('/add_role', 'RoleController@showAddRoleForm');
+Route::get('/{role_id}/edit_role', 'RoleController@showRoleUpdateForm');
+Route::post('/{role_id}/edit_role', 'RoleController@updateRole');
+Route::post('/addRole', 'RoleController@addRole');
 
 //CONTRACTORS
 Route::get('/contractors', 'ContractorController@showContractorsList');
 Route::get('/register_contractor', 'ContractorController@showAddContractorForm')->name('add_contractor');
+Route::get('/{con_id}/edit_contractor', 'ContractorController@showConUpdateForm');
+Route::post('/{con_id}/edit_contractor', 'ContractorController@updateContractor');
+Route::post('/addContractor', 'ContractorController@addContractor');
 
 //TEAMS
 Route::get('/teams', 'TeamController@showTeamList');
