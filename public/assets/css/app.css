@@ -253,6 +253,24 @@ input[type=number] {
     margin-top: -0.3rem;
 }
 
+.col-md-8 .container-fluid .row {
+    color: #424242;
+}
+
+.c_head {
+    font-size: 1.4rem;
+    margin-bottom: 0;
+}
+
+.c_sub {
+    font-size: 1.0rem;
+    margin-bottom: 0;
+}
+
+.c_data {
+    font-size: 2.8rem;
+    margin-bottom: 0;
+}
 /* DASHBOARD STYLES */
 /* MAIN DASHBOARD */
 

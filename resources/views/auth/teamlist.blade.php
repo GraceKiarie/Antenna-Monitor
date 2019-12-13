@@ -13,23 +13,23 @@
     <div class="col-md-12 col-lg-12 scrollbar-container">
         <div class="main-card mb-3 card main-card-m">
             <div class="page-title-heading page-title-heading-m">
-                <h3>SYSTEM - <small>User Management</small></h3>
+                <h3>SYSTEM - <small>Team Management</small></h3>
             </div>
 
             <hr class="page-title-hr" />
             <div class="main-card mb-3 card">
                  <div class="card-body card-body-m">
-                        <h5 class="content-detail-title">User List</h5>
+                        <h5 class="content-detail-title">Team List</h5>
 
                         <div class="content-detail-btns">
                             <button onclick="window.location.href = '/register_user';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
-                                Add User
-                            </button>
-                            <button onclick="window.location.href = '/register_contractor';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
-                                Add Contractor
-                            </button>
-                            <button onclick="window.location.href = '/register_team';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
                                 Add Team
+                            </button>
+                            <button onclick="window.location.href = '/contractors';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
+                                Contractors
+                            </button>
+                            <button onclick="window.location.href = '/users';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
+                                Users
                             </button>
                         </div>
 
@@ -38,28 +38,36 @@
                         <table id="userlist_table" class="display table table-striped table-border row-border table-hover table-sm nowrap" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>Full Name</th>
-                                    <th>Role</th>
-                                    <th>Phone Number</th>
-                                    <th>Email</th>
+                                    <th>Team Name</th>
+                                    <th>Contractor Name</th>
+                                    <th>Status</th>
+                                    <th>Date Created</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($users as $user)
+                                @foreach ($teams as $team)
                                     <tr>
-                                        <td> {{ $user->name}} </td>
-                                        <td> {{ $user->role_id}} </td>
-                                        <td> {{ $user->phone}} </td>
-                                        <td> {{ $user->email}} </td>
+                                        <td> {{ $team->team_name}} </td>
+                                        <td> {{ $team->contractor_id}} </td>
+                                        <td> 
+                                            <?php 
+                                                if ($team->status == 1) {
+                                                    echo 'Enabled';
+                                                } else {
+                                                    echo 'Disabled';
+                                                }
+                                            ?>
+                                        </td>
+                                        <td> {{ $team->created_at }} </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th>Full Name</th>
-                                    <th>Role</th>
-                                    <th>Phone Number</th>
-                                    <th>Email</th>
+                                    <th>Team Name</th>
+                                    <th>Contractor Name</th>
+                                    <th>Status</th>
+                                    <th>Date Created</th>
                                 </tr>
                             </tfoot>
                         </table>

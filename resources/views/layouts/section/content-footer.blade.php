@@ -1,4 +1,5 @@
 <!-- CONTENT FOOTER SECTION -->
+<!-- 
 <div class="app-footer">
         <div class="app-footer__inner">
             <div class="app-footer-left">
@@ -34,4 +35,5 @@
             </div>
         </div>
     </div>
+--> 
 <!-- /CONTENT FOOTER SECTION --> 

@@ -11,26 +11,21 @@ use Illuminate\Http\Request;
 
 class AlertController extends Controller
 {
-
-
-    //display alert list
-    public function showAlertsDashBoard()
-    {
-        return view('alerts.alerts_dash');
-    }
     //display alert list
     public function showFullAlertslist()
     {
         $cellData = Cell::with('site')->get();
         return view('alerts.alertlist', compact('cellData'));
     }
-    //display alert list
+
+    //display alert list by types
     public function showAlertsByTypes()
     {
         $cellData = Cell::with('site')->get();
         return view('alerts.alerts_types', compact('cellData'));
     }
-    //display alert list
+    
+    //display alert list by status
     public function showAlertsByStatus()
     {
         $cellData = Cell::with('site')->get();

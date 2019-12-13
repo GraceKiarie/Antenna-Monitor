@@ -21,3 +21,7 @@
 @stack('pre-app-styles')
 <link href="{{ asset('assets/css/app.css') }}" rel="stylesheet">
 @stack('post-app-styles')
+
+<!--  HEADER SCRIPTS -->
+@stack('header-scripts')
+
