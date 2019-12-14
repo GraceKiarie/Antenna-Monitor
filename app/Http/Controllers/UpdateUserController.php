@@ -17,11 +17,6 @@ class UpdateUserController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function showMyProfile($user_id)
     {
         $myDetails = DB::table('users')->where('id', '=', $user_id)->get();
