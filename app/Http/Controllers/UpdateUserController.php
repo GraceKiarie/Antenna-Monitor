@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class UpdateUserController extends Controller
 {
@@ -21,47 +22,29 @@ class UpdateUserController extends Controller
         $this->middleware('auth');
     }
 
+    public function showMyProfile($user_id)
+    {
+        $myDetails = DB::table('users')->where('id', '=', $user_id)->get();
+        return view('auth.my_profile' ,compact('myDetails'));
+    }
+
     public function showUserProfile($user_id)
     {
         $userDetails = DB::table('users')->where('id', '=', $user_id)->get();
         return view('auth.user_profile' ,compact('userDetails'));
     }
 
-    public function updateUserDetails(Request $request)
-    {
-        $user = User::find($request->input('id'));
-        if ($request->isMethod('post')) {
-            if ($request->filled('name')) {
-                Validator::make($request->all(), [
-                    'name' => 'string|max:255',
-                ]);
-                $user->name = $request->input('name');
-            }
-            if ($request->filled('email')) {
-                Validator::make($request->all(), [
-                    'email' => 'string|email|max:255',
-                ]);
-                $user->email = $request->input('email');
-            }
-            if ($request->filled('phone')) {
-                Validator::make($request->all(), [
-                    'name' => 'string|max:255',
-                ]);
-                $user->phone = $request->input('phone');
-            }
-            $user->save();
-        }
-    }
 
-    protected function validate(array $data)
+    public function updateUserDetails($id ,Request $request)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'phone' => $data['phone'],
-            'password' => Hash::make($data['phone'])
-        ]);
-    }
+        $user = User::find($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->status = $request->status;
+        $user->role_id = $request->role_id;
+        $user->save();
 
-    
+        return back();
+    }
 }

@@ -5,7 +5,7 @@
     <div class="col-md-12 col-lg-12 scrollbar-container">
         <div class="main-card mb-3 card main-card-m">
             <div class="page-title-heading page-title-heading-m">
-                <h3>SYSTEM - <small>User Management</small></h3>
+                <h3>SYSTEM - <small>Team Management</small></h3>
             </div>
             <hr class="page-title-hr" />
             <div class="main-card mb-3 card">
@@ -50,7 +50,39 @@
                                         <i class="metismenu-icon pe-7s-mail"></i>
                                     </span>
                                 </div>
-                                <input placeholder="Email" name="email" type="text" class="form-control input-field form-control-m">
+                                <input placeholder="Email" 
+                                       name="email" 
+                                       class="form-control input-field form-control-m"
+                                       pattern=".{6,100}" 
+                                       type="text"   
+                                       required 
+                                       title="6 characters minimum" />
+                            </div>
+                            <br />
+                            <div class="input-group col-md-8">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <h6>Account Status</h6>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <fieldset class="position-relative form-group">
+                                                <div class="position-relative form-check">
+                                                    <label class="form-check-label">
+                                                        <input name="status" value="1" type="radio" class="form-check-input" required> 
+                                                        Active
+                                                    </label>
+                                                </div>
+                                                <div class="position-relative form-check">
+                                                    <label class="form-check-label">
+                                                        <input name="status" value="0" type="radio" class="form-check-input" checked="checked" > 
+                                                        Disabled
+                                                    </label>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <br />
                             <div class="container-fluid">
@@ -58,7 +90,11 @@
                                     <div class="input-group col-md-4">
                                         <div class="position-relative form-check" style="width: 100%;">
                                             <label class="form-check-label" style="width: 100%;">
+<<<<<<< HEAD
                                                 <select class="form-control" id="roles" name="role_id" style="width: 100%!;">
+=======
+                                                <select class="form-control" id="roles" name="role_id" autocomplete="off" style="width: 100%!;">
+>>>>>>> 7b02a8f1178977fe54b12e3f6414552a966cf0fe
                                                     <option value="" selected>Choose Role</option>
                                                     @foreach ($roles as $role)
                                                         <option value=" {{ $role->id }} "> {{ $role->role_name }} </option>
@@ -70,7 +106,7 @@
                                     <div id="contractorInfo" class="input-group col-md-4" style="display:none;">
                                         <div class="position-relative form-check" style="width: 100%;">
                                             <label class="form-check-label" style="width: 100%;">
-                                                <select class="form-control" name="contractor" style="width: 100% !important;">
+                                                <select id="cont" class="form-control" name="contractor" style="width: 100% !important;">
                                                     <option value="" selected>Choose Contractor</option>
                                                     @foreach ($cons as $con)
                                                         <option value=" {{ $con->id }} "> {{ $con->contractor_name }} </option>
@@ -82,7 +118,7 @@
                                     <div id="teamInfo" class="input-group col-md-4" style="display:none;">
                                         <div class="position-relative form-check" style="width: 100%;">
                                             <label class="form-check-label" style="width: 100%;">
-                                                <select class="form-control" name="team">
+                                                <select id="tea" class="form-control" name="team">
                                                     <option value="" selected>Choose Team</option>
                                                     @foreach ($teams as $team)
                                                         <option value=" {{ $team->id }} "> {{ $team->team_name }} </option>
@@ -100,7 +136,13 @@
                                         <i class="metismenu-icon pe-7s-phone"></i>
                                     </span>
                                 </div>
-                                <input placeholder="Cell Number" name="phone" type="number" class="form-control input-field form-control-m">
+                                <input placeholder="Cell Number" 
+                                       name="phone" 
+                                       class="form-control input-field form-control-m"
+                                       pattern=".{8,15}" 
+                                       type="number"   
+                                       required 
+                                       title="8 characters minimum" />
                             </div>
                             <br>
                         </div>
@@ -116,5 +158,5 @@
 
 @push('header-scripts')
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="./assets/scripts/register_user.js"></script>
+    <script src="{{ asset('assets/scripts/register_user.js') }}"></script>
 @endpush

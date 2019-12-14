@@ -52,7 +52,8 @@ class RegisterController extends Controller
     public function showUserlist()
     {
         $users = User::all();
-        return view('auth.userlist' ,compact('users'));
+        $roles = Role::all();
+        return view('auth.userlist' ,compact('users', 'roles'));
     }
 
     public function showAddUserForm()
@@ -97,4 +98,6 @@ class RegisterController extends Controller
             'password' => Hash::make($data['phone']),
         ]);
     }
+
+
 }

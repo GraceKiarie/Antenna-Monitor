@@ -11,17 +11,14 @@
             <hr class="page-title-hr" />
             <div class="main-card mb-3 card">
                  <div class="card-body card-body-m">
-                        <h5 class="content-detail-title">Add Contractor</h5>
+                        <h5 class="content-detail-title">Update Contractor - {{ $conData[0]->contractor_name }} </h5>
 
                         <div class="content-detail-btns">
-                            <button onclick="window.location.href = '/users';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
-                                All Users
+                            <button onclick="window.location.href = '/contractors';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
+                                Contractors
                             </button>
-                            <button onclick="window.location.href = '/register_admin';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
-                                Add Admin
-                            </button>
-                            <button onclick="window.location.href = '/register_team';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
-                                Add Team
+                            <button onclick="window.location.href = '/register_contractor';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
+                                Add Contractor
                             </button>
                             <button onclick="window.history.back();" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
                                 Back
@@ -29,7 +26,7 @@
                         </div>
 
                         <hr class="page-subtitle-hr" />
-                        <form action="/addContractor" method="POST">
+                        <form action="/{{$conData[0]->id}}/edit_contractor" method="POST">
                             @csrf
                         <div>
                             @if ($errors->any())
@@ -46,7 +43,8 @@
                                        name="contractor_name" 
                                        class="form-control input-field form-control-m"
                                        pattern=".{3,100}" 
-                                       type="text"   
+                                       type="text"
+                                       value="{{$conData[0]->contractor_name}}"   
                                        required 
                                        title="3 characters minimum" />
                             </div>
@@ -61,13 +59,13 @@
                                             <fieldset class="position-relative form-group">
                                                 <div class="position-relative form-check">
                                                     <label class="form-check-label">
-                                                        <input name="status" value="1" type="radio" class="form-check-input" required> 
+                                                        <input name="status" value="1" type="radio" class="form-check-input" <?php echo ($conData[0]->status == 1) ? 'checked="checked"' : ''; ?> /> 
                                                         Active
                                                     </label>
                                                 </div>
                                                 <div class="position-relative form-check">
                                                     <label class="form-check-label">
-                                                        <input name="status" value="0" type="radio" class="form-check-input" checked="checked" > 
+                                                        <input name="status" value="0" type="radio" class="form-check-input" <?php echo ($conData[0]->status == 0) ? 'checked="checked"' : ''; ?> /> 
                                                         Disabled
                                                     </label>
                                                 </div>
@@ -80,7 +78,8 @@
                         </div>
                         <hr />
 
-                        <button class="mt-1 btn btn-primary btn-app">Submit</button>
+                        <input type="hidden" name="con_id" value="{{ $conData[0]->id }}">
+                        <button class="mt-1 btn btn-primary btn-app">Update</button>
                         <input class="btn btn-primary" type="reset" value="Clear Form">
                     </form>
                     </div>
