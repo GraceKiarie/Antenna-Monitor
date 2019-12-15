@@ -6,6 +6,7 @@ use App\Contractor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class ContractorController extends Controller
 {
@@ -30,18 +31,14 @@ class ContractorController extends Controller
                         'required',
                         'string',
                         'max:255',
-                        Rule::unique('contractors')->ignore($con->id),
                     ],
                 ]);
                 $con->contractor_name = $request->input('contractor_name');
             }
             if ($request->filled('status')) {
                 $request->validate([
-                    'role_name' => [
-                        'required',
-                        'string',
-                        'max:255',
-                        Rule::unique('contractors')->ignore($con->id),
+                    'status' => [
+                        'required'
                     ],
                 ]);
                 $con->status = $request->input('status');
@@ -61,7 +58,7 @@ class ContractorController extends Controller
                         'required',
                         'string',
                         'max:255',
-                        Rule::unique('contractors')->ignore($con->id),
+                        Rule::unique('contractors', 'contractor_name')->ignore($con->id)
                     ],
                 ]);
                 $con->contractor_name = $request->input('contractor_name');
@@ -70,9 +67,6 @@ class ContractorController extends Controller
                 $request->validate([
                     'status' => [
                         'required',
-                        'string',
-                        'max:255',
-                        Rule::unique('contractors')->ignore($con->id),
                     ],
                 ]);
                 $con->status = $request->input('status');

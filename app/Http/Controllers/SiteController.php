@@ -116,18 +116,19 @@ class SiteController extends Controller
         return view('sites.sitelist', compact('sites', 'alerts'));
     }
 
-    //display sitelist
-    public function showCellOptimizationsList()
-    {
-        $cellData = Cell::all();
-        return view('sites.cell_opt', compact('cellData'));
-    }
-
     //SHOW SITE DATA
     public function showSite($site_id)
     {
-        $siteData = Cell::with('site')->where('site_id', '=', $site_id)->get();
-        return view('sites.site_details', compact('siteData'));
+        $siteData = DB::table('sites')->where('site_id', '=', $site_id)->get();
+        $cellData = DB::table('cells')->where('site_id', '=', $site_id)->get();
+
+        $cell_ids = DB::table('cells')->distinct()->where('site_id', '=', $site_id)->get(['cell_id']);
+        $id_array = json_decode( json_encode($cell_ids), true);
+
+        $alertData = DB::table('alerts')->whereIn('cell_id', $id_array)->get();
+
+
+        return view('sites.site_details', compact('siteData', 'cellData', 'alertData'));
     }
 
     //DISPLAY SITE REPORTS PAGE
@@ -138,11 +139,18 @@ class SiteController extends Controller
         return view('sites.site_reports', compact('installData', 'testData'));
     }
 
-
     public function showCellDetails($cell_id)
     {
-        $cellData = Cell::with('site')->where('cell_id', '=', $cell_id)->first();
-        return view('sites.cell_details', compact('cellData'));
+        $cellData = DB::table('cells')->where('cell_id', '=', $cell_id)->get();
+
+        $site_id = DB::table('cells')->where('cell_id', '=', $cell_id)->get(['site_id']);
+        $site_id = json_decode( json_encode($site_id), true);
+
+        $siteInfo = DB::table('sites')->where('site_id', '=', $site_id)->get();
+
+        $cellAlerts = DB::table('alerts')->where('cell_id', '=', $cell_id)->get();
+
+        return view('sites.cell_details', compact('cellData', 'cellAlerts', 'siteInfo'));
     }
 
     //display sitelist

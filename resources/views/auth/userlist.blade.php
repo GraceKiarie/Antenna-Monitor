@@ -48,7 +48,7 @@
                             <tbody>
                                 @foreach ($users as $user)
                                     <tr>
-                                        <td><a href="/users/{{ $user->id }}/profile/"> {{ $user->name}} </a> </td>
+                                        <td><a href="/{{ $user->id }}/user_profile"> {{ $user->name}} </a> </td>
                                         @foreach ($roles as $role)
                                             @if ($user->role_id == $role->id)
                                                 <td> {{ $role->role_name}} </td>

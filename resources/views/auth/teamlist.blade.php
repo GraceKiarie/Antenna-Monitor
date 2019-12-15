@@ -50,7 +50,7 @@
                             <tbody>
                                 @foreach ($teams as $team)
                                     <tr>
-                                        <td> {{ $team->team_name}} </td>
+                                        <td><a href="{{ $team->id }}/edit_team"> {{ $team->team_name}} </a> </td>
                                         @foreach ($cons as $con)
                                             @if ($team->contractor_id == $con->id)
                                                 <td> {{ $con->contractor_name}} </td>
