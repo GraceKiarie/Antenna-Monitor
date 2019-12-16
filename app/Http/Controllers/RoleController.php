@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class RoleController extends Controller
 {
@@ -16,7 +18,7 @@ class RoleController extends Controller
 
     public function showAddRoleForm()
     {
-        return view('auth.add_role');
+        return view('auth.register_role');
     }
 
     public function addRole(Request $request)
@@ -28,8 +30,8 @@ class RoleController extends Controller
                     'role_name' => [
                         'required',
                         'string',
+                        'unique:roles',
                         'max:255',
-                        Rule::unique('roles')->ignore($role->id),
                     ],
                 ]);
                 $role->role_name = $request->input('role_name');
