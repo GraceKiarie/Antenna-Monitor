@@ -22,7 +22,7 @@
                         <h5 class="content-detail-title">User List</h5>
 
                         <div class="content-detail-btns">
-                            <button onclick="window.location.href = '/register_user';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
+                            <button onclick="window.location.href = '/users/add';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
                                 Add User
                             </button>
                             <button onclick="window.location.href = '/contractors';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
@@ -48,7 +48,7 @@
                             <tbody>
                                 @foreach ($users as $user)
                                     <tr>
-                                        <td><a href="/{{ $user->id }}/user_profile"> {{ $user->name}} </a> </td>
+                                        <td><a href="/{{ $user->id }}/profile"> {{ $user->name}} </a> </td>
                                         @foreach ($roles as $role)
                                             @if ($user->role_id == $role->id)
                                                 <td> {{ $role->role_name}} </td>

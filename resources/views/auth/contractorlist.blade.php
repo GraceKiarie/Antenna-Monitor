@@ -22,7 +22,7 @@
                         <h5 class="content-detail-title">Contractors</h5>
 
                         <div class="content-detail-btns">
-                            <button onclick="window.location.href = '/register_contractor';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
+                            <button onclick="window.location.href = '/contractors/add';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
                                 Add Contractor
                             </button>
                             <button onclick="window.location.href = '/teams';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
@@ -49,7 +49,7 @@
                             <tbody>
                                 @foreach ($cons as $con)
                                     <tr>
-                                        <td><a href="/{{ $con->id }}/edit_contractor"> {{ $con->contractor_name}} </a></td>
+                                        <td><a href="contractors/{{ $con->id }}/edit"> {{ $con->contractor_name}} </a></td>
                                         <td>
                                             <?php 
                                                 if ($con->status == 1) {

@@ -29,7 +29,7 @@
                         </div>
 
                         <hr class="page-subtitle-hr" />
-                        <form action="/{{$teamData[0]->id}}/edit_team" method="POST">
+                     <form action="/teams/{{$teamData[0]->id}}/edit" method="POST">
                             @csrf
                         <div>
                             @if ($errors->any())
@@ -69,7 +69,7 @@
                         <hr />
 
                         <input type="hidden" name="team_id" value="{{ $teamData[0]->id }}">
-                        <button class="mt-1 btn btn-primary btn-app">Submit</button>
+                        <button type="submit" class="mt-1 btn btn-primary btn-app">Submit</button>
                         <input class="btn btn-primary" type="reset" value="Clear Form">
                     </form>
                     </div>

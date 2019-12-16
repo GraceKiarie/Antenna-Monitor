@@ -29,13 +29,24 @@
                         </div>
 
                         <hr class="page-subtitle-hr" />
-                        <form action="/addTeam" method="POST">
+                        <form action="{{url('/teams/add')}}" method="POST">
                             @csrf
                         <div>
                             @if ($errors->any())
                                 <h6><span class="text-danger">{{ $errors }}</span></h6>
                             @endif
-
+                                <div class="input-group col-md-8">
+                                    <label class="form-check-label" style="width: 100%;">
+                                        <select class="form-control" id="contractors" name="contractor_id" style="width: 100%!;">
+                                            <option value="" selected>Choose Contractor</option>
+                                            @foreach ($cons as $con)
+                                                <option value=" {{ $con->id }} "> {{ $con->contractor_name }} </option>
+                                            @endforeach
+                                        </select>
+                                    </label>
+                                </div>
+                                <br />
+                        </div>
                             <div class="input-group col-md-8">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text input-icon">
@@ -51,18 +62,7 @@
                                        title="3 characters minimum">
                             </div>
                             <br />
-                            <div class="input-group col-md-8">
-                                <label class="form-check-label" style="width: 100%;">
-                                    <select class="form-control" id="contractors" name="contractor_id" style="width: 100%!;">
-                                        <option value="" selected>Choose Contractor</option>
-                                        @foreach ($cons as $con)
-                                            <option value=" {{ $con->id }} "> {{ $con->contractor_name }} </option>
-                                        @endforeach
-                                    </select>
-                                </label>
-                            </div>
-                            <br />
-                        </div>
+
                         <hr />
 
                         <button class="mt-1 btn btn-primary btn-app">Submit</button>

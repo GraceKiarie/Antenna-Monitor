@@ -122,7 +122,7 @@
                         <li>
                             <a href="#" class="menu-item">
                                 <i class="metismenu-icon pe-7s-key"></i>
-                                Authentication
+                                User Module
                                 <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                             </a>
                             <ul>
@@ -157,26 +157,33 @@
                         <li>
                             <a href="#" class="menu-item">
                                 <i class="metismenu-icon pe-7s-display2"></i>
-                                System Reports
+                                System Logs
                                 <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                             </a>
                             <ul>
+
                                 <li>
-                                    <a href="#" class="menu-item">
+                                    <a href="/logs/access" class="menu-item">
                                         <i class="metismenu-icon">
-                                        </i>User Reports
+                                        </i>Access Logs
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#" class="menu-item">
                                         <i class="metismenu-icon">
-                                        </i>Authentication Reports
+                                        </i>Create Logs
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#" class="menu-item">
                                         <i class="metismenu-icon">
-                                        </i>System Logs
+                                        </i>Update Logs
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="menu-item">
+                                        <i class="metismenu-icon">
+                                        </i>Delete Logs
                                     </a>
                                 </li>
                             </ul>

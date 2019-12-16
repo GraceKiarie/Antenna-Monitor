@@ -10,6 +10,7 @@ use App\Team;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -88,7 +89,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+      $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'phone' => $data['phone'],
@@ -97,6 +98,11 @@ class RegisterController extends Controller
             'team_id' => array_key_exists('team_id', $data) ? $data['team_id'] : Null,
             'password' => Hash::make($data['phone']),
         ]);
+      if ($user){
+          Log::info('New User Created:' .$data['email'] .'with role :' .$data['role_id'],['type' =>'create','result' => 'success']);
+      }
+
+      return  $user;
     }
 
 

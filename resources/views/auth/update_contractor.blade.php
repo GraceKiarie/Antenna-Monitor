@@ -17,7 +17,7 @@
                             <button onclick="window.location.href = '/contractors';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
                                 Contractors
                             </button>
-                            <button onclick="window.location.href = '/register_contractor';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
+                            <button onclick="window.location.href = '/contractors/add';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
                                 Add Contractor
                             </button>
                             <button onclick="window.history.back();" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
@@ -26,7 +26,7 @@
                         </div>
 
                         <hr class="page-subtitle-hr" />
-                        <form action="/{{$conData[0]->id}}/edit_contractor" method="POST">
+                        <form action="edit" method="POST">
                             @csrf
                         <div>
                             @if ($errors->any())
@@ -48,38 +48,10 @@
                                        required 
                                        title="3 characters minimum" />
                             </div>
-                            <br />
-                            <div class="input-group col-md-8">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <h6>Account Status</h6>
-                                        </div>
-                                        <div class="col-md-9">
-                                            <fieldset class="position-relative form-group">
-                                                <div class="position-relative form-check">
-                                                    <label class="form-check-label">
-                                                        <input name="status" value="1" type="radio" class="form-check-input" <?php echo ($conData[0]->status == 1) ? 'checked="checked"' : ''; ?> /> 
-                                                        Active
-                                                    </label>
-                                                </div>
-                                                <div class="position-relative form-check">
-                                                    <label class="form-check-label">
-                                                        <input name="status" value="0" type="radio" class="form-check-input" <?php echo ($conData[0]->status == 0) ? 'checked="checked"' : ''; ?> /> 
-                                                        Disabled
-                                                    </label>
-                                                </div>
-                                            </fieldset>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                        </div>
                         <hr />
 
                         <input type="hidden" name="con_id" value="{{ $conData[0]->id }}">
-                        <button class="mt-1 btn btn-primary btn-app">Update</button>
+                        <button type="submit" class="mt-1 btn btn-primary btn-app">Update</button>
                         <input class="btn btn-primary" type="reset" value="Clear Form">
                     </form>
                     </div>

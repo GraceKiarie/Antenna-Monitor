@@ -17,10 +17,10 @@
                             <button onclick="window.location.href = '/users';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
                                 All Users
                             </button>
-                            <button onclick="window.location.href = '/register_admin';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
-                                Add Admin
+                            <button onclick="window.location.href = '/users/add';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
+                                Add User
                             </button>
-                            <button onclick="window.location.href = '/register_team';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
+                            <button onclick="window.location.href = '/teams/add';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
                                 Add Team
                             </button>
                             <button onclick="window.history.back();" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
@@ -29,7 +29,7 @@
                         </div>
 
                         <hr class="page-subtitle-hr" />
-                        <form action="/addContractor" method="POST">
+                        <form action="/contractors/add" method="POST">
                             @csrf
                         <div>
                             @if ($errors->any())
@@ -50,34 +50,6 @@
                                        required 
                                        title="3 characters minimum" />
                             </div>
-                            <br />
-                            <div class="input-group col-md-8">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <h6>Account Status</h6>
-                                        </div>
-                                        <div class="col-md-9">
-                                            <fieldset class="position-relative form-group">
-                                                <div class="position-relative form-check">
-                                                    <label class="form-check-label">
-                                                        <input name="status" value="1" type="radio" class="form-check-input" required> 
-                                                        Active
-                                                    </label>
-                                                </div>
-                                                <div class="position-relative form-check">
-                                                    <label class="form-check-label">
-                                                        <input name="status" value="0" type="radio" class="form-check-input" checked="checked" > 
-                                                        Disabled
-                                                    </label>
-                                                </div>
-                                            </fieldset>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                        </div>
                         <hr />
 
                         <button class="mt-1 btn btn-primary btn-app">Submit</button>

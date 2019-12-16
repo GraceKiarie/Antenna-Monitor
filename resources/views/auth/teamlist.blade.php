@@ -22,7 +22,7 @@
                         <h5 class="content-detail-title">Team List</h5>
 
                         <div class="content-detail-btns">
-                            <button onclick="window.location.href = '/register_team';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
+                            <button onclick="window.location.href = '/teams/add';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
                                 Add Team
                             </button>
                             <button onclick="window.location.href = '/contractors';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
@@ -50,7 +50,7 @@
                             <tbody>
                                 @foreach ($teams as $team)
                                     <tr>
-                                        <td><a href="{{ $team->id }}/edit_team"> {{ $team->team_name}} </a> </td>
+                                        <td><a href="teams/{{ $team->id }}"> {{ $team->team_name}} </a> </td>
                                         @foreach ($cons as $con)
                                             @if ($team->contractor_id == $con->id)
                                                 <td> {{ $con->contractor_name}} </td>
