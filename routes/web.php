@@ -87,4 +87,7 @@ Route::get('/teams', 'TeamController@showTeamList');
 Route::get('/register_team', 'TeamController@showAddTeamForm');
 
 Route::get('/pdf', 'API\TestApp\TestReportController@generatePdf')->name('pdf');
+
+//logs
+Route::get('/logs/access', 'LogsController@accessLogs');
 });
