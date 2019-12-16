@@ -40,7 +40,6 @@ Route::get('/sites', 'SiteController@showSitelist')->name('sitelist');
 Route::get('/site/{site_id}', 'SiteController@showSite')->name('site');
 Route::get('/cells', 'SiteController@showCellsList')->name('celllist');
 Route::get('/cell/{cell_id}', 'SiteController@showCellDetails')->name('cell');
-Route::get('/opt', 'SiteController@showCellOptimizationsList')->name('opt');
 Route::get('/site_reports', 'SiteController@showSiteReports')->name('site_reports');
 
 /*
@@ -51,10 +50,9 @@ Route::get('/site_reports', 'SiteController@showSiteReports')->name('site_report
 Route::get('/alerts', 'AlertController@showFullAlertslist')->name('alertlist');
 Route::get('/alerts/types', 'AlertController@showAlertsByTypes')->name('alerts_types');
 Route::get('/alerts/status', 'AlertController@showAlertsByStatus')->name('alerts_status');
-Route::get('/alerts/{cell_id}/new_alerts', 'AlertController@showNewAlertslist')->name('cell_new_alerts');
-Route::get('/alerts/{cell_id}/pending_alerts', 'AlertController@showPendingAlertslist')->name('cell_pending_alerts');
-Route::get('/alerts/{cell_id}/progress_alerts', 'AlertController@showProgressAlertslist')->name('cell_progress_alerts');
-Route::get('/alerts/{cell_id}/closed_alerts', 'AlertController@showClosedAlertslist')->name('cell_closed_alerts');
+Route::get('/alerts/{cell_id}/alerts', 'AlertController@showCellAlertslist')->name('cell_alerts');
+Route::get('/opt', 'AlertController@showCellOptimizationsList')->name('opt');
+Route::get('/monitors', 'AlertController@showMonitorInstallations');
 
 /*
 |--------------------------------------------------------------------------
@@ -64,9 +62,9 @@ Route::get('/alerts/{cell_id}/closed_alerts', 'AlertController@showClosedAlertsl
 //USERS
 Route::get('/users', 'Auth\RegisterController@showUserlist')->name('userlist');
 Route::get('/register_user', 'Auth\RegisterController@showAddUserForm');
-Route::get('/users/{user_id}/profile', 'UpdateUserController@showUserProfile');
+Route::get('/{user_id}/user_profile', 'UpdateUserController@showUserProfile');
 Route::get('/{user_id}/my_profile', 'UpdateUserController@showUserProfile');
-Route::post('/users/{user_id}/update', 'UpdateUserController@updateUserDetails');
+Route::post('/{user_id}/updateUser', 'UpdateUserController@updateUserDetails');
 
 //ROLES
 Route::get('/roles', 'RoleController@showRolesList');
@@ -85,6 +83,9 @@ Route::post('/addContractor', 'ContractorController@addContractor');
 //TEAMS
 Route::get('/teams', 'TeamController@showTeamList');
 Route::get('/register_team', 'TeamController@showAddTeamForm');
+Route::get('/{team_id}/edit_team', 'TeamController@showTeamUpdateForm');
+Route::post('/{team_id}/edit_team', 'TeamController@updateTeam');
+Route::post('/addTeam', 'TeamController@addTeam');
 
 Route::get('/pdf', 'API\TestApp\TestReportController@generatePdf')->name('pdf');
 

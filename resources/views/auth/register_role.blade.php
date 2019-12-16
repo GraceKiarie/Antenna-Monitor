@@ -11,9 +11,7 @@
             <hr class="page-title-hr" />
             <div class="main-card mb-3 card">
                  <div class="card-body card-body-m">
-                        <h5 class="content-detail-title">
-                            Update Role - {{ $roleData[0]->role_name }} 
-                        </h5>
+                        <h5 class="content-detail-title">Add Role</h5>
 
                         <div class="content-detail-btns">
                             <button onclick="window.location.href = '/roles';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
@@ -28,7 +26,7 @@
                         </div>
 
                         <hr class="page-subtitle-hr" />
-                        <form action="/{{$roleData[0]->id}}/edit_role" method="POST">
+                        <form action="/addRole" method="POST">
                             @csrf
                         <div>
                             @if ($errors->any())
@@ -45,8 +43,7 @@
                                        name="role_name" 
                                        class="form-control input-field form-control-m"
                                        pattern=".{3,100}" 
-                                       type="text" 
-                                       value="{{$roleData[0]->role_name}}"     
+                                       type="text"   
                                        required 
                                        title="3 characters minimum" />
                             </div>
@@ -54,8 +51,7 @@
                         </div>
                         <hr />
 
-                        <input type="hidden" name="role_id" value="{{ $roleData[0]->id }}">
-                        <button class="mt-1 btn btn-primary btn-app">Update</button>
+                        <button class="mt-1 btn btn-primary btn-app">Submit</button>
                         <input class="btn btn-primary" type="reset" value="Clear Form">
                     </form>
                     </div>

@@ -29,7 +29,7 @@
                         </div>
 
                         <hr class="page-subtitle-hr" />
-                        <form action="/register" method="POST">
+                        <form action="/addTeam" method="POST">
                             @csrf
                         <div>
                             @if ($errors->any())
@@ -43,7 +43,7 @@
                                     </span>
                                 </div>
                                 <input placeholder="Team Name" 
-                                       name="name" 
+                                       name="team_name" 
                                        class="form-control input-field form-control-m"
                                        pattern=".{3,100}" 
                                        type="text"   
@@ -53,7 +53,7 @@
                             <br />
                             <div class="input-group col-md-8">
                                 <label class="form-check-label" style="width: 100%;">
-                                    <select class="form-control" id="roles" name="rol" style="width: 100%!;">
+                                    <select class="form-control" id="contractors" name="contractor_id" style="width: 100%!;">
                                         <option value="" selected>Choose Contractor</option>
                                         @foreach ($cons as $con)
                                             <option value=" {{ $con->id }} "> {{ $con->contractor_name }} </option>

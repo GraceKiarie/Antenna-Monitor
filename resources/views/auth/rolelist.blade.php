@@ -35,7 +35,7 @@
 
                         <hr class="page-subtitle-hr" />
                         
-                        <table id="userlist_table" class="display table table-striped table-border row-border table-hover table-sm nowrap" style="width:100%">
+                        <table id="roleslist_table" class="display table table-striped table-border row-border table-hover table-sm nowrap" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>Role Name</th>
@@ -45,7 +45,7 @@
                             <tbody>
                                 @foreach ($roles as $role)
                                     <tr>
-                                        <td><a href="/{{ $role->id }}/update_role"> {{ $role->role_name}} </a></td>
+                                        <td><a href="/{{$role->id}}/edit_role"> {{ $role->role_name}} </a></td>
                                         <td> {{ $role->created_at}} </td>
                                     </tr>
                                 @endforeach
@@ -68,5 +68,5 @@
 @endpush
 
 @push('page-scripts')
-    <script src="{{ asset('assets/scripts/userlist.js') }}"></script>
+    <script src="{{ asset('assets/scripts/roleslist.js') }}"></script>
 @endpush
