@@ -169,7 +169,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" class="menu-item">
+                                    <a href="/logs/create" class="menu-item">
                                         <i class="metismenu-icon">
                                         </i>Create Logs
                                     </a>

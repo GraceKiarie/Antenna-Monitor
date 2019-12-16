@@ -16,7 +16,7 @@ class LogsController extends Controller
 
     public function createLogs()
     {
-        $accessLogs = Log::where('type', 'access')->orderBy('created_at','desc')->get();
+        $accessLogs = Log::where('type', 'create')->orderBy('created_at','desc')->get();
         return view('logs.access_logs', compact('accessLogs'));
 
     }

@@ -89,4 +89,5 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
 
 //logs
     Route::get('/logs/access', 'LogsController@accessLogs');
+    Route::get('/logs/create', 'LogsController@createLogs');
 });
