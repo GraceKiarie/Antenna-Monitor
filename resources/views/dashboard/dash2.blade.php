@@ -1,13 +1,5 @@
 @extends('layouts.main')
 
-@push('pre-template-styles')
-    <link rel="stylesheet" href="./assets/datatables/datatables.min.css" />
-@endpush
-
-@push('post-app-styles')
-    <link rel="stylesheet" href="./assets/css/datatables.css" />
-@endpush
-
 @section('content-detail')
 <div class="row scroll-area-x">
         <div class="col-md-12 col-lg-12 scrollbar-container">
@@ -153,16 +145,18 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="main-card mb-3 card">
-                                <div class="card-header">OPTIMIZATIONS LIST
+                                <div class="card-header">CURRENT CELLS IN OPTIMIZATION
                                     
                                 </div>
-                                <div class="table-responsive p-2">
-                                    <table id="optim_table" class="align-middle mb-0 display table table-striped table-border row-border table-hover table-sm nowrap"  style="width:100%">
+                                <div class="table-responsive">
+                                    <table class="align-middle mb-0 table table-borderless table-striped table-hover">
                                         <thead>
                                         <tr>
                                             <th class="text-center">Cell ID</th>
                                             <th>Cell Name</th>
                                             <th class="text-center">Alerts</th>
+                                            <th class="text-center">Status</th>
+                                            <th class="text-center">Actions</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -199,10 +193,20 @@
                                                         <td class="text-center">
                                                             {{ count($alert_count) }} 
                                                         </td>
+                                                        <td class="text-center">
+                                                            <div class="badge badge-warning"><a href="#" onmouseover="this.style.text-decoration=none">Optimization In Progress</a></div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm">Details</button>
+                                                        </td>
                                                     </tr>
                                             @endforeach
                                         </tbody>
                                     </table>
+                                </div>
+                                <div class="d-block text-center card-footer">
+                                    <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger"><i class="pe-7s-trash btn-icon-wrapper"> </i></button>
+                                    <button class="btn-wide btn btn-success">Save</button>
                                 </div>
                             </div>
                         </div>

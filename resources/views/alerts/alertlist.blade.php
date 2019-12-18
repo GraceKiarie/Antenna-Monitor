@@ -62,42 +62,44 @@
                                     <tbody>
                                         @foreach ($alertData as $alert)
                                             @foreach ($cellData as $cell)
-                                                <?php
-                                                    $name_arr = explode("-", $cell->cell_name);
-                                                    $remove_id = array_splice($name_arr, 1);
-                                                    $raw_name = implode("-", $remove_id);
-                                                    $cell_name = str_replace('_', ' ', $raw_name);
-                                                ?>
-                                                <tr>
-                                                    <td>{{ $alert->created_at }} </td>
-                                                    <td><a href="/cell/{{ $alert->cell_id }}#alerts">{{ $cell_name }}</a></td>
-                                                    <td>{{ $alert->alert_type }}</td>
-                                                    <td>{{ $alert->value }}</td>
-                                                    <td>
-                                                        @if ($alert->alert_type == 'Heading')
-                                                            {{ $cell->heading }}
-                                                        @elseif ($alert->alert_type == 'Pitch')
-                                                            {{ $cell->pitch }}
-                                                        @elseif ($alert->alert_type == 'Roll')
-                                                            {{ $cell->pitch }}
-                                                        @elseif ($alert->alert_type == 'Low Voltage')
-                                                            3.2 Volts
-                                                        @elseif ($alert->alert_type == 'Voltage Drop' )
-                                                            N/A
-                                                        @elseif ($alert->alert_type == 'No Communication' )
-                                                            N/A                                                        
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        @if ($alert->status == 'Pending' || $alert->status == 'Optimization' )
-                                                            <a href="/{{ $alert->id }}/update_alert_status">
+                                                @if ($alert->cell_id == $cell->cell_id)
+                                                    <?php
+                                                        $name_arr = explode("-", $cell->cell_name);
+                                                        $remove_id = array_splice($name_arr, 1);
+                                                        $raw_name = implode("-", $remove_id);
+                                                        $cell_name = str_replace('_', ' ', $raw_name);
+                                                    ?>
+                                                    <tr>
+                                                        <td>{{ $alert->created_at }} </td>
+                                                        <td><a href="/cell/{{ $alert->cell_id}}#alerts">{{ $cell_name }}</a></td>
+                                                        <td>{{ $alert->alert_type }}</td>
+                                                        <td>{{ $alert->value }}</td>
+                                                        <td>
+                                                            @if ($alert->alert_type == 'Heading')
+                                                                {{ $cell->heading }}
+                                                            @elseif ($alert->alert_type == 'Pitch')
+                                                                {{ $cell->pitch }}
+                                                            @elseif ($alert->alert_type == 'Roll')
+                                                                {{ $cell->pitch }}
+                                                            @elseif ($alert->alert_type == 'Low Voltage')
+                                                                3.2 Volts
+                                                            @elseif ($alert->alert_type == 'Voltage Drop' )
+                                                                N/A
+                                                            @elseif ($alert->alert_type == 'No Communication')
+                                                                N/A                                                        
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            @if ($alert->status == 'Closed')
                                                                 {{ $alert->status }}
-                                                            </a>
-                                                        @else                                                            
-                                                            {{ $alert->status }}                                                   
-                                                        @endif
-                                                    </td>
-                                                </tr>
+                                                            @else
+                                                                <a href="/alerts/{{$alert->id}}/update_status">
+                                                                    {{ $alert->status }}
+                                                                </a>                                                 
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                @endif
                                             @endforeach
                                         @endforeach
                                     </tbody>

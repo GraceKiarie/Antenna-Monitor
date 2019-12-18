@@ -127,7 +127,6 @@ class SiteController extends Controller
 
         $alertData = DB::table('alerts')->whereIn('cell_id', $id_array)->get();
 
-
         return view('sites.site_details', compact('siteData', 'cellData', 'alertData'));
     }
 

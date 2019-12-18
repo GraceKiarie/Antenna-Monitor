@@ -22,7 +22,7 @@ class AlertController extends Controller
         return view('alerts.alertlist', compact('cellData', 'alertData'));
     }
 
-    //display alert list
+    //display monitors list
     public function showMonitorInstallations()
     {
         $instData = Monitor::all();
@@ -30,7 +30,36 @@ class AlertController extends Controller
         return view('alerts.monitor_inst', compact('instData'));
     }
 
-    //display sitelist
+    //display alert list
+    public function showAlertStatusUpdate($alert_id)
+    {
+        $alertData = DB::table('alerts')->where('id', '=', $alert_id)->get();
+
+        $cell = DB::table('alerts')->where('id', '=', $alert_id)->get(['cell_id']);
+        $cell_id = json_decode(json_encode($cell), true);
+        $cellData = DB::table('cells')->where('cell_id', '=', $cell_id)->get();
+
+        $site = DB::table('cells')->where('cell_id', '=', $cell_id)->get(['site_id']);
+        $site_id = json_decode(json_encode($site), true);
+
+        $siteData = DB::table('sites')->where('site_id', '=', $site_id)->get();
+
+        return view('alerts.update_alert_status', compact('alertData', 'cellData', 'siteData'));
+    }
+
+    public function updateStatus($alert_id, Request $request)
+    {
+        $request->validate([
+            'status' => ['required'],
+        ]);
+        $alert = Alert::find($alert_id);
+        $alert->status = $request->status;
+        $update = $alert->save();
+        
+        return back();
+    }
+
+    //display cells under optimization
     public function showCellOptimizationsList()
     {
         $cellIDs = DB::table('alerts')->distinct()->where('status', '=', 'optimization')->get(['cell_id']);

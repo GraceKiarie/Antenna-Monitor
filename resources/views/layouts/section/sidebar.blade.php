@@ -69,9 +69,9 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="/site_reports" class="menu-item">
+                            <a href="/site_reports#install" class="menu-item">
                                 <i class="metismenu-icon pe-7s-display1"></i>
-                                Sites Reports
+                                Site Reports
                             </a>
                         </li>
                         <li class="app-sidebar__heading app-sidebar__heading-m">Alerts</li>

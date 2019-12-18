@@ -279,7 +279,7 @@
                                             </thead>
                                             <tbody>
                                                 @foreach ($alertData as $alert)
-                                                    @if ($alert->status == 'closed')
+                                                    @if ($alert->status == 'Closed')
                                                         @foreach ($cellData as $cell)
                                                             <?php
                                                                 $name_arr = explode("-", $cell->cell_name);
