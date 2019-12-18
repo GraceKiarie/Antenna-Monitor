@@ -47,7 +47,10 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('/alerts', 'AlertController@showFullAlertslist')->name('alertlist');
     Route::get('/alerts/types', 'AlertController@showAlertsByTypes')->name('alerts_types');
     Route::get('/alerts/status', 'AlertController@showAlertsByStatus')->name('alerts_status');
+    Route::post('/alerts/updateStatus', 'AlertController@updateAlertStatus')->name('alerts_status');
     Route::get('/alerts/{cell_id}/alerts', 'AlertController@showCellAlertslist')->name('cell_alerts');
+    Route::get('/alerts/{alert_id}/update_status', 'AlertController@showAlertStatusUpdate')->name('update_alert_status');
+    Route::post('/alerts/{alert_id}/update_status', 'AlertController@updateStatus');
     Route::get('/opt', 'AlertController@showCellOptimizationsList')->name('opt');
     Route::get('/monitors', 'AlertController@showMonitorInstallations');
 

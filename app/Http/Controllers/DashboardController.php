@@ -18,12 +18,11 @@ class DashboardController extends Controller
     {
         $cells = Cell::all();
         // GET ALERTS DATA
-        $new =  DB::table('alerts')->where('status', '=', 'new')->get();
-        $pending =  DB::table('alerts')->where('status', '=', 'pending')->get();
-        $optimizations =  DB::table('alerts')->where('status', '=', 'optimization')->get();
+        $pending =  DB::table('alerts')->where('status', '=', 'Pending')->get();
+        $optimizations =  DB::table('alerts')->where('status', '=', 'Optimization')->get();
         $closed =  DB::select("SELECT *
                                 FROM PUBLIC.alerts
-                                WHERE PUBLIC.alerts.status = 'closed'
+                                WHERE PUBLIC.alerts.status = 'Closed'
                                 AND DATE_PART('year', PUBLIC.alerts.created_at) > DATE_PART('year', NOW()) - 1");
 
         $new_install =  DB::table('installation_reports')->where('status', '=', 'new')->get();
@@ -39,12 +38,11 @@ class DashboardController extends Controller
         $lc_azim = $this->lineGraphAzimuth();
         $lc_tilt = $this->lineGraphTilt();
         $lc_roll = $this->lineGraphRoll();
-        $lc_volt = $this->lineGraphVolts();
-        $lc_signal = $this->lineGraphSignal();
+        $lc_volt_low = $this->lineGraphLowVolt();
+        $lc_volt_drop = $this->lineGraphVoltDrop();
         $lc_comm = $this->lineGraphComm();
 
         return view('dashboard.dash', compact('cells',
-                                              'new', 
                                               'pending', 
                                               'optimizations', 
                                               'closed', 
@@ -55,8 +53,8 @@ class DashboardController extends Controller
                                               'lc_azim',
                                               'lc_tilt',
                                               'lc_roll',
-                                              'lc_volt',
-                                              'lc_signal',
+                                              'lc_volt_low',
+                                              'lc_volt_drop',
                                               'lc_comm'
                                             ));
     }
@@ -84,7 +82,6 @@ class DashboardController extends Controller
 
     public function barGraphData()
     {
-        // PIE CHART DATA
         $bc_data = DB::select("SELECT PUBLIC.alerts.cell_id, COUNT(PUBLIC.alerts.id) as num 
                                 FROM PUBLIC.alerts 
                                 GROUP BY PUBLIC.alerts.cell_id
@@ -94,15 +91,14 @@ class DashboardController extends Controller
     }
     public function lineGraphAzimuth()
     {
-        // PIE CHART DATA
         $lc_azim = DB::select("SELECT mon, COUNT(alert_count)
                                 FROM (
                                     SELECT PUBLIC.alerts.created_at, DATE_PART('month', PUBLIC.alerts.created_at) AS mon, COUNT(PUBLIC.alerts.id) AS alert_count
                                     FROM PUBLIC.alerts
-                                    WHERE PUBLIC.alerts.alert_type = 'azimuth'
+                                    WHERE PUBLIC.alerts.alert_type = 'Heading'
                                     AND DATE_PART('year', PUBLIC.alerts.created_at) > DATE_PART('year', NOW()) - 1
                                     GROUP BY PUBLIC.alerts.created_at
-                                    ORDER BY alerts.created_at ASC) AS azimuth_count
+                                    ORDER BY alerts.created_at ASC) AS head_count
                                 GROUP BY mon"
                             );
         return $lc_azim;
@@ -110,12 +106,11 @@ class DashboardController extends Controller
 
     public function lineGraphTilt()
     {
-        // PIE CHART DATA
         $lc_tilt = DB::select("SELECT mon, COUNT(alert_count)
                                 FROM (
                                     SELECT PUBLIC.alerts.created_at, DATE_PART('month', PUBLIC.alerts.created_at) AS mon, COUNT(PUBLIC.alerts.id) AS alert_count
                                     FROM PUBLIC.alerts
-                                    WHERE PUBLIC.alerts.alert_type = 'tilt'
+                                    WHERE PUBLIC.alerts.alert_type = 'Pitch'
                                     AND DATE_PART('year', PUBLIC.alerts.created_at) > DATE_PART('year', NOW()) - 1
                                     GROUP BY PUBLIC.alerts.created_at
                                     ORDER BY alerts.created_at ASC) AS tilt_count
@@ -123,14 +118,14 @@ class DashboardController extends Controller
                             );
         return $lc_tilt;
     }
+
     public function lineGraphRoll()
     {
-        // PIE CHART DATA
         $lc_roll = DB::select("SELECT mon, COUNT(alert_count)
                                 FROM (
                                     SELECT PUBLIC.alerts.created_at, DATE_PART('month', PUBLIC.alerts.created_at) AS mon, COUNT(PUBLIC.alerts.id) AS alert_count
                                     FROM PUBLIC.alerts
-                                    WHERE PUBLIC.alerts.alert_type = 'roll'
+                                    WHERE PUBLIC.alerts.alert_type = 'Roll'
                                     AND DATE_PART('year', PUBLIC.alerts.created_at) > DATE_PART('year', NOW()) - 1
                                     GROUP BY PUBLIC.alerts.created_at
                                     ORDER BY alerts.created_at ASC) AS roll_count
@@ -139,48 +134,46 @@ class DashboardController extends Controller
         return $lc_roll;
     }
 
-    public function lineGraphVolts()
+    public function lineGraphLowVolt()
     {
-        // PIE CHART DATA
-        $lc_volts = DB::select("SELECT mon, COUNT(alert_count)
+        $lc_volt_low = DB::select("SELECT mon, COUNT(alert_count)
                                 FROM (
                                     SELECT PUBLIC.alerts.created_at, DATE_PART('month', PUBLIC.alerts.created_at) AS mon, COUNT(PUBLIC.alerts.id) AS alert_count
                                     FROM PUBLIC.alerts
-                                    WHERE PUBLIC.alerts.alert_type = 'voltage'
+                                    WHERE PUBLIC.alerts.alert_type = 'Low Voltage'
                                     AND DATE_PART('year', PUBLIC.alerts.created_at) > DATE_PART('year', NOW()) - 1
                                     GROUP BY PUBLIC.alerts.created_at
-                                    ORDER BY alerts.created_at ASC) AS voltage_count
+                                    ORDER BY alerts.created_at ASC) AS low_voltage_count
                                 GROUP BY mon"
                             );
-        return $lc_volts;
+        return $lc_volt_low;
     }
 
-    public function lineGraphSignal()
+    public function lineGraphVoltDrop()
     {
-        // PIE CHART DATA
-        $lc_signal = DB::select("SELECT mon, COUNT(alert_count)
+        $lc_volt_drop = DB::select("SELECT mon, COUNT(alert_count)
                                 FROM (
                                     SELECT PUBLIC.alerts.created_at, DATE_PART('month', PUBLIC.alerts.created_at) AS mon, COUNT(PUBLIC.alerts.id) AS alert_count
                                     FROM PUBLIC.alerts
-                                    WHERE PUBLIC.alerts.alert_type = 'signal'
+                                    WHERE PUBLIC.alerts.alert_type = 'Voltage Drop'
                                     AND DATE_PART('year', PUBLIC.alerts.created_at) > DATE_PART('year', NOW()) - 1
                                     GROUP BY PUBLIC.alerts.created_at
-                                    ORDER BY alerts.created_at ASC) AS signal_count
+                                    ORDER BY alerts.created_at ASC) AS voltage_drop_count
                                 GROUP BY mon"
                             );
-        return $lc_signal;
+        return $lc_volt_drop;
     }
+
     public function lineGraphComm()
     {
-        // PIE CHART DATA
         $lc_comm = DB::select("SELECT mon, COUNT(alert_count)
                                 FROM (
                                     SELECT PUBLIC.alerts.created_at, DATE_PART('month', PUBLIC.alerts.created_at) AS mon, COUNT(PUBLIC.alerts.id) AS alert_count
                                     FROM PUBLIC.alerts
-                                    WHERE PUBLIC.alerts.alert_type = 'signal'
+                                    WHERE PUBLIC.alerts.alert_type = 'No Communication'
                                     AND DATE_PART('year', PUBLIC.alerts.created_at) > DATE_PART('year', NOW()) - 1
                                     GROUP BY PUBLIC.alerts.created_at
-                                    ORDER BY alerts.created_at ASC) AS signal_count
+                                    ORDER BY alerts.created_at ASC) AS comm_count
                                 GROUP BY mon"
                             );
         return $lc_comm;

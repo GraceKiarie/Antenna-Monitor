@@ -1,3 +1,5 @@
+$(document).ready(function() {
+
 Chart.defaults.global.defaultFontFamily = 'Varela Round', 'sans-serif';
 Chart.defaults.global.defaultFontColor = 'black';
 
@@ -11,6 +13,12 @@ Chart.defaults.global.title.fontColor = 'rgb(65, 65, 65)';
 
 Chart.defaults.global.legend.labels.fontSize = 12;
 Chart.defaults.global.legend.labels.fontStyle = 'normal';
+
+$('#optim_table').DataTable({
+  "scrollY": 300,
+  "scrollX": true,
+  "lengthMenu": [[10, 20, 50, 100, -1], [10, 20, 50, 100, "All"]]
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -32,7 +40,7 @@ var dashPieChart = new Chart(document.getElementById("dash-pie-chart"), {
     labels: pieChartLabels,
     datasets: [{
       label: "Alerts Count",
-      backgroundColor: ["#3e95cd", "#58ffff","#3cba9f","#f8e646","#c45850"],
+      backgroundColor: ["#3e95cd", "#58ffff","#3cba9f","#f8e646","#c45850","#c4fff5"],
       data: alertTypeCount
     }]
   },
@@ -154,7 +162,6 @@ for(var i in lc_tilt) {
 	tc.push(lc_tilt[i].count);
 }
 
-var rollAlertCount = [];
 var rc_my = [0,1,2,3,4,5,6,7,8,9,10,11];
 var rc_em = [];
 for(var i=1;i<lc_roll.length;i++){
@@ -174,42 +181,42 @@ for(var i in lc_roll) {
 	rc.push(lc_roll[i].count);
 }
 
-var vc_my = [0,1,2,3,4,5,6,7,8,9,10,11];
-var vc_em = [];
-for(var i=1;i<lc_volts.length;i++){
-	vc_em.push(lc_volts[i]['mon']);
+var vd_my = [0,1,2,3,4,5,6,7,8,9,10,11];
+var vd_em = [];
+for(var i=1;i<lc_volt_drop.length;i++){
+	vd_em.push(lc_volt_drop[i]['mon']);
 }
-for(var i=1;i<vc_my.length;i++){
-	if(vc_em.indexOf(parseInt(vc_my[i])) < 0){
+for(var i=1;i<vd_my.length;i++){
+	if(vd_em.indexOf(parseInt(vd_my[i])) < 0){
 		var zeroObject = {
 		"mon": i,
 		"count": 0
 		};
-		lc_volts.push(zeroObject);
+		lc_volt_drop.push(zeroObject);
 	}
 }
-vc = [];
-for(var i in lc_volts) {
-	vc.push(lc_volts[i].count);
+vd = [];
+for(var i in lc_volt_drop) {
+	vd.push(lc_volt_drop[i].count);
 }
 
-var sc_my = [0,1,2,3,4,5,6,7,8,9,10,11];
-var sc_em = [];
-for(var i=1;i<lc_signal.length;i++){
-	sc_em.push(lc_signal[i]['mon']);
+var vl_my = [0,1,2,3,4,5,6,7,8,9,10,11];
+var vl_em = [];
+for(var i=1;i<lc_volt_low.length;i++){
+	vl_em.push(lc_volt_low[i]['mon']);
 }
-for(var i=1;i<sc_my.length;i++){
-	if(sc_em.indexOf(parseInt(tc_my[i])) < 0){
+for(var i=1;i<vl_my.length;i++){
+	if(vl_em.indexOf(parseInt(vl_my[i])) < 0){
 		var zeroObject = {
 		"mon": i,
 		"count": 0
 		};
-		lc_signal.push(zeroObject);
+		lc_volt_low.push(zeroObject);
 	}
 }
-sc = [];
-for(var i in lc_signal) {
-	sc.push(lc_signal[i].count);
+vl = [];
+for(var i in lc_volt_low) {
+	vl.push(lc_volt_low[i].count);
 }
 
 var cc_my = [0,1,2,3,4,5,6,7,8,9,10,11];
@@ -237,14 +244,15 @@ var dashLineChart = new Chart(document.getElementById("dash-line-chart"), {
   type: 'line',
   data: {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
-    datasets: [{ 
+    datasets: [
+    { 
         data: ac,
-        label: "Azimuth",
+        label: "Heading",
         borderColor: "#3e95cd",
         fill: false
 	  }, {
 		data: tc,
-        label: "Tilt",
+        label: "Pitch",
         borderColor: "#66ff66",
         fill: false
 	  }, {
@@ -253,18 +261,18 @@ var dashLineChart = new Chart(document.getElementById("dash-line-chart"), {
         borderColor: "#58ffff",
         fill: false
 	  }, {
-		data: vc,
-        label: "Voltage",
+		data: vl,
+        label: "Low Voltage",
         borderColor: "#3cba9f",
         fill: false
 	  }, {
-		data: sc,
-        label: "Signal",
-        borderColor: "#f8e646",
+		data: vd,
+        label: "Voltage Drop",
+        borderColor: "#c4fff5",
         fill: false
 	  }, {
 		data: cc,
-        label: "No Comm.",
+        label: "No Communication",
         borderColor: "#c45850",
         fill: false
 	  }
@@ -282,4 +290,4 @@ var dashLineChart = new Chart(document.getElementById("dash-line-chart"), {
     }
   }
 });
-
+});

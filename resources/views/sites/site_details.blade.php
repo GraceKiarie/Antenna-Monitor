@@ -109,7 +109,7 @@
                                                         <thead>
                                                             <tr>
                                                                 <th>Cell Name</th>
-                                                                <th>Alerts</th>
+                                                                <th>All Alerts</th>
                                                                 <th>Technology</th>
                                                             </tr>
                                                         </thead>
@@ -130,9 +130,7 @@
                                                                                     <?php $alertCount = array(); ?>
                                                                                     @foreach ($alertData as $alert)
                                                                                         @if ($cell->cell_id == $alert->cell_id)
-                                                                                            <?php 
-                                                                                                array_push($alertCount, $alert->cell_id);
-                                                                                            ?>
+                                                                                            <?php array_push($alertCount, $alert->cell_id); ?>
                                                                                         @endif
                                                                                     @endforeach
                                                                                     {{ count($alertCount) }}
