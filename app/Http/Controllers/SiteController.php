@@ -58,6 +58,7 @@ class SiteController extends Controller
             }
         }
         fclose($file);
+        Log::info('New sitelist uploaded :' . $count . '  Sites Added' ,['type' =>'create','result' => 'success']);
         return $count . $failed;
     }
 
@@ -67,34 +68,54 @@ class SiteController extends Controller
         $file = fopen($path, "r"); //open file in read mode
         $count = 0;
         $failed = 0;
+        $updated = 0;
 
         while (!feof($file))//while its not end of the file opened do the following
         {
             $row_data = fgetcsv($file);
 
-            if ($row_data && !Cell::where(['cell_id' => $row_data[6]])->exists()) {
+            if ($row_data) {
 
-                // save cells
-                $data = [
-                    'site_id' =>$row_data[2],
-                    'cell_name' => $row_data[4],
-                    'sector_id' => $row_data[5],
-                    'cell_id' => $row_data[6],
-                    'mnc' => $row_data[9],
-                    'status' => $row_data[10],
-                    'technology' => $row_data[12],
-                    'bcch_uarfcn_earfcn' => $row_data[15],
-                    'bsci_psc_pci' => $row_data[16],
-                    'heading' => $row_data[17],
-                    'pitch' => $row_data[18],
-                    'roll' => $row_data[19],
-                ];
-                Cell::create($data);
-                $count++;
+                if(Cell::where(['cell_id' => $row_data[6]])->exists())
+                {
+                    $cell = Cell::where('cell_id',$row_data[6])->first();
+                    $cell->heading =$row_data[17];
+                    $cell->pitch =$row_data[18];
+                    $cell->roll =$row_data[19];
+                    $cell->save();
+                    $updated++;
+
+
+
+
+                }else{
+                    // save cells
+                    $data = [
+                        'site_id' =>$row_data[2],
+                        'cell_name' => $row_data[4],
+                        'sector_id' => $row_data[5],
+                        'cell_id' => $row_data[6],
+                        'mnc' => $row_data[9],
+                        'status' => $row_data[10],
+                        'technology' => $row_data[12],
+                        'bcch_uarfcn_earfcn' => $row_data[15],
+                        'bsci_psc_pci' => $row_data[16],
+                        'heading' => $row_data[17],
+                        'pitch' => $row_data[18],
+                        'roll' => $row_data[19],
+                    ];
+                    Cell::create($data);
+
+                    $count++;
+
+                }
+
             } else {
                 $failed++;
             }
         }
+        Log::info('New sitelist uploaded :'.$count . '  Cells Added',['type' =>'create','result' => 'success']);
+        Log::info('New sitelist uploaded :' .$updated . '  Cells Updated',['type' =>'update','result' => 'success']);
         fclose($file);
         return $count . $failed;
     }
@@ -103,7 +124,6 @@ class SiteController extends Controller
     {
         $this->saveSites();
         $this->saveCells();
-        Log::info('New sitelist uploaded successfully',['type' =>'update','result' => 'success']);
         $sites = Site::all();
         return redirect('/sites');
     }

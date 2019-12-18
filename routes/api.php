@@ -28,7 +28,7 @@ Route::group(['prefix' => 'v1'], function () {
     Route::group(['middleware' => 'auth:api'], function () {
 
         //set new password
-        Route::patch('password/reset', 'API\Auth\UserController@updatePassword');
+        Route::patch('password/update', 'API\Auth\UserController@updatePassword');
 
         //test app routes
         Route::post('qr', 'API\TestApp\TestController@qrTest');

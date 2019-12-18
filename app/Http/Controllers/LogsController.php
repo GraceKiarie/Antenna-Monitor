@@ -30,8 +30,8 @@ class LogsController extends Controller
 
     public function updateLogs()
     {
-        $accessLogs = Log::where('type', 'access')->orderBy('created_at','desc')->get();
-        return view('logs.access_logs', compact('accessLogs'));
+        $updateLogs = Log::where('type', 'update')->orderBy('created_at','desc')->get();
+        return view('logs.update_logs', compact('updateLogs'));
 
     }
 }
