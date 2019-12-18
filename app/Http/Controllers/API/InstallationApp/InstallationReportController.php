@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\InstallationApp;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SaveInstallationReportJob;
 use App\Jobs\SaveTestReportJob;
 use App\Jobs\SendReportEmailJob;
 use App\User;
@@ -56,6 +57,9 @@ class InstallationReportController extends Controller
         $subject= 'Installation Report';
 
         Log::info("Request cycle without Queues started");
+
+        $savetodbJob = (new SaveInstallationReportJob($data))->delay(Carbon::now()->addSeconds(2));
+        dispatch($savetodbJob );
 
         //send report to email
         $emailJob = (new SendReportEmailJob($uri,$subject))->delay(Carbon::now()->addSeconds(3));

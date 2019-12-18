@@ -9,7 +9,7 @@ class InstallationReport extends Model
 
     protected $fillable =
         [
-            'qr_number', 'installation_report','status', 'user_id'
+            'site_name','technology', 'installation_report','status', 'user_id'
 
             ];
 }

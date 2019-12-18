@@ -64,6 +64,7 @@ return array(
     'App\\Http\\Traits\\ApiTraits' => $baseDir . '/app/Http/Traits/ApiTraits.php',
     'App\\InstallationImage' => $baseDir . '/app/InstallationImage.php',
     'App\\InstallationReport' => $baseDir . '/app/InstallationReport.php',
+    'App\\Jobs\\SaveInstallationReportJob' => $baseDir . '/app/Jobs/SaveInstallationReportJob.php',
     'App\\Jobs\\SaveTestReportJob' => $baseDir . '/app/Jobs/SaveTestReportJob.php',
     'App\\Jobs\\SendReportEmailJob' => $baseDir . '/app/Jobs/SendReportEmailJob.php',
     'App\\Log' => $baseDir . '/app/Log.php',
