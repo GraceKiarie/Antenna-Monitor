@@ -55,7 +55,7 @@
                                     <li class="nav-item">
                                         <a class="nav-link nav-link-m" id="azimuth-tab" data-toggle="tab" href="#azimuth" role="tab"
                                             aria-controls="azimuth" aria-selected="true">
-                                            Azimuth
+                                            Heading
                                         </a>
                                     </li>
                                     <li class="nav-item">
@@ -70,21 +70,21 @@
                                             Roll</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link nav-link-m" id="signal-tab" data-toggle="tab" href="#signal" role="tab"
-                                            aria-controls="signal" aria-selected="true">
-                                            Signal
+                                        <a class="nav-link nav-link-m" id="vl-tab" data-toggle="tab" href="#vl" role="tab"
+                                            aria-controls="vl" aria-selected="true">
+                                            Low Voltage
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link nav-link-m" id="battery-tab" data-toggle="tab" href="#battery" role="tab"
-                                            aria-controls="battery" aria-selected="false">
-                                            Battery
+                                        <a class="nav-link nav-link-m" id="vd-tab" data-toggle="tab" href="#vd" role="tab"
+                                            aria-controls="vd" aria-selected="false">
+                                            Voltage Drop
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link nav-link-m" id="com-tab" data-toggle="tab" href="#com" role="tab"
                                             aria-controls="com" aria-selected="false">
-                                            Communication
+                                            No Communication
                                         </a>
                                     </li>
                                 </ul>
@@ -105,53 +105,47 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            @foreach ($cellData as $cell)
-                                                            <?php 
-                                                                // for demo purposes only
-                                                                $types = array('Voltage', 'Pitch', 'Heading', 'Roll' );
-                                                                $type = $types[array_rand($types)];
-                
-                                                                $status = array('New', 'Pending', 'Optimization In Progress', 'Closed');
-                                                                $status = $status[array_rand($status)];
-                
-                                                                if ($type == "Voltage") {
-                                                                    $threshold = '4.8';
-                                                                    $value = round($threshold - rand(1,2)/1.37, 2);
-                
-                                                                    $threshold = '4.8'.'volts';
-                                                                    $value = $value.'volts';
-                                                                } elseif ($type == "Heading") {
-                                                                    $threshold = round(rand(40,340)/1.17, 2);
-                                                                    $value = round($threshold - rand(2,3)/1.07, 2);
-                
-                                                                    $threshold = round(rand(40,340)/1.17, 2).'&deg;';
-                                                                    $value = $value.'&deg;';
-                                                                } elseif ($type == "Pitch" OR $type == "Roll") {
-                                                                    $v = array('-1', '1');
-                                                                    $threshold = round(rand(2,88)*$v[array_rand($v)]/1.17, 2);
-                                                                    $value = round($threshold - rand(2,3)/1.07, 2);
-                
-                                                                    $threshold = $threshold.'&deg;';
-                                                                    $value = $value.'&deg;';
-                                                                }
-                
-                                                                if ($status == "New" || $status == "Pending") {
-                                                                    $status = '<a href="#" >'.$status.'</a>';
-                                                                }
-                
-                                                                $name_arr = explode("-", $cell->cell_name);
-                                                                $remove_id = array_splice($name_arr, 1);
-                                                                $raw_name = implode("-", $remove_id);
-                                                                $cell_name = str_replace('_', ' ', $raw_name);
-                                                            ?>
-                                                            <tr class="<?php if ($status == "New/Pending")  { echo 'bg-danger'; } ?>">
-                                                                <td><?php echo rand(10,23).":".str_pad(rand(0,59), 2, "0", STR_PAD_LEFT); ?> HRS </td>
-                                                                <td><a href="/cell/{{ $cell->cell_id }}#alerts">{{ $cell_name }}</a></td>
-                                                                <td><?php echo $types[array_rand($types)]; ?></td>
-                                                                <td><?php echo $value; ?> </td>
-                                                                <td><?php echo $threshold; ?> </td>
-                                                                <td><?php echo $status; ?> </td>
-                                                            </tr>
+                                                            @foreach ($alertData as $alert)
+                                                                @foreach ($cellData as $cell)
+                                                                    @if ($alert->cell_id == $cell->cell_id)
+                                                                        <?php 
+                                                                            $name_arr = explode("-", $cell->cell_name);
+                                                                            $remove_id = array_splice($name_arr, 1);
+                                                                            $raw_name = implode("-", $remove_id);
+                                                                            $cell_name = str_replace('_', ' ', $raw_name);
+                                                                        ?>
+                                                                        <tr>
+                                                                            <td></td>
+                                                                            <td><a href="/cell/{{ $cell->cell_id }}#alerts">{{ $cell_name }}</a></td>
+                                                                            <td> {{ $alert->alert_type }} </td>
+                                                                            <td> {{ $alert->value }} </td>
+                                                                            <td>
+                                                                                @if ($alert->alert_type == 'Heading')
+                                                                                    {{ $cell->heading }}
+                                                                                @elseif ($alert->alert_type == 'Pitch')
+                                                                                    {{ $cell->pitch }}
+                                                                                @elseif ($alert->alert_type == 'Roll')
+                                                                                    {{ $cell->pitch }}
+                                                                                @elseif ($alert->alert_type == 'Low Voltage')
+                                                                                    3.2 Volts
+                                                                                @elseif ($alert->alert_type == 'Voltage Drop' )
+                                                                                    N/A
+                                                                                @elseif ($alert->alert_type == 'No Communication')
+                                                                                    N/A                                                        
+                                                                                @endif
+                                                                            </td>
+                                                                            <td>
+                                                                                @if ($alert->status == 'Closed')
+                                                                                    {{ $alert->status }}
+                                                                                @else
+                                                                                    <a href="/alerts/{{$alert->id}}/update_status">
+                                                                                        {{ $alert->status }}
+                                                                                    </a>                                                 
+                                                                                @endif
+                                                                            </td>
+                                                                        </tr>
+                                                                    @endif
+                                                                @endforeach
                                                             @endforeach
                                                         </tbody>
                                                         <tfoot>
@@ -185,39 +179,49 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            @foreach ($cellData as $cell)
-                                                            <?php 
-                                                                // for demo purposes only
-                                                                $type = 'Azimuth';
-                
-                                                                $status = array('New/Pending', 'Optimization In Progress', 'Closed');
-                                                                $status = $status[array_rand($status)];
-                
-                                                                if ($type == "Azimuth") {
-                                                                    $threshold = round(rand(40,340)/1.17, 2);
-                                                                    $value = round($threshold - rand(2,3)/1.07, 2);
-                
-                                                                    $threshold = round(rand(40,340)/1.17, 2).'&deg;';
-                                                                    $value = $value.'&deg;';
-                                                                } 
-                                                                
-                                                                if ($status == "New/Pending") {
-                                                                    $status = '<a href="#" >'.$status.'</a>';
-                                                                }
-                
-                                                                $name_arr = explode("-", $cell->cell_name);
-                                                                $remove_id = array_splice($name_arr, 1);
-                                                                $raw_name = implode("-", $remove_id);
-                                                                $cell_name = str_replace('_', ' ', $raw_name);
-                                                            ?>
-                                                            <tr class="<?php if ($status == "New/Pending")  { echo 'bg-danger'; } ?>">
-                                                                <td><?php echo rand(10,23).":".str_pad(rand(0,59), 2, "0", STR_PAD_LEFT); ?> HRS </td>
-                                                                <td><a href="/cell/{{ $cell->cell_id }}#alerts">{{ $cell_name }}</a></td>
-                                                                <td><?php echo $type; ?></td>
-                                                                <td><?php echo $value; ?> </td>
-                                                                <td><?php echo $threshold; ?> </td>
-                                                                <td><?php echo $status; ?> </td>
-                                                            </tr>
+                                                            @foreach ($alertData as $alert)
+                                                                @if ($alert->alert_type == 'Heading')
+                                                                    @foreach ($cellData as $cell)
+                                                                        @if ($alert->cell_id == $cell->cell_id)
+                                                                            <?php 
+                                                                                $name_arr = explode("-", $cell->cell_name);
+                                                                                $remove_id = array_splice($name_arr, 1);
+                                                                                $raw_name = implode("-", $remove_id);
+                                                                                $cell_name = str_replace('_', ' ', $raw_name);
+                                                                            ?>
+                                                                            <tr>
+                                                                                <td> {{ $alert->created_at }} </td>
+                                                                                <td><a href="/cell/{{ $cell->cell_id }}#alerts">{{ $cell_name }}</a></td>
+                                                                                <td> {{ $alert->alert_type }} </td>
+                                                                                <td> {{ $alert->value }} </td>
+                                                                                <td>
+                                                                                    @if ($alert->alert_type == 'Heading')
+                                                                                        {{ $cell->heading }}
+                                                                                    @elseif ($alert->alert_type == 'Pitch')
+                                                                                        {{ $cell->pitch }}
+                                                                                    @elseif ($alert->alert_type == 'Roll')
+                                                                                        {{ $cell->pitch }}
+                                                                                    @elseif ($alert->alert_type == 'Low Voltage')
+                                                                                        3.2 Volts
+                                                                                    @elseif ($alert->alert_type == 'Voltage Drop' )
+                                                                                        N/A
+                                                                                    @elseif ($alert->alert_type == 'No Communication')
+                                                                                        N/A                                                        
+                                                                                    @endif
+                                                                                </td>
+                                                                                <td>
+                                                                                    @if ($alert->status == 'Closed')
+                                                                                        {{ $alert->status }}
+                                                                                    @else
+                                                                                        <a href="/alerts/{{$alert->id}}/update_status">
+                                                                                            {{ $alert->status }}
+                                                                                        </a>                                                 
+                                                                                    @endif
+                                                                                </td>
+                                                                            </tr>
+                                                                        @endif
+                                                                    @endforeach
+                                                                @endif
                                                             @endforeach
                                                         </tbody>
                                                         <tfoot>
@@ -251,40 +255,49 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            @foreach ($cellData as $cell)
-                                                            <?php 
-                                                                // for demo purposes only
-                                                                $type = 'Pitch';
-                
-                                                                $status = array('New/Pending', 'Optimization In Progress', 'Closed');
-                                                                $status = $status[array_rand($status)];
-                
-                                                                if ($type == "Pitch") {
-                                                                    $v = array('-1', '1');
-                                                                    $threshold = round(rand(2,88)*$v[array_rand($v)]/1.17, 2);
-                                                                    $value = round($threshold - rand(2,3)/1.07, 2);
-                
-                                                                    $threshold = $threshold.'&deg;';
-                                                                    $value = $value.'&deg;';
-                                                                }
-                
-                                                                if ($status == "New/Pending") {
-                                                                    $status = '<a href="#" >'.$status.'</a>';
-                                                                }
-                
-                                                                $name_arr = explode("-", $cell->cell_name);
-                                                                $remove_id = array_splice($name_arr, 1);
-                                                                $raw_name = implode("-", $remove_id);
-                                                                $cell_name = str_replace('_', ' ', $raw_name);
-                                                            ?>
-                                                            <tr class="<?php if ($status == "New/Pending")  { echo 'bg-danger'; } ?>">
-                                                                <td><?php echo rand(10,23).":".str_pad(rand(0,59), 2, "0", STR_PAD_LEFT); ?> HRS </td>
-                                                                <td><a href="/cell/{{ $cell->cell_id }}#alerts">{{ $cell_name }}</a></td>
-                                                                <td><?php echo $type; ?></td>
-                                                                <td><?php echo $value; ?> </td>
-                                                                <td><?php echo $threshold; ?> </td>
-                                                                <td><?php echo $status; ?> </td>
-                                                            </tr>
+                                                            @foreach ($alertData as $alert)
+                                                                @if ($alert->alert_type == 'Pitch')
+                                                                    @foreach ($cellData as $cell)
+                                                                        @if ($alert->cell_id == $cell->cell_id)
+                                                                            <?php 
+                                                                                $name_arr = explode("-", $cell->cell_name);
+                                                                                $remove_id = array_splice($name_arr, 1);
+                                                                                $raw_name = implode("-", $remove_id);
+                                                                                $cell_name = str_replace('_', ' ', $raw_name);
+                                                                            ?>
+                                                                            <tr>
+                                                                                <td> {{ $alert->created_at }} </td>
+                                                                                <td><a href="/cell/{{ $cell->cell_id }}#alerts">{{ $cell_name }}</a></td>
+                                                                                <td> {{ $alert->alert_type }} </td>
+                                                                                <td> {{ $alert->value }} </td>
+                                                                                <td>
+                                                                                    @if ($alert->alert_type == 'Heading')
+                                                                                        {{ $cell->heading }}
+                                                                                    @elseif ($alert->alert_type == 'Pitch')
+                                                                                        {{ $cell->pitch }}
+                                                                                    @elseif ($alert->alert_type == 'Roll')
+                                                                                        {{ $cell->pitch }}
+                                                                                    @elseif ($alert->alert_type == 'Low Voltage')
+                                                                                        3.2 Volts
+                                                                                    @elseif ($alert->alert_type == 'Voltage Drop' )
+                                                                                        N/A
+                                                                                    @elseif ($alert->alert_type == 'No Communication')
+                                                                                        N/A                                                        
+                                                                                    @endif
+                                                                                </td>
+                                                                                <td>
+                                                                                    @if ($alert->status == 'Closed')
+                                                                                        {{ $alert->status }}
+                                                                                    @else
+                                                                                        <a href="/alerts/{{$alert->id}}/update_status">
+                                                                                            {{ $alert->status }}
+                                                                                        </a>                                                 
+                                                                                    @endif
+                                                                                </td>
+                                                                            </tr>
+                                                                        @endif
+                                                                    @endforeach
+                                                                @endif
                                                             @endforeach
                                                         </tbody>
                                                         <tfoot>
@@ -318,40 +331,49 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            @foreach ($cellData as $cell)
-                                                            <?php 
-                                                                // for demo purposes only
-                                                                $type = 'Roll';
-                
-                                                                $status = array('New/Pending', 'Optimization In Progress', 'Closed');
-                                                                $status = $status[array_rand($status)];
-                
-                                                                if ($type == "Roll") {
-                                                                    $v = array('-1', '1');
-                                                                    $threshold = round(rand(2,88)*$v[array_rand($v)]/1.17, 2);
-                                                                    $value = round($threshold - rand(2,3)/1.07, 2);
-                
-                                                                    $threshold = $threshold.'&deg;';
-                                                                    $value = $value.'&deg;';
-                                                                }
-                
-                                                                if ($status == "New/Pending") {
-                                                                    $status = '<a href="#" >'.$status.'</a>';
-                                                                }
-                
-                                                                $name_arr = explode("-", $cell->cell_name);
-                                                                $remove_id = array_splice($name_arr, 1);
-                                                                $raw_name = implode("-", $remove_id);
-                                                                $cell_name = str_replace('_', ' ', $raw_name);
-                                                            ?>
-                                                            <tr class="<?php if ($status == "New/Pending")  { echo 'bg-danger'; } ?>">
-                                                                <td><?php echo rand(10,23).":".str_pad(rand(0,59), 2, "0", STR_PAD_LEFT); ?> HRS </td>
-                                                                <td><a href="/cell/{{ $cell->cell_id }}#alerts">{{ $cell_name }}</a></td>
-                                                                <td><?php echo $type; ?></td>
-                                                                <td><?php echo $value; ?> </td>
-                                                                <td><?php echo $threshold; ?> </td>
-                                                                <td><?php echo $status; ?> </td>
-                                                            </tr>
+                                                            @foreach ($alertData as $alert)
+                                                                @if ($alert->alert_type == 'Roll')
+                                                                    @foreach ($cellData as $cell)
+                                                                        @if ($alert->cell_id == $cell->cell_id)
+                                                                            <?php 
+                                                                                $name_arr = explode("-", $cell->cell_name);
+                                                                                $remove_id = array_splice($name_arr, 1);
+                                                                                $raw_name = implode("-", $remove_id);
+                                                                                $cell_name = str_replace('_', ' ', $raw_name);
+                                                                            ?>
+                                                                            <tr>
+                                                                                <td> {{ $alert->created_at }} </td>
+                                                                                <td><a href="/cell/{{ $cell->cell_id }}#alerts">{{ $cell_name }}</a></td>
+                                                                                <td> {{ $alert->alert_type }} </td>
+                                                                                <td> {{ $alert->value }} </td>
+                                                                                <td>
+                                                                                    @if ($alert->alert_type == 'Heading')
+                                                                                        {{ $cell->heading }}
+                                                                                    @elseif ($alert->alert_type == 'Pitch')
+                                                                                        {{ $cell->pitch }}
+                                                                                    @elseif ($alert->alert_type == 'Roll')
+                                                                                        {{ $cell->pitch }}
+                                                                                    @elseif ($alert->alert_type == 'Low Voltage')
+                                                                                        3.2 Volts
+                                                                                    @elseif ($alert->alert_type == 'Voltage Drop' )
+                                                                                        N/A
+                                                                                    @elseif ($alert->alert_type == 'No Communication')
+                                                                                        N/A                                                        
+                                                                                    @endif
+                                                                                </td>
+                                                                                <td>
+                                                                                    @if ($alert->status == 'Closed')
+                                                                                        {{ $alert->status }}
+                                                                                    @else
+                                                                                        <a href="/alerts/{{$alert->id}}/update_status">
+                                                                                            {{ $alert->status }}
+                                                                                        </a>                                                 
+                                                                                    @endif
+                                                                                </td>
+                                                                            </tr>
+                                                                        @endif
+                                                                    @endforeach
+                                                                @endif
                                                             @endforeach
                                                         </tbody>
                                                         <tfoot>
@@ -369,7 +391,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="signal" role="tabpanel" aria-labelledby="signal-tab">
+                                    <div class="tab-pane fade" id="vl" role="tabpanel" aria-labelledby="vl-tab">
                                         <div class="container-fluid">
                                             <div class="row">
                                                 <div class="col-md-12 site-cell-info">
@@ -385,36 +407,49 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            @foreach ($cellData as $cell)
-                                                            <?php 
-                                                                // for demo purposes only
-                                                                $type = 'Signal';
-                
-                                                                $status = array('New/Pending', 'Optimization In Progress', 'Closed');
-                                                                $status = $status[array_rand($status)];
-                
-                                                                if ($type == "Signal") {
-                                                                    $value = -113+(2*rand(24,35));
-                                                                    $threshold = '-69';
-                                                                } 
-                
-                                                                if ($status == "New/Pending") {
-                                                                    $status = '<a href="#" >'.$status.'</a>';
-                                                                }
-                
-                                                                $name_arr = explode("-", $cell->cell_name);
-                                                                $remove_id = array_splice($name_arr, 1);
-                                                                $raw_name = implode("-", $remove_id);
-                                                                $cell_name = str_replace('_', ' ', $raw_name);
-                                                            ?>
-                                                            <tr class="<?php if ($status == "New/Pending")  { echo 'bg-danger'; } ?>">
-                                                                <td><?php echo rand(10,23).":".str_pad(rand(0,59), 2, "0", STR_PAD_LEFT); ?> HRS </td>
-                                                                <td><a href="/cell/{{ $cell->cell_id }}#alerts">{{ $cell_name }}</a></td>
-                                                                <td><?php echo $types[array_rand($types)]; ?></td>
-                                                                <td><?php echo $value; ?> </td>
-                                                                <td><?php echo $threshold; ?> </td>
-                                                                <td><?php echo $status; ?> </td>
-                                                            </tr>
+                                                            @foreach ($alertData as $alert)
+                                                                @if ($alert->alert_type == 'Low Voltage')
+                                                                    @foreach ($cellData as $cell)
+                                                                        @if ($alert->cell_id == $cell->cell_id)
+                                                                            <?php 
+                                                                                $name_arr = explode("-", $cell->cell_name);
+                                                                                $remove_id = array_splice($name_arr, 1);
+                                                                                $raw_name = implode("-", $remove_id);
+                                                                                $cell_name = str_replace('_', ' ', $raw_name);
+                                                                            ?>
+                                                                            <tr>
+                                                                                <td> {{ $alert->created_at }} </td>
+                                                                                <td><a href="/cell/{{ $cell->cell_id }}#alerts">{{ $cell_name }}</a></td>
+                                                                                <td> {{ $alert->alert_type }} </td>
+                                                                                <td> {{ $alert->value }} </td>
+                                                                                <td>
+                                                                                    @if ($alert->alert_type == 'Heading')
+                                                                                        {{ $cell->heading }}
+                                                                                    @elseif ($alert->alert_type == 'Pitch')
+                                                                                        {{ $cell->pitch }}
+                                                                                    @elseif ($alert->alert_type == 'Roll')
+                                                                                        {{ $cell->pitch }}
+                                                                                    @elseif ($alert->alert_type == 'Low Voltage')
+                                                                                        3.2 Volts
+                                                                                    @elseif ($alert->alert_type == 'Voltage Drop' )
+                                                                                        N/A
+                                                                                    @elseif ($alert->alert_type == 'No Communication')
+                                                                                        N/A                                                        
+                                                                                    @endif
+                                                                                </td>
+                                                                                <td>
+                                                                                    @if ($alert->status == 'Closed')
+                                                                                        {{ $alert->status }}
+                                                                                    @else
+                                                                                        <a href="/alerts/{{$alert->id}}/update_status">
+                                                                                            {{ $alert->status }}
+                                                                                        </a>                                                 
+                                                                                    @endif
+                                                                                </td>
+                                                                            </tr>
+                                                                        @endif
+                                                                    @endforeach
+                                                                @endif
                                                             @endforeach
                                                         </tbody>
                                                         <tfoot>
@@ -432,7 +467,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="battery" role="tabpanel" aria-labelledby="battery-tab">
+                                    <div class="tab-pane fade" id="vd" role="tabpanel" aria-labelledby="vd-tab">
                                         <div class="container-fluid">
                                             <div class="row">
                                                 <div class="col-md-12 site-cell-info">
@@ -448,40 +483,49 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            @foreach ($cellData as $cell)
-                                                            <?php 
-                                                                // for demo purposes only
-                                                                $types = array('Voltage', 'Pitch', 'Heading', 'Roll' );
-                                                                $type = $types[array_rand($types)];
-                
-                                                                $status = array('New/Pending', 'Optimization In Progress', 'Closed');
-                                                                $status = $status[array_rand($status)];
-                
-                                                                if ($type == "Voltage") {
-                                                                    $threshold = '4.8';
-                                                                    $value = round($threshold - rand(1,2)/1.37, 2);
-                
-                                                                    $threshold = '4.8'.'volts';
-                                                                    $value = $value.'volts';
-                                                                }
-                
-                                                                if ($status == "New/Pending") {
-                                                                    $status = '<a href="#" >'.$status.'</a>';
-                                                                }
-                
-                                                                $name_arr = explode("-", $cell->cell_name);
-                                                                $remove_id = array_splice($name_arr, 1);
-                                                                $raw_name = implode("-", $remove_id);
-                                                                $cell_name = str_replace('_', ' ', $raw_name);
-                                                            ?>
-                                                            <tr class="<?php if ($status == "New/Pending")  { echo 'bg-danger'; } ?>">
-                                                                <td><?php echo rand(10,23).":".str_pad(rand(0,59), 2, "0", STR_PAD_LEFT); ?> HRS </td>
-                                                                <td><a href="/cell/{{ $cell->cell_id }}#alerts">{{ $cell_name }}</a></td>
-                                                                <td><?php echo $types[array_rand($types)]; ?></td>
-                                                                <td><?php echo $value; ?> </td>
-                                                                <td><?php echo $threshold; ?> </td>
-                                                                <td><?php echo $status; ?> </td>
-                                                            </tr>
+                                                            @foreach ($alertData as $alert)
+                                                                @if ($alert->alert_type == 'Voltage Drop')
+                                                                    @foreach ($cellData as $cell)
+                                                                        @if ($alert->cell_id == $cell->cell_id)
+                                                                            <?php 
+                                                                                $name_arr = explode("-", $cell->cell_name);
+                                                                                $remove_id = array_splice($name_arr, 1);
+                                                                                $raw_name = implode("-", $remove_id);
+                                                                                $cell_name = str_replace('_', ' ', $raw_name);
+                                                                            ?>
+                                                                            <tr>
+                                                                                <td> {{ $alert->created_at }} </td>
+                                                                                <td><a href="/cell/{{ $cell->cell_id }}#alerts">{{ $cell_name }}</a></td>
+                                                                                <td> {{ $alert->alert_type }} </td>
+                                                                                <td> {{ $alert->value }} </td>
+                                                                                <td>
+                                                                                    @if ($alert->alert_type == 'Heading')
+                                                                                        {{ $cell->heading }}
+                                                                                    @elseif ($alert->alert_type == 'Pitch')
+                                                                                        {{ $cell->pitch }}
+                                                                                    @elseif ($alert->alert_type == 'Roll')
+                                                                                        {{ $cell->pitch }}
+                                                                                    @elseif ($alert->alert_type == 'Low Voltage')
+                                                                                        3.2 Volts
+                                                                                    @elseif ($alert->alert_type == 'Voltage Drop' )
+                                                                                        N/A
+                                                                                    @elseif ($alert->alert_type == 'No Communication')
+                                                                                        N/A                                                        
+                                                                                    @endif
+                                                                                </td>
+                                                                                <td>
+                                                                                    @if ($alert->status == 'Closed')
+                                                                                        {{ $alert->status }}
+                                                                                    @else
+                                                                                        <a href="/alerts/{{$alert->id}}/update_status">
+                                                                                            {{ $alert->status }}
+                                                                                        </a>                                                 
+                                                                                    @endif
+                                                                                </td>
+                                                                            </tr>
+                                                                        @endif
+                                                                    @endforeach
+                                                                @endif
                                                             @endforeach
                                                         </tbody>
                                                         <tfoot>
@@ -515,40 +559,49 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            @foreach ($cellData as $cell)
-                                                            <?php 
-                                                                // for demo purposes only
-                                                                $types = array('Communication' );
-                                                                $type = $types[array_rand($types)];
-                
-                                                                $status = array('New/Pending', 'Optimization In Progress', 'Closed');
-                                                                $status = $status[array_rand($status)];
-                
-                                                                if ($type == "Voltage") {
-                                                                    $threshold = '4.8';
-                                                                    $value = round($threshold - rand(1,2)/1.37, 2);
-                
-                                                                    $threshold = '4.8'.'volts';
-                                                                    $value = $value.'volts';
-                                                                }
-                
-                                                                if ($status == "New/Pending") {
-                                                                    $status = '<a href="#" >'.$status.'</a>';
-                                                                }
-                
-                                                                $name_arr = explode("-", $cell->cell_name);
-                                                                $remove_id = array_splice($name_arr, 1);
-                                                                $raw_name = implode("-", $remove_id);
-                                                                $cell_name = str_replace('_', ' ', $raw_name);
-                                                            ?>
-                                                            <tr class="<?php if ($status == "New/Pending")  { echo 'bg-danger'; } ?>">
-                                                                <td><?php echo rand(10,23).":".str_pad(rand(0,59), 2, "0", STR_PAD_LEFT); ?> HRS </td>
-                                                                <td><a href="/cell/{{ $cell->cell_id }}#alerts">{{ $cell_name }}</a></td>
-                                                                <td><?php echo $types[array_rand($types)]; ?></td>
-                                                                <td><?php echo $value; ?> </td>
-                                                                <td><?php echo $threshold; ?> </td>
-                                                                <td><?php echo $status; ?> </td>
-                                                            </tr>
+                                                            @foreach ($alertData as $alert)
+                                                                @if ($alert->alert_type == 'No Communication')
+                                                                    @foreach ($cellData as $cell)
+                                                                        @if ($alert->cell_id == $cell->cell_id)
+                                                                            <?php 
+                                                                                $name_arr = explode("-", $cell->cell_name);
+                                                                                $remove_id = array_splice($name_arr, 1);
+                                                                                $raw_name = implode("-", $remove_id);
+                                                                                $cell_name = str_replace('_', ' ', $raw_name);
+                                                                            ?>
+                                                                            <tr>
+                                                                                <td> {{ $alert->created_at }} </td>
+                                                                                <td><a href="/cell/{{ $cell->cell_id }}#alerts">{{ $cell_name }}</a></td>
+                                                                                <td> {{ $alert->alert_type }} </td>
+                                                                                <td> {{ $alert->value }} </td>
+                                                                                <td>
+                                                                                    @if ($alert->alert_type == 'Heading')
+                                                                                        {{ $cell->heading }}
+                                                                                    @elseif ($alert->alert_type == 'Pitch')
+                                                                                        {{ $cell->pitch }}
+                                                                                    @elseif ($alert->alert_type == 'Roll')
+                                                                                        {{ $cell->pitch }}
+                                                                                    @elseif ($alert->alert_type == 'Low Voltage')
+                                                                                        3.2 Volts
+                                                                                    @elseif ($alert->alert_type == 'Voltage Drop' )
+                                                                                        N/A
+                                                                                    @elseif ($alert->alert_type == 'No Communication')
+                                                                                        N/A                                                        
+                                                                                    @endif
+                                                                                </td>
+                                                                                <td>
+                                                                                    @if ($alert->status == 'Closed')
+                                                                                        {{ $alert->status }}
+                                                                                    @else
+                                                                                        <a href="/alerts/{{$alert->id}}/update_status">
+                                                                                            {{ $alert->status }}
+                                                                                        </a>                                                 
+                                                                                    @endif
+                                                                                </td>
+                                                                            </tr>
+                                                                        @endif
+                                                                    @endforeach
+                                                                @endif
                                                             @endforeach
                                                         </tbody>
                                                         <tfoot>
