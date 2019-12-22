@@ -92,7 +92,15 @@
                                                                                 N/A                                                        
                                                                             @endif
                                                                         </td>
-                                                                        <td>{{$alert->status}}</td>
+                                                                        <td>
+                                                                            @if ($alert->status == 'Closed')
+                                                                                {{ $alert->status }}
+                                                                            @else
+                                                                                <a href="/alerts/{{$alert->id}}/update_status">
+                                                                                    {{ $alert->status }}
+                                                                                </a>                                                 
+                                                                            @endif
+                                                                        </td>
                                                                         <td>{{$alert->created_at}}</td>
                                                                     </tr>
                                                                     @endif
@@ -118,14 +126,13 @@
                                                     <div class="row">
                                                         <div class="col-md-12 site-cell-info">
                                                                 <?php
-                                                                $metric = $metric = array('Heading', 
-                                                                                          'Pitch', 
-                                                                                          'Roll', 
-                                                                                          'Low Voltage', 
-                                                                                          'Voltage Drop',
-                                                                                          'Weak Signal', 
-                                                                                          'No Communication' 
-                                                                                        ); 
+                                                                $metric = array('Heading', 
+                                                                                'Pitch', 
+                                                                                'Roll', 
+                                                                                'Low Voltage', 
+                                                                                'Voltage Drop',
+                                                                                'No Communication' 
+                                                                            ); 
                                                             ?>
                                                             <table id="site_cells_table" class="display table table-striped table-border row-border table-hover table-sm nowrap" style="width:100%">
                                                                 <thead>
@@ -136,36 +143,28 @@
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    @foreach ($cellData as $cell)
-                                                                    
-                                                                        @if ($cell->cell_id == $alert->cell_id)
-                                                                        <?php 
-                                                                            
-                                                                        ?>
-                                                                        <tr>
-                                                                            <td>{{$alert->alert_type}}</td>
-                                                                            <td>{{$alert->value}}</td>
-                                                                            <td>
-                                                                                @if ($alert->alert_type == 'Heading')
-                                                                                    {{ $cell->heading }}
-                                                                                @elseif ($alert->alert_type == 'Pitch')
-                                                                                    {{ $cell->pitch }}
-                                                                                @elseif ($alert->alert_type == 'Roll')
-                                                                                    {{ $cell->pitch }}
-                                                                                @elseif ($alert->alert_type == 'Weak Signal')
-                                                                                    N/A
-                                                                                @elseif ($alert->alert_type == 'Low Voltage')
-                                                                                    3.2 Volts
-                                                                                @elseif ($alert->alert_type == 'Voltage Drop' )
-                                                                                    N/A
-                                                                                @elseif ($alert->alert_type == 'No Communication' )
-                                                                                    N/A                                                        
-                                                                                @endif
-                                                                            </td>
-                                                                            <td>{{$alert->status}}</td>
-                                                                            <td>{{$alert->created_at}}</td>
-                                                                        </tr>
-                                                                        @endif
+                                                                    @foreach ($metric as $mtr)
+                                                                        @foreach ($cellData as $cell)
+                                                                            <tr>
+                                                                                <td>{{$mtr}}</td>
+                                                                                <td>
+                                                                                    @if ($mtr == 'Heading')
+                                                                                        {{ $cell->heading }}
+                                                                                    @elseif ($mtr == 'Pitch')
+                                                                                        {{ $cell->pitch }}
+                                                                                    @elseif ($mtr == 'Roll')
+                                                                                        {{ $cell->pitch }}
+                                                                                    @elseif ($mtr == 'Low Voltage')
+                                                                                        3.2 Volts
+                                                                                    @elseif ($mtr == 'Voltage Drop')
+                                                                                        N/A
+                                                                                    @elseif ($mtr == 'No Communication')
+                                                                                        N/A                                                        
+                                                                                    @endif
+                                                                                </td>
+                                                                                <td>{{$cell->created_at}}</td>
+                                                                            </tr>
+                                                                        @endforeach
                                                                     @endforeach
                                                                 </tbody>
                                                                 <tfoot>

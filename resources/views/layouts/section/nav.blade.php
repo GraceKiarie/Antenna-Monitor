@@ -71,11 +71,16 @@
 
                                 <!-- /ACCOUNT DETAILS DROPDOWN  -->
                                 <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
+{{--                                     
                                     <button type="button" tabindex="0" class="dropdown-item">
                                         <a href="/{{ Auth::user()->id }}/my_profile">
                                             Account Settings
                                         </a>
                                     </button>
+                                     --}}
+                                    <a class="dropdown-item" href="/{{ Auth::user()->id }}/profile">
+                                        Account Profile
+                                    </a>
                                     <div tabindex="-1" class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -103,11 +108,6 @@
                             <div class="widget-subheading">
                                     {{ Auth::user()->roles_id ?? 'System Administrator' }}
                             </div>
-                        </div>
-                        <div class="widget-content-right header-user-info ml-3">
-                            <button type="button" class="btn-shadow btn btn-primary btn-sm">
-                                <i class="fa text-white fa-envelope pr-1 pl-1"></i>
-                            </button>
                         </div>
                     </div>
                 </div>

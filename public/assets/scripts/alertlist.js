@@ -4,7 +4,7 @@ $(document).ready(function() {
         "scrollY": 300,
         "scrollX": true,
         dom: 'Bfrtlip',
-        "order": [[ 5, "desc" ], [ 0, 'desc' ]],
+        "order": [[ 5, "asc" ], [ 0, 'desc' ]],
         buttons: [
             'csv', 'excel', 'pdf', 'print'
         ],

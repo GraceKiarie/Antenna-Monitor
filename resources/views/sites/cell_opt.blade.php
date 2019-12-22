@@ -8,14 +8,6 @@
     <link rel="stylesheet" href="{{ asset('assets/css/datatables.css') }}" />
 @endpush
 
-@section('content-title')
-<div class="page-title-heading page-title-heading-m">
-    <div>
-        <h3>SITES</h3>
-    </div>
-</div>
-@endsection
-
 @section('content-detail')
 <div class="row scroll-area-x">
     <div class="col-md-12 col-lg-12 scrollbar-container">
@@ -32,14 +24,9 @@
                     <h5 class="content-detail-title">OPTIMIZATIONS</h5>
 
                     <div class="content-detail-btns">
-                        {{-- 
-                        <button onclick="window.location.href = '/alerts/status';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
-                            View Alerts By Status
-                        </button>
                         <button onclick="window.location.href = '/alerts';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
                             View All Alerts
                         </button>
-                         --}}
                         <button onclick="window.history.back();" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
                             Back
                         </button>
@@ -78,15 +65,15 @@
                                             Roll</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link nav-link-m" id="signal-tab" data-toggle="tab" href="#signal" role="tab"
-                                            aria-controls="signal" aria-selected="true">
-                                            Signal
+                                        <a class="nav-link nav-link-m" id="vl-tab" data-toggle="tab" href="#vl" role="tab"
+                                            aria-controls="vl" aria-selected="true">
+                                            Low Voltage
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link nav-link-m" id="battery-tab" data-toggle="tab" href="#battery" role="tab"
-                                            aria-controls="battery" aria-selected="false">
-                                            Battery
+                                        <a class="nav-link nav-link-m" id="vd-tab" data-toggle="tab" href="#vd" role="tab"
+                                            aria-controls="vd" aria-selected="false">
+                                            Voltage Drop
                                         </a>
                                     </li>
                                     <li class="nav-item">
@@ -117,7 +104,6 @@
                                                                 @foreach ($cellData as $cell)
                                                                     @if ($alert->cell_id == $cell->cell_id)
                                                                         <?php 
-                            
                                                                             $name_arr = explode("-", $cell->cell_name);
                                                                             $remove_id = array_splice($name_arr, 1);
                                                                             $raw_name = implode("-", $remove_id);
@@ -135,8 +121,6 @@
                                                                                     {{ $cell->pitch }}
                                                                                 @elseif ($alert->alert_type == 'Roll')
                                                                                     {{ $cell->pitch }}
-                                                                                @elseif ($alert->alert_type == 'Weak Signal')
-                                                                                    N/A
                                                                                 @elseif ($alert->alert_type == 'Low Voltage')
                                                                                     3.2 Volts
                                                                                 @elseif ($alert->alert_type == 'Voltage Drop' )
@@ -145,7 +129,11 @@
                                                                                     N/A                                                        
                                                                                 @endif
                                                                             </td>
-                                                                            <td>{{ $alert->status }}  </td>
+                                                                            <td>
+                                                                                <a href="/alerts/{{$alert->id}}/update_status">
+                                                                                    {{ $alert->status }}
+                                                                                </a>
+                                                                            </td>
                                                                         </tr>
                                                                     @endif
                                                                 @endforeach
@@ -184,7 +172,7 @@
                                                                 <tbody>
                                                                     @foreach ($alertData as $alert)
                                                                         @foreach ($cellData as $cell)
-                                                                            @if ($alert->cell_id == $cell->cell_id)
+                                                                            @if ($alert->cell_id == $cell->cell_id && $alert->alert_type == 'Heading')
                                                                                 <?php 
                                     
                                                                                     $name_arr = explode("-", $cell->cell_name);
@@ -197,12 +185,12 @@
                                                                                     <td><a href="/cell/{{ $cell->cell_id }}#alerts">{{ $cell_name }}</a></td>
                                                                                     <td>{{ $alert->alert_type }} </td>
                                                                                     <td>{{ $alert->value }} </td>
-                                                                                    <td> 
-                                                                                        @if ($alert->alert_type == 'Heading')
-                                                                                            {{ $cell->heading }}
-                                                                                        @endif
+                                                                                    <td> {{ $cell->heading }} </td>
+                                                                                    <td>
+                                                                                        <a href="/alerts/{{$alert->id}}/update_status">
+                                                                                            {{ $alert->status }}
+                                                                                        </a>                                                 
                                                                                     </td>
-                                                                                    <td>{{ $alert->status }}  </td>
                                                                                 </tr>
                                                                             @endif
                                                                         @endforeach
@@ -241,7 +229,7 @@
                                                                 <tbody>
                                                                     @foreach ($alertData as $alert)
                                                                         @foreach ($cellData as $cell)
-                                                                            @if ($alert->cell_id == $cell->cell_id)
+                                                                            @if ($alert->cell_id == $cell->cell_id && $alert->alert_type == 'Pitch')
                                                                                 <?php 
                                     
                                                                                     $name_arr = explode("-", $cell->cell_name);
@@ -254,12 +242,12 @@
                                                                                     <td><a href="/cell/{{ $cell->cell_id }}#alerts">{{ $cell_name }}</a></td>
                                                                                     <td>{{ $alert->alert_type }} </td>
                                                                                     <td>{{ $alert->value }} </td>
-                                                                                    <td> 
-                                                                                        @if ($alert->alert_type == 'Pitch')
-                                                                                            {{ $cell->pitch }}
-                                                                                        @endif
+                                                                                    <td> {{ $cell->pitch }} </td>
+                                                                                    <td>
+                                                                                        <a href="/alerts/{{$alert->id}}/update_status">
+                                                                                            {{ $alert->status }}
+                                                                                        </a>
                                                                                     </td>
-                                                                                    <td>{{ $alert->status }}  </td>
                                                                                 </tr>
                                                                             @endif
                                                                         @endforeach
@@ -298,7 +286,7 @@
                                                                 <tbody>
                                                                     @foreach ($alertData as $alert)
                                                                         @foreach ($cellData as $cell)
-                                                                            @if ($alert->cell_id == $cell->cell_id)
+                                                                            @if ($alert->cell_id == $cell->cell_id && $alert->alert_type == 'Roll')
                                                                                 <?php 
                                     
                                                                                     $name_arr = explode("-", $cell->cell_name);
@@ -311,12 +299,12 @@
                                                                                     <td><a href="/cell/{{ $cell->cell_id }}#alerts">{{ $cell_name }}</a></td>
                                                                                     <td>{{ $alert->alert_type }} </td>
                                                                                     <td>{{ $alert->value }} </td>
-                                                                                    <td> 
-                                                                                        @if ($alert->alert_type == 'Roll')
-                                                                                            {{ $cell->pitch }}                                                       
-                                                                                        @endif
+                                                                                    <td> {{ $cell->roll }} </td>
+                                                                                    <td>
+                                                                                        <a href="/alerts/{{$alert->id}}/update_status">
+                                                                                            {{ $alert->status }}
+                                                                                        </a>
                                                                                     </td>
-                                                                                    <td>{{ $alert->status }}  </td>
                                                                                 </tr>
                                                                             @endif
                                                                         @endforeach
@@ -337,7 +325,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="signal" role="tabpanel" aria-labelledby="signal-tab">
+                                    <div class="tab-pane fade" id="vl" role="tabpanel" aria-labelledby="vl-tab">
                                         <div class="container-fluid">
                                             <div class="row">
                                                 <div class="col-md-12 site-cell-info">
@@ -355,7 +343,7 @@
                                                                 <tbody>
                                                                     @foreach ($alertData as $alert)
                                                                         @foreach ($cellData as $cell)
-                                                                            @if ($alert->cell_id == $cell->cell_id)
+                                                                            @if ($alert->cell_id == $cell->cell_id && $alert->alert_type == 'Low Voltage')
                                                                                 <?php 
                                     
                                                                                     $name_arr = explode("-", $cell->cell_name);
@@ -368,12 +356,12 @@
                                                                                     <td><a href="/cell/{{ $cell->cell_id }}#alerts">{{ $cell_name }}</a></td>
                                                                                     <td>{{ $alert->alert_type }} </td>
                                                                                     <td>{{ $alert->value }} </td>
-                                                                                    <td> 
-                                                                                        @if ($alert->alert_type == 'Weak Signal')
-                                                                                            N/A                                                       
-                                                                                        @endif
+                                                                                    <td>3.2 Volts</td>
+                                                                                    <td>
+                                                                                        <a href="/alerts/{{$alert->id}}/update_status">
+                                                                                            {{ $alert->status }}
+                                                                                        </a>
                                                                                     </td>
-                                                                                    <td>{{ $alert->status }}  </td>
                                                                                 </tr>
                                                                             @endif
                                                                         @endforeach
@@ -394,7 +382,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="battery" role="tabpanel" aria-labelledby="battery-tab">
+                                    <div class="tab-pane fade" id="vd" role="tabpanel" aria-labelledby="vd-tab">
                                         <div class="container-fluid">
                                             <div class="row">
                                                 <div class="col-md-12 site-cell-info">
@@ -412,7 +400,7 @@
                                                                 <tbody>
                                                                     @foreach ($alertData as $alert)
                                                                         @foreach ($cellData as $cell)
-                                                                            @if ($alert->cell_id == $cell->cell_id)
+                                                                            @if ($alert->cell_id == $cell->cell_id && $alert->alert_type == 'Voltage Drop')
                                                                                 <?php 
                                     
                                                                                     $name_arr = explode("-", $cell->cell_name);
@@ -425,14 +413,12 @@
                                                                                     <td><a href="/cell/{{ $cell->cell_id }}#alerts">{{ $cell_name }}</a></td>
                                                                                     <td>{{ $alert->alert_type }} </td>
                                                                                     <td>{{ $alert->value }} </td>
-                                                                                    <td> 
-                                                                                        @if ($alert->alert_type == 'Low Voltage')
-                                                                                            3.2 Volts
-                                                                                        @elseif ($alert->alert_type == 'Voltage Drop' )
-                                                                                            N/A                                                       
-                                                                                        @endif
+                                                                                    <td> N/A </td>
+                                                                                    <td>
+                                                                                        <a href="/alerts/{{$alert->id}}/update_status">
+                                                                                            {{ $alert->status }}
+                                                                                        </a>
                                                                                     </td>
-                                                                                    <td>{{ $alert->status }}  </td>
                                                                                 </tr>
                                                                             @endif
                                                                         @endforeach
@@ -471,7 +457,7 @@
                                                                 <tbody>
                                                                     @foreach ($alertData as $alert)
                                                                         @foreach ($cellData as $cell)
-                                                                            @if ($alert->cell_id == $cell->cell_id)
+                                                                            @if ($alert->cell_id == $cell->cell_id && $alert->alert_type == 'No Communication')
                                                                                 <?php 
                                     
                                                                                     $name_arr = explode("-", $cell->cell_name);
@@ -489,7 +475,11 @@
                                                                                             N/A                                                        
                                                                                         @endif
                                                                                     </td>
-                                                                                    <td>{{ $alert->status }}  </td>
+                                                                                    <td>
+                                                                                        <a href="/alerts/{{$alert->id}}/update_status">
+                                                                                            {{ $alert->status }}
+                                                                                        </a>
+                                                                                    </td>
                                                                                 </tr>
                                                                             @endif
                                                                         @endforeach
