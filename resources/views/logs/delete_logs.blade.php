@@ -19,7 +19,7 @@
                 <hr class="page-title-hr" />
                 <div class="main-card mb-3 card">
                     <div class="card-body card-body-m">
-                        <h5 class="content-detail-title">Access Logs</h5>
+                        <h5 class="content-detail-title">Delete Logs</h5>
 
 
                         <hr class="page-subtitle-hr" />

@@ -16,22 +16,22 @@ class LogsController extends Controller
 
     public function createLogs()
     {
-        $accessLogs = Log::where('type', 'access')->orderBy('created_at','desc')->get();
-        return view('logs.access_logs', compact('accessLogs'));
+        $createLogs = Log::where('type', 'create')->orderBy('created_at','desc')->get();
+        return view('logs.create_logs', compact('createLogs'));
 
     }
 
     public function deleteLogs()
     {
-        $accessLogs = Log::where('type', 'access')->orderBy('created_at','desc')->get();
-        return view('logs.access_logs', compact('accessLogs'));
+        $deleteLogs = Log::where('type', 'delete')->orderBy('created_at','desc')->get();
+        return view('logs.delete_logs', compact('deleteLogs'));
 
     }
 
     public function updateLogs()
     {
-        $accessLogs = Log::where('type', 'access')->orderBy('created_at','desc')->get();
-        return view('logs.access_logs', compact('accessLogs'));
+        $updateLogs = Log::where('type', 'update')->orderBy('created_at','desc')->get();
+        return view('logs.update_logs', compact('updateLogs'));
 
     }
 }

@@ -71,7 +71,7 @@
                                                 <tr>
                                                     <td><a href="#">{{ $install->qr_number }}</a></td>
                                                     <td><a href="#">{{ $install->installation_report }}</a></td>
-                                                    <td>{{ $install->user_id }}</td>
+                                                    <td>{{ $install->user_name }}</td>
                                                     <td>{{ $install->updated_at }}</td>
                                                     <td>{{ $install->status }}</td>
                                                 </tr>
@@ -107,7 +107,7 @@
                                                 <tr>
                                                     <td><a href="#">{{ $test->qr_number }}</a></td>
                                                     <td><a href="#">{{ $test->test_report }}</a></td>
-                                                    <td>{{ $test->user_id }}</td>
+                                                    <td>{{ $test->user_name }}</td>
                                                     <td>{{ $test->updated_at }}</td>
                                                     <td>{{ $test->status }}</td>
                                                 </tr>

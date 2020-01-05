@@ -1,6 +1,6 @@
 <!-- SIDEBAR -->
 <div class="app-header__logo">
-        <div class="logo-src"></div>
+    <div class="logo-src"></div>
         <div class="header__pane ml-auto">
             <div>
                 <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar">
@@ -58,12 +58,6 @@
                                     <a href="/cells" class="menu-item">
                                         <i class="metismenu-icon"></i>
                                         Cells List
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/opt" class="menu-item">
-                                        <i class="metismenu-icon"></i>
-                                        Optimizations
                                     </a>
                                 </li>
                             </ul>
@@ -169,19 +163,19 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" class="menu-item">
+                                    <a href="/logs/create" class="menu-item">
                                         <i class="metismenu-icon">
                                         </i>Create Logs
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" class="menu-item">
+                                    <a href="/logs/update" class="menu-item">
                                         <i class="metismenu-icon">
                                         </i>Update Logs
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" class="menu-item">
+                                    <a href="/logs/delete" class="menu-item">
                                         <i class="metismenu-icon">
                                         </i>Delete Logs
                                     </a>

@@ -8,13 +8,9 @@
     <link rel="stylesheet" href="{{ asset('assets/css/datatables.css') }}" />
 @endpush
 
-@section('content-title')
-<div class="page-title-heading page-title-heading-m">
-    <div>
-        <h3>SITES</h3>
-    </div>
-</div>
-@endsection
+@push('header-scripts')
+    <script type="text/javascript" src="{{ asset('assets/scripts/jquery/jquery-3.3.1.min.js') }}"></script>
+@endpush
 
 @section('content-detail')
 <div class="row scroll-area-x">
@@ -50,7 +46,9 @@
                                 <ul class="nav nav-tabs nav-tabs-m" id="alertsTab" role="tablist">
                                     <li class="nav-item">
                                         <a class="nav-link active nav-link-m" id="all-tab" data-toggle="tab" href="#all" role="tab"
-                                            aria-controls="all" aria-selected="true">All Alerts</a>
+                                            aria-controls="all" aria-selected="true">
+                                            All Alerts
+                                        </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link nav-link-m" id="pending-tab" data-toggle="tab" href="#pending" role="tab"
@@ -85,44 +83,22 @@
                                             </thead>
                                             <tbody>
                                                 @foreach ($alertData as $alert)
-                                                    @foreach ($cellData as $cell)
-                                                        <?php
-                                                            $name_arr = explode("-", $cell->cell_name);
-                                                            $remove_id = array_splice($name_arr, 1);
-                                                            $raw_name = implode("-", $remove_id);
-                                                            $cell_name = str_replace('_', ' ', $raw_name);
-                                                        ?>
-                                                        <tr>
-                                                            <td>{{ $alert->created_at }} </td>
-                                                            <td><a href="/cell/{{ $alert->cell_id }}#alerts">{{ $cell_name }}</a></td>
-                                                            <td>{{ $alert->alert_type }}</td>
-                                                            <td>{{ $alert->value }}</td>
-                                                            <td>
-                                                                @if ($alert->alert_type == 'Heading')
-                                                                    {{ $cell->heading }}
-                                                                @elseif ($alert->alert_type == 'Pitch')
-                                                                    {{ $cell->pitch }}
-                                                                @elseif ($alert->alert_type == 'Roll')
-                                                                    {{ $cell->pitch }}
-                                                                @elseif ($alert->alert_type == 'Low Voltage')
-                                                                    3.2 Volts
-                                                                @elseif ($alert->alert_type == 'Voltage Drop' )
-                                                                    N/A
-                                                                @elseif ($alert->alert_type == 'No Communication' )
-                                                                    N/A                                                        
-                                                                @endif
-                                                            </td>
-                                                            <td>
-                                                                @if ($alert->status == 'Pending' || $alert->status == 'Optimization' )
-                                                                    <a href="/{{ $alert->id }}/update_alert_status">
-                                                                        {{ $alert->status }}
-                                                                    </a>
-                                                                @else                                                            
-                                                                    {{ $alert->status }}                                                   
-                                                                @endif
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
+                                                    <tr>
+                                                        <td>{{$alert->created_at}}</td>
+                                                        <td><a href="/cell/{{ $alert->cell_id }}#alerts">{{ $alert->cell_name }}</a></td>
+                                                        <td> {{ $alert->alert_type }} </td>
+                                                        <td> {{ $alert->value }} </td>
+                                                        <td> {{ $alert->threshold }} </td>
+                                                        <td>
+                                                            @if ($alert->status == 'Closed')
+                                                                {{ $alert->status }}
+                                                            @else
+                                                                <a href="/alerts/{{$alert->id}}/update_status">
+                                                                    {{ $alert->status }}
+                                                                </a>                                                 
+                                                            @endif
+                                                        </td>
+                                                    </tr>
                                                 @endforeach
                                             </tbody>
                                             <tfoot>
@@ -152,40 +128,18 @@
                                             <tbody>
                                                 @foreach ($alertData as $alert)
                                                     @if ($alert->status == 'Pending')
-                                                        @foreach ($cellData as $cell)
-                                                            <?php
-                                                                $name_arr = explode("-", $cell->cell_name);
-                                                                $remove_id = array_splice($name_arr, 1);
-                                                                $raw_name = implode("-", $remove_id);
-                                                                $cell_name = str_replace('_', ' ', $raw_name);
-                                                            ?>
-                                                            <tr>
-                                                                <td>{{ $alert->created_at }} </td>
-                                                                <td><a href="/cell/{{ $alert->cell_id }}#alerts">{{ $cell_name }}</a></td>
-                                                                <td>{{ $alert->alert_type }}</td>
-                                                                <td>{{ $alert->value }}</td>
-                                                                <td>
-                                                                    @if ($alert->alert_type == 'Heading')
-                                                                        {{ $cell->heading }}
-                                                                    @elseif ($alert->alert_type == 'Pitch')
-                                                                        {{ $cell->pitch }}
-                                                                    @elseif ($alert->alert_type == 'Roll')
-                                                                        {{ $cell->pitch }}
-                                                                    @elseif ($alert->alert_type == 'Low Voltage')
-                                                                        3.2 Volts
-                                                                    @elseif ($alert->alert_type == 'Voltage Drop' )
-                                                                        N/A
-                                                                    @elseif ($alert->alert_type == 'No Communication' )
-                                                                        N/A                                                        
-                                                                    @endif
-                                                                </td>
-                                                                <td>
-                                                                    <a href="/{{ $alert->id }}/update_alert_status">
-                                                                        {{ $alert->status }}
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
+                                                        <tr>
+                                                            <td>{{$alert->created_at}}</td>
+                                                            <td><a href="/cell/{{ $alert->cell_id }}#alerts">{{ $alert->cell_name }}</a></td>
+                                                            <td> {{ $alert->alert_type }} </td>
+                                                            <td> {{ $alert->value }} </td>
+                                                            <td> {{ $alert->threshold }} </td>
+                                                            <td>
+                                                                <a href="/alerts/{{$alert->id}}/update_status">
+                                                                    {{ $alert->status }}
+                                                                </a>
+                                                            </td>
+                                                        </tr>
                                                     @endif
                                                 @endforeach
                                             </tbody>
@@ -216,40 +170,18 @@
                                             <tbody>
                                                 @foreach ($alertData as $alert)
                                                     @if ($alert->status == 'Optimization')
-                                                        @foreach ($cellData as $cell)
-                                                            <?php
-                                                                $name_arr = explode("-", $cell->cell_name);
-                                                                $remove_id = array_splice($name_arr, 1);
-                                                                $raw_name = implode("-", $remove_id);
-                                                                $cell_name = str_replace('_', ' ', $raw_name);
-                                                            ?>
-                                                            <tr>
-                                                                <td>{{ $alert->created_at }} </td>
-                                                                <td><a href="/cell/{{ $alert->cell_id }}#alerts">{{ $cell_name }}</a></td>
-                                                                <td>{{ $alert->alert_type }}</td>
-                                                                <td>{{ $alert->value }}</td>
-                                                                <td>
-                                                                    @if ($alert->alert_type == 'Heading')
-                                                                        {{ $cell->heading }}
-                                                                    @elseif ($alert->alert_type == 'Pitch')
-                                                                        {{ $cell->pitch }}
-                                                                    @elseif ($alert->alert_type == 'Roll')
-                                                                        {{ $cell->pitch }}
-                                                                    @elseif ($alert->alert_type == 'Low Voltage')
-                                                                        3.2 Volts
-                                                                    @elseif ($alert->alert_type == 'Voltage Drop' )
-                                                                        N/A
-                                                                    @elseif ($alert->alert_type == 'No Communication' )
-                                                                        N/A                                                        
-                                                                    @endif
-                                                                </td>
-                                                                <td>
-                                                                    <a href="/{{ $alert->id }}/update_alert_status">
-                                                                        {{ $alert->status }}
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
+                                                        <tr>
+                                                            <td>{{$alert->created_at}}</td>
+                                                            <td><a href="/cell/{{ $alert->cell_id }}#alerts">{{ $alert->cell_name }}</a></td>
+                                                            <td> {{ $alert->alert_type }} </td>
+                                                            <td> {{ $alert->value }} </td>
+                                                            <td> {{ $alert->threshold }} </td>
+                                                            <td>
+                                                                <a href="/alerts/{{$alert->id}}/update_status">
+                                                                    {{ $alert->status }}
+                                                                </a>
+                                                            </td>
+                                                        </tr>
                                                     @endif
                                                 @endforeach
                                             </tbody>
@@ -280,38 +212,14 @@
                                             <tbody>
                                                 @foreach ($alertData as $alert)
                                                     @if ($alert->status == 'Closed')
-                                                        @foreach ($cellData as $cell)
-                                                            <?php
-                                                                $name_arr = explode("-", $cell->cell_name);
-                                                                $remove_id = array_splice($name_arr, 1);
-                                                                $raw_name = implode("-", $remove_id);
-                                                                $cell_name = str_replace('_', ' ', $raw_name);
-                                                            ?>
-                                                            <tr>
-                                                                <td>{{ $alert->created_at }} </td>
-                                                                <td><a href="/cell/{{ $alert->cell_id }}#alerts">{{ $cell_name }}</a></td>
-                                                                <td>{{ $alert->alert_type }}</td>
-                                                                <td>{{ $alert->value }}</td>
-                                                                <td>
-                                                                    @if ($alert->alert_type == 'Heading')
-                                                                        {{ $cell->heading }}
-                                                                    @elseif ($alert->alert_type == 'Pitch')
-                                                                        {{ $cell->pitch }}
-                                                                    @elseif ($alert->alert_type == 'Roll')
-                                                                        {{ $cell->pitch }}
-                                                                    @elseif ($alert->alert_type == 'Low Voltage')
-                                                                        3.2 Volts
-                                                                    @elseif ($alert->alert_type == 'Voltage Drop' )
-                                                                        N/A
-                                                                    @elseif ($alert->alert_type == 'No Communication' )
-                                                                        N/A                                                        
-                                                                    @endif
-                                                                </td>
-                                                                <td>
-                                                                    {{ $alert->status }}
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
+                                                        <tr>
+                                                            <td>{{$alert->created_at}}</td>
+                                                            <td><a href="/cell/{{ $alert->cell_id }}#alerts">{{ $alert->cell_name }}</a></td>
+                                                            <td> {{ $alert->alert_type }} </td>
+                                                            <td> {{ $alert->value }} </td>
+                                                            <td> {{ $alert->threshold }} </td>
+                                                            <td> {{ $alert->status }} </td>
+                                                        </tr>
                                                     @endif
                                                 @endforeach
                                             </tbody>

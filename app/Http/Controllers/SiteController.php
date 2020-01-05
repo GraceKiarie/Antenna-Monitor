@@ -133,9 +133,33 @@ class SiteController extends Controller
     //DISPLAY SITE REPORTS PAGE
     public function showSiteReports()
     {
-        $installData = InstallationReport::all();
-        $testData = TestReport::all();
+        $installData = $this->getDataForSiteReports('installation_reports');
+        $testData = $this->getDataForSiteReports('test_reports');
         return view('sites.site_reports', compact('installData', 'testData'));
+    }
+
+    private function getDataForSiteReports($table)
+    {
+        $userIDs = DB::table($table)->distinct()->get(['user_id']);
+        $id_array = json_decode( json_encode($userIDs), true);
+        $reportUsers = DB::table('users')->whereIn('id', $id_array)->get();
+
+        if ($table == 'installation_reports') {
+            $reportData = InstallationReport::all();
+        } else {
+            $reportData = TestReport::all();
+        }
+
+        foreach ($reportUsers as $user) {
+            foreach ($reportData as $data) {
+                if($data->user_id == $user->id){
+
+                    // add  user name to test report collection
+                    $data->user_name = $user->name;
+                }
+            }
+        }
+        return $reportData;
     }
 
     public function showCellDetails($cell_id)

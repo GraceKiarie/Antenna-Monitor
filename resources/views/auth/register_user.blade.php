@@ -103,7 +103,7 @@
                                                             style="width: 100% !important;">
                                                         <option value="" selected>Choose Contractor</option>
                                                         @foreach ($cons as $con)
-                                                            <option value=" {{ $con->id }} "> {{ $con->contractor_name }} </option>
+                                                            <option value="{{$con->id}}" class="{{$con->id}}"> {{ $con->contractor_name }} </option>
                                                         @endforeach
                                                     </select>
                                                 </label>
@@ -115,7 +115,7 @@
                                                     <select id="tea" class="form-control" name="team">
                                                         <option value="" selected>Choose Team</option>
                                                         @foreach ($teams as $team)
-                                                            <option value=" {{ $team->id }} "> {{ $team->team_name }} </option>
+                                                            <option value="{{ $team->id }}" class="{{$team->contractor_id}}"> {{ $team->team_name }} </option>
                                                         @endforeach
                                                     </select>
                                                 </label>

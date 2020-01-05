@@ -8,14 +8,6 @@
     <link rel="stylesheet" href="{{ asset('assets/css/datatables.css') }}" />
 @endpush
 
-@section('content-title')
-<div class="page-title-heading page-title-heading-m">
-    <div>
-        <h3>SITES</h3>
-    </div>
-</div>
-@endsection
-
 @section('content-detail')
 <div class="row scroll-area-x">
     <div class="col-md-12 col-lg-12 scrollbar-container">
@@ -46,581 +38,373 @@
                     <hr class="page-subtitle-hr" />
 
                     <div class="row">
-                            <div class="col-md-12">
-                                <ul class="nav nav-tabs nav-tabs-m" id="alertsTab" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active nav-link-m" id="all-tab" data-toggle="tab" href="#all" role="tab"
-                                            aria-controls="all" aria-selected="true">All Alerts</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link nav-link-m" id="azimuth-tab" data-toggle="tab" href="#azimuth" role="tab"
-                                            aria-controls="azimuth" aria-selected="true">
-                                            Heading
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link nav-link-m" id="pitch-tab" data-toggle="tab" href="#pitch" role="tab"
-                                            aria-controls="pitch" aria-selected="false">
-                                            Pitch
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link nav-link-m" id="roll-tab" data-toggle="tab" href="#roll" role="tab"
-                                            aria-controls="roll" aria-selected="false">
-                                            Roll</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link nav-link-m" id="vl-tab" data-toggle="tab" href="#vl" role="tab"
-                                            aria-controls="vl" aria-selected="true">
-                                            Low Voltage
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link nav-link-m" id="vd-tab" data-toggle="tab" href="#vd" role="tab"
-                                            aria-controls="vd" aria-selected="false">
-                                            Voltage Drop
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link nav-link-m" id="com-tab" data-toggle="tab" href="#com" role="tab"
-                                            aria-controls="com" aria-selected="false">
-                                            No Communication
-                                        </a>
-                                    </li>
-                                </ul>
-                                <div class="tab-content tab-content-m" id="">
-                                    <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
-                                        <div class="container-fluid">
-                                            <div class="row">
-                                                <div class="col-md-12 site-cell-info">
-                                                    <table id="alerts_table" class="display table table-striped table-border row-border table-hover table-sm nowrap" style="width:100%">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Time</th>
-                                                                <th>Cell Name</th>
-                                                                <th>Alert Type</th>
-                                                                <th>Value</th>
-                                                                <th>Threshold</th>
-                                                                <th>Alert Status</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach ($alertData as $alert)
-                                                                @foreach ($cellData as $cell)
-                                                                    @if ($alert->cell_id == $cell->cell_id)
-                                                                        <?php 
-                                                                            $name_arr = explode("-", $cell->cell_name);
-                                                                            $remove_id = array_splice($name_arr, 1);
-                                                                            $raw_name = implode("-", $remove_id);
-                                                                            $cell_name = str_replace('_', ' ', $raw_name);
-                                                                        ?>
-                                                                        <tr>
-                                                                            <td></td>
-                                                                            <td><a href="/cell/{{ $cell->cell_id }}#alerts">{{ $cell_name }}</a></td>
-                                                                            <td> {{ $alert->alert_type }} </td>
-                                                                            <td> {{ $alert->value }} </td>
-                                                                            <td>
-                                                                                @if ($alert->alert_type == 'Heading')
-                                                                                    {{ $cell->heading }}
-                                                                                @elseif ($alert->alert_type == 'Pitch')
-                                                                                    {{ $cell->pitch }}
-                                                                                @elseif ($alert->alert_type == 'Roll')
-                                                                                    {{ $cell->pitch }}
-                                                                                @elseif ($alert->alert_type == 'Low Voltage')
-                                                                                    3.2 Volts
-                                                                                @elseif ($alert->alert_type == 'Voltage Drop' )
-                                                                                    N/A
-                                                                                @elseif ($alert->alert_type == 'No Communication')
-                                                                                    N/A                                                        
-                                                                                @endif
-                                                                            </td>
-                                                                            <td>
-                                                                                @if ($alert->status == 'Closed')
-                                                                                    {{ $alert->status }}
-                                                                                @else
-                                                                                    <a href="/alerts/{{$alert->id}}/update_status">
-                                                                                        {{ $alert->status }}
-                                                                                    </a>                                                 
-                                                                                @endif
-                                                                            </td>
-                                                                        </tr>
-                                                                    @endif
-                                                                @endforeach
-                                                            @endforeach
-                                                        </tbody>
-                                                        <tfoot>
-                                                            <tr>
-                                                                <th>Time</th>
-                                                                <th>Cell ID</th>
-                                                                <th>Alert Type</th>
-                                                                <th>Value</th>
-                                                                <th>Threshold</th>
-                                                                <th>Alert Status</th>
-                                                            </tr>
-                                                        </tfoot>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="azimuth" role="tabpanel" aria-labelledby="azimuth-tab">
-                                        <div class="container-fluid">
-                                            <div class="row">
-                                                <div class="col-md-12 site-cell-info">
-                                                    <table id="alerts_table" class="display table table-striped table-border row-border table-hover table-sm nowrap" style="width:100%">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Time</th>
-                                                                <th>Cell Name</th>
-                                                                <th>Alert Type</th>
-                                                                <th>Value</th>
-                                                                <th>Threshold</th>
-                                                                <th>Alert Status</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach ($alertData as $alert)
-                                                                @if ($alert->alert_type == 'Heading')
-                                                                    @foreach ($cellData as $cell)
-                                                                        @if ($alert->cell_id == $cell->cell_id)
-                                                                            <?php 
-                                                                                $name_arr = explode("-", $cell->cell_name);
-                                                                                $remove_id = array_splice($name_arr, 1);
-                                                                                $raw_name = implode("-", $remove_id);
-                                                                                $cell_name = str_replace('_', ' ', $raw_name);
-                                                                            ?>
-                                                                            <tr>
-                                                                                <td> {{ $alert->created_at }} </td>
-                                                                                <td><a href="/cell/{{ $cell->cell_id }}#alerts">{{ $cell_name }}</a></td>
-                                                                                <td> {{ $alert->alert_type }} </td>
-                                                                                <td> {{ $alert->value }} </td>
-                                                                                <td>
-                                                                                    @if ($alert->alert_type == 'Heading')
-                                                                                        {{ $cell->heading }}
-                                                                                    @elseif ($alert->alert_type == 'Pitch')
-                                                                                        {{ $cell->pitch }}
-                                                                                    @elseif ($alert->alert_type == 'Roll')
-                                                                                        {{ $cell->pitch }}
-                                                                                    @elseif ($alert->alert_type == 'Low Voltage')
-                                                                                        3.2 Volts
-                                                                                    @elseif ($alert->alert_type == 'Voltage Drop' )
-                                                                                        N/A
-                                                                                    @elseif ($alert->alert_type == 'No Communication')
-                                                                                        N/A                                                        
-                                                                                    @endif
-                                                                                </td>
-                                                                                <td>
-                                                                                    @if ($alert->status == 'Closed')
-                                                                                        {{ $alert->status }}
-                                                                                    @else
-                                                                                        <a href="/alerts/{{$alert->id}}/update_status">
-                                                                                            {{ $alert->status }}
-                                                                                        </a>                                                 
-                                                                                    @endif
-                                                                                </td>
-                                                                            </tr>
-                                                                        @endif
-                                                                    @endforeach
-                                                                @endif
-                                                            @endforeach
-                                                        </tbody>
-                                                        <tfoot>
-                                                            <tr>
-                                                                <th>Time</th>
-                                                                <th>Cell ID</th>
-                                                                <th>Alert Type</th>
-                                                                <th>Value</th>
-                                                                <th>Threshold</th>
-                                                                <th>Alert Status</th>
-                                                            </tr>
-                                                        </tfoot>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="pitch" role="tabpanel" aria-labelledby="pitch-tab">
-                                        <div class="container-fluid">
-                                            <div class="row">
-                                                <div class="col-md-12 site-cell-info">
-                                                    <table id="alerts_table" class="display table table-striped table-border row-border table-hover table-sm nowrap" style="width:100%">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Time</th>
-                                                                <th>Cell Name</th>
-                                                                <th>Alert Type</th>
-                                                                <th>Value</th>
-                                                                <th>Threshold</th>
-                                                                <th>Alert Status</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach ($alertData as $alert)
-                                                                @if ($alert->alert_type == 'Pitch')
-                                                                    @foreach ($cellData as $cell)
-                                                                        @if ($alert->cell_id == $cell->cell_id)
-                                                                            <?php 
-                                                                                $name_arr = explode("-", $cell->cell_name);
-                                                                                $remove_id = array_splice($name_arr, 1);
-                                                                                $raw_name = implode("-", $remove_id);
-                                                                                $cell_name = str_replace('_', ' ', $raw_name);
-                                                                            ?>
-                                                                            <tr>
-                                                                                <td> {{ $alert->created_at }} </td>
-                                                                                <td><a href="/cell/{{ $cell->cell_id }}#alerts">{{ $cell_name }}</a></td>
-                                                                                <td> {{ $alert->alert_type }} </td>
-                                                                                <td> {{ $alert->value }} </td>
-                                                                                <td>
-                                                                                    @if ($alert->alert_type == 'Heading')
-                                                                                        {{ $cell->heading }}
-                                                                                    @elseif ($alert->alert_type == 'Pitch')
-                                                                                        {{ $cell->pitch }}
-                                                                                    @elseif ($alert->alert_type == 'Roll')
-                                                                                        {{ $cell->pitch }}
-                                                                                    @elseif ($alert->alert_type == 'Low Voltage')
-                                                                                        3.2 Volts
-                                                                                    @elseif ($alert->alert_type == 'Voltage Drop' )
-                                                                                        N/A
-                                                                                    @elseif ($alert->alert_type == 'No Communication')
-                                                                                        N/A                                                        
-                                                                                    @endif
-                                                                                </td>
-                                                                                <td>
-                                                                                    @if ($alert->status == 'Closed')
-                                                                                        {{ $alert->status }}
-                                                                                    @else
-                                                                                        <a href="/alerts/{{$alert->id}}/update_status">
-                                                                                            {{ $alert->status }}
-                                                                                        </a>                                                 
-                                                                                    @endif
-                                                                                </td>
-                                                                            </tr>
-                                                                        @endif
-                                                                    @endforeach
-                                                                @endif
-                                                            @endforeach
-                                                        </tbody>
-                                                        <tfoot>
-                                                            <tr>
-                                                                <th>Time</th>
-                                                                <th>Cell ID</th>
-                                                                <th>Alert Type</th>
-                                                                <th>Value</th>
-                                                                <th>Threshold</th>
-                                                                <th>Alert Status</th>
-                                                            </tr>
-                                                        </tfoot>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="roll" role="tabpanel" aria-labelledby="roll-tab">
-                                        <div class="container-fluid">
-                                            <div class="row">
-                                                <div class="col-md-12 site-cell-info">
-                                                    <table id="alerts_table" class="display table table-striped table-border row-border table-hover table-sm nowrap" style="width:100%">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Time</th>
-                                                                <th>Cell Name</th>
-                                                                <th>Alert Type</th>
-                                                                <th>Value</th>
-                                                                <th>Threshold</th>
-                                                                <th>Alert Status</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach ($alertData as $alert)
-                                                                @if ($alert->alert_type == 'Roll')
-                                                                    @foreach ($cellData as $cell)
-                                                                        @if ($alert->cell_id == $cell->cell_id)
-                                                                            <?php 
-                                                                                $name_arr = explode("-", $cell->cell_name);
-                                                                                $remove_id = array_splice($name_arr, 1);
-                                                                                $raw_name = implode("-", $remove_id);
-                                                                                $cell_name = str_replace('_', ' ', $raw_name);
-                                                                            ?>
-                                                                            <tr>
-                                                                                <td> {{ $alert->created_at }} </td>
-                                                                                <td><a href="/cell/{{ $cell->cell_id }}#alerts">{{ $cell_name }}</a></td>
-                                                                                <td> {{ $alert->alert_type }} </td>
-                                                                                <td> {{ $alert->value }} </td>
-                                                                                <td>
-                                                                                    @if ($alert->alert_type == 'Heading')
-                                                                                        {{ $cell->heading }}
-                                                                                    @elseif ($alert->alert_type == 'Pitch')
-                                                                                        {{ $cell->pitch }}
-                                                                                    @elseif ($alert->alert_type == 'Roll')
-                                                                                        {{ $cell->pitch }}
-                                                                                    @elseif ($alert->alert_type == 'Low Voltage')
-                                                                                        3.2 Volts
-                                                                                    @elseif ($alert->alert_type == 'Voltage Drop' )
-                                                                                        N/A
-                                                                                    @elseif ($alert->alert_type == 'No Communication')
-                                                                                        N/A                                                        
-                                                                                    @endif
-                                                                                </td>
-                                                                                <td>
-                                                                                    @if ($alert->status == 'Closed')
-                                                                                        {{ $alert->status }}
-                                                                                    @else
-                                                                                        <a href="/alerts/{{$alert->id}}/update_status">
-                                                                                            {{ $alert->status }}
-                                                                                        </a>                                                 
-                                                                                    @endif
-                                                                                </td>
-                                                                            </tr>
-                                                                        @endif
-                                                                    @endforeach
-                                                                @endif
-                                                            @endforeach
-                                                        </tbody>
-                                                        <tfoot>
-                                                            <tr>
-                                                                <th>Time</th>
-                                                                <th>Cell ID</th>
-                                                                <th>Alert Type</th>
-                                                                <th>Value</th>
-                                                                <th>Threshold</th>
-                                                                <th>Alert Status</th>
-                                                            </tr>
-                                                        </tfoot>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="vl" role="tabpanel" aria-labelledby="vl-tab">
-                                        <div class="container-fluid">
-                                            <div class="row">
-                                                <div class="col-md-12 site-cell-info">
-                                                    <table id="alerts_table" class="display table table-striped table-border row-border table-hover table-sm nowrap" style="width:100%">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Time</th>
-                                                                <th>Cell Name</th>
-                                                                <th>Alert Type</th>
-                                                                <th>Value</th>
-                                                                <th>Threshold</th>
-                                                                <th>Alert Status</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach ($alertData as $alert)
-                                                                @if ($alert->alert_type == 'Low Voltage')
-                                                                    @foreach ($cellData as $cell)
-                                                                        @if ($alert->cell_id == $cell->cell_id)
-                                                                            <?php 
-                                                                                $name_arr = explode("-", $cell->cell_name);
-                                                                                $remove_id = array_splice($name_arr, 1);
-                                                                                $raw_name = implode("-", $remove_id);
-                                                                                $cell_name = str_replace('_', ' ', $raw_name);
-                                                                            ?>
-                                                                            <tr>
-                                                                                <td> {{ $alert->created_at }} </td>
-                                                                                <td><a href="/cell/{{ $cell->cell_id }}#alerts">{{ $cell_name }}</a></td>
-                                                                                <td> {{ $alert->alert_type }} </td>
-                                                                                <td> {{ $alert->value }} </td>
-                                                                                <td>
-                                                                                    @if ($alert->alert_type == 'Heading')
-                                                                                        {{ $cell->heading }}
-                                                                                    @elseif ($alert->alert_type == 'Pitch')
-                                                                                        {{ $cell->pitch }}
-                                                                                    @elseif ($alert->alert_type == 'Roll')
-                                                                                        {{ $cell->pitch }}
-                                                                                    @elseif ($alert->alert_type == 'Low Voltage')
-                                                                                        3.2 Volts
-                                                                                    @elseif ($alert->alert_type == 'Voltage Drop' )
-                                                                                        N/A
-                                                                                    @elseif ($alert->alert_type == 'No Communication')
-                                                                                        N/A                                                        
-                                                                                    @endif
-                                                                                </td>
-                                                                                <td>
-                                                                                    @if ($alert->status == 'Closed')
-                                                                                        {{ $alert->status }}
-                                                                                    @else
-                                                                                        <a href="/alerts/{{$alert->id}}/update_status">
-                                                                                            {{ $alert->status }}
-                                                                                        </a>                                                 
-                                                                                    @endif
-                                                                                </td>
-                                                                            </tr>
-                                                                        @endif
-                                                                    @endforeach
-                                                                @endif
-                                                            @endforeach
-                                                        </tbody>
-                                                        <tfoot>
-                                                            <tr>
-                                                                <th>Time</th>
-                                                                <th>Cell ID</th>
-                                                                <th>Alert Type</th>
-                                                                <th>Value</th>
-                                                                <th>Threshold</th>
-                                                                <th>Alert Status</th>
-                                                            </tr>
-                                                        </tfoot>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="vd" role="tabpanel" aria-labelledby="vd-tab">
-                                        <div class="container-fluid">
-                                            <div class="row">
-                                                <div class="col-md-12 site-cell-info">
-                                                    <table id="alerts_table" class="display table table-striped table-border row-border table-hover table-sm nowrap" style="width:100%">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Time</th>
-                                                                <th>Cell Name</th>
-                                                                <th>Alert Type</th>
-                                                                <th>Value</th>
-                                                                <th>Threshold</th>
-                                                                <th>Alert Status</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach ($alertData as $alert)
-                                                                @if ($alert->alert_type == 'Voltage Drop')
-                                                                    @foreach ($cellData as $cell)
-                                                                        @if ($alert->cell_id == $cell->cell_id)
-                                                                            <?php 
-                                                                                $name_arr = explode("-", $cell->cell_name);
-                                                                                $remove_id = array_splice($name_arr, 1);
-                                                                                $raw_name = implode("-", $remove_id);
-                                                                                $cell_name = str_replace('_', ' ', $raw_name);
-                                                                            ?>
-                                                                            <tr>
-                                                                                <td> {{ $alert->created_at }} </td>
-                                                                                <td><a href="/cell/{{ $cell->cell_id }}#alerts">{{ $cell_name }}</a></td>
-                                                                                <td> {{ $alert->alert_type }} </td>
-                                                                                <td> {{ $alert->value }} </td>
-                                                                                <td>
-                                                                                    @if ($alert->alert_type == 'Heading')
-                                                                                        {{ $cell->heading }}
-                                                                                    @elseif ($alert->alert_type == 'Pitch')
-                                                                                        {{ $cell->pitch }}
-                                                                                    @elseif ($alert->alert_type == 'Roll')
-                                                                                        {{ $cell->pitch }}
-                                                                                    @elseif ($alert->alert_type == 'Low Voltage')
-                                                                                        3.2 Volts
-                                                                                    @elseif ($alert->alert_type == 'Voltage Drop' )
-                                                                                        N/A
-                                                                                    @elseif ($alert->alert_type == 'No Communication')
-                                                                                        N/A                                                        
-                                                                                    @endif
-                                                                                </td>
-                                                                                <td>
-                                                                                    @if ($alert->status == 'Closed')
-                                                                                        {{ $alert->status }}
-                                                                                    @else
-                                                                                        <a href="/alerts/{{$alert->id}}/update_status">
-                                                                                            {{ $alert->status }}
-                                                                                        </a>                                                 
-                                                                                    @endif
-                                                                                </td>
-                                                                            </tr>
-                                                                        @endif
-                                                                    @endforeach
-                                                                @endif
-                                                            @endforeach
-                                                        </tbody>
-                                                        <tfoot>
-                                                            <tr>
-                                                                <th>Time</th>
-                                                                <th>Cell ID</th>
-                                                                <th>Alert Type</th>
-                                                                <th>Value</th>
-                                                                <th>Threshold</th>
-                                                                <th>Alert Status</th>
-                                                            </tr>
-                                                        </tfoot>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="com" role="tabpanel" aria-labelledby="com-tab">
-                                        <div class="container-fluid">
-                                            <div class="row">
-                                                <div class="col-md-12 site-cell-info">
-                                                    <table id="alerts_table" class="display table table-striped table-border row-border table-hover table-sm nowrap" style="width:100%">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Time</th>
-                                                                <th>Cell Name</th>
-                                                                <th>Alert Type</th>
-                                                                <th>Value</th>
-                                                                <th>Threshold</th>
-                                                                <th>Alert Status</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach ($alertData as $alert)
-                                                                @if ($alert->alert_type == 'No Communication')
-                                                                    @foreach ($cellData as $cell)
-                                                                        @if ($alert->cell_id == $cell->cell_id)
-                                                                            <?php 
-                                                                                $name_arr = explode("-", $cell->cell_name);
-                                                                                $remove_id = array_splice($name_arr, 1);
-                                                                                $raw_name = implode("-", $remove_id);
-                                                                                $cell_name = str_replace('_', ' ', $raw_name);
-                                                                            ?>
-                                                                            <tr>
-                                                                                <td> {{ $alert->created_at }} </td>
-                                                                                <td><a href="/cell/{{ $cell->cell_id }}#alerts">{{ $cell_name }}</a></td>
-                                                                                <td> {{ $alert->alert_type }} </td>
-                                                                                <td> {{ $alert->value }} </td>
-                                                                                <td>
-                                                                                    @if ($alert->alert_type == 'Heading')
-                                                                                        {{ $cell->heading }}
-                                                                                    @elseif ($alert->alert_type == 'Pitch')
-                                                                                        {{ $cell->pitch }}
-                                                                                    @elseif ($alert->alert_type == 'Roll')
-                                                                                        {{ $cell->pitch }}
-                                                                                    @elseif ($alert->alert_type == 'Low Voltage')
-                                                                                        3.2 Volts
-                                                                                    @elseif ($alert->alert_type == 'Voltage Drop' )
-                                                                                        N/A
-                                                                                    @elseif ($alert->alert_type == 'No Communication')
-                                                                                        N/A                                                        
-                                                                                    @endif
-                                                                                </td>
-                                                                                <td>
-                                                                                    @if ($alert->status == 'Closed')
-                                                                                        {{ $alert->status }}
-                                                                                    @else
-                                                                                        <a href="/alerts/{{$alert->id}}/update_status">
-                                                                                            {{ $alert->status }}
-                                                                                        </a>                                                 
-                                                                                    @endif
-                                                                                </td>
-                                                                            </tr>
-                                                                        @endif
-                                                                    @endforeach
-                                                                @endif
-                                                            @endforeach
-                                                        </tbody>
-                                                        <tfoot>
-                                                            <tr>
-                                                                <th>Time</th>
-                                                                <th>Cell ID</th>
-                                                                <th>Alert Type</th>
-                                                                <th>Value</th>
-                                                                <th>Threshold</th>
-                                                                <th>Alert Status</th>
-                                                            </tr>
-                                                        </tfoot>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div class="col-md-12">
+                            <ul class="nav nav-tabs nav-tabs-m" id="alertsTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active nav-link-m" id="all-tab" data-toggle="tab" href="#all" role="tab"
+                                        aria-controls="all" aria-selected="true">
+                                        All Alerts
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link nav-link-m" id="heading-tab" data-toggle="tab" href="#heading" role="tab"
+                                        aria-controls="heading" aria-selected="false">
+                                        Heading</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link nav-link-m" id="pitch-tab" data-toggle="tab" href="#pitch" role="tab"
+                                        aria-controls="pitch" aria-selected="true">
+                                        Pitch
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link nav-link-m" id="roll-tab" data-toggle="tab" href="#roll" role="tab"
+                                        aria-controls="roll" aria-selected="true">
+                                        Roll
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link nav-link-m" id="vl-tab" data-toggle="tab" href="#vl" role="tab"
+                                        aria-controls="vl" aria-selected="true">
+                                        Low Voltage
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link nav-link-m" id="vd-tab" data-toggle="tab" href="#vd" role="tab"
+                                        aria-controls="vd" aria-selected="true">
+                                        Voltage Drop
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link nav-link-m" id="comm-tab" data-toggle="tab" href="#comm" role="tab"
+                                        aria-controls="comm" aria-selected="false">
+                                        No Communication
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content tab-content-m" id="">
+                                <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+                                    <table id="alerts_table" class="display table table-striped table-border row-border table-hover table-sm nowrap" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Time</th>
+                                                <th>Cell Name</th>
+                                                <th>Alert Type</th>
+                                                <th>Value</th>
+                                                <th>Threshold</th>
+                                                <th>Alert Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($alertData as $alert)
+                                                <tr>
+                                                    <td>{{$alert->created_at}}</td>
+                                                    <td><a href="/cell/{{ $alert->cell_id }}#alerts">{{ $alert->cell_name }}</a></td>
+                                                    <td> {{ $alert->alert_type }} </td>
+                                                    <td> {{ $alert->value }} </td>
+                                                    <td> {{ $alert->threshold }} </td>
+                                                    <td>
+                                                        @if ($alert->status == 'Closed')
+                                                            {{ $alert->status }}
+                                                        @else
+                                                            <a href="/alerts/{{$alert->id}}/update_status">
+                                                                {{ $alert->status }}
+                                                            </a>                                                 
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Time</th>
+                                                <th>Cell ID</th>
+                                                <th>Alert Type</th>
+                                                <th>Value</th>
+                                                <th>Threshold</th>
+                                                <th>Alert Status</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div class="tab-pane fade" id="heading" role="tabpanel" aria-labelledby="heading-tab">
+                                    <table id="alerts_table" class="display table table-striped table-border row-border table-hover table-sm nowrap" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Time</th>
+                                                <th>Cell Name</th>
+                                                <th>Alert Type</th>
+                                                <th>Value</th>
+                                                <th>Threshold</th>
+                                                <th>Alert Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($alertData as $alert)
+                                                @if ($alert->alert_type == 'Heading')
+                                                    <tr>
+                                                        <td>{{$alert->created_at}}</td>
+                                                        <td><a href="/cell/{{ $alert->cell_id }}#alerts">{{ $alert->cell_name }}</a></td>
+                                                        <td> {{ $alert->alert_type }} </td>
+                                                        <td> {{ $alert->value }} </td>
+                                                        <td> {{ $alert->threshold }} </td>
+                                                        <td>
+                                                            @if ($alert->status == 'Closed')
+                                                                {{ $alert->status }}
+                                                            @else
+                                                                <a href="/alerts/{{$alert->id}}/update_status">
+                                                                    {{ $alert->status }}
+                                                                </a>                                                 
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                            @endforeach
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Time</th>
+                                                <th>Cell ID</th>
+                                                <th>Alert Type</th>
+                                                <th>Value</th>
+                                                <th>Threshold</th>
+                                                <th>Alert Status</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div class="tab-pane fade" id="pitch" role="tabpanel" aria-labelledby="pitch-tab">
+                                    <table id="alerts_table" class="display table table-striped table-border row-border table-hover table-sm nowrap" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Time</th>
+                                                <th>Cell Name</th>
+                                                <th>Alert Type</th>
+                                                <th>Value</th>
+                                                <th>Threshold</th>
+                                                <th>Alert Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($alertData as $alert)
+                                                @if ($alert->alert_type == 'Pitch')
+                                                    <tr>
+                                                        <td>{{$alert->created_at}}</td>
+                                                        <td><a href="/cell/{{ $alert->cell_id }}#alerts">{{ $alert->cell_name }}</a></td>
+                                                        <td> {{ $alert->alert_type }} </td>
+                                                        <td> {{ $alert->value }} </td>
+                                                        <td> {{ $alert->threshold }} </td>
+                                                        <td>
+                                                            @if ($alert->status == 'Closed')
+                                                                {{ $alert->status }}
+                                                            @else
+                                                                <a href="/alerts/{{$alert->id}}/update_status">
+                                                                    {{ $alert->status }}
+                                                                </a>                                                 
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                            @endforeach
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Time</th>
+                                                <th>Cell ID</th>
+                                                <th>Alert Type</th>
+                                                <th>Value</th>
+                                                <th>Threshold</th>
+                                                <th>Alert Status</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div class="tab-pane fade" id="roll" role="tabpanel" aria-labelledby="roll-tab">
+                                    <table id="alerts_table" class="display table table-striped table-border row-border table-hover table-sm nowrap" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Time</th>
+                                                <th>Cell Name</th>
+                                                <th>Alert Type</th>
+                                                <th>Value</th>
+                                                <th>Threshold</th>
+                                                <th>Alert Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($alertData as $alert)
+                                                @if ($alert->alert_type == 'Roll')
+                                                    <tr>
+                                                        <td>{{$alert->created_at}}</td>
+                                                        <td><a href="/cell/{{ $alert->cell_id }}#alerts">{{ $alert->cell_name }}</a></td>
+                                                        <td> {{ $alert->alert_type }} </td>
+                                                        <td> {{ $alert->value }} </td>
+                                                        <td> {{ $alert->threshold }} </td>
+                                                        <td>
+                                                            @if ($alert->status == 'Closed')
+                                                                {{ $alert->status }}
+                                                            @else
+                                                                <a href="/alerts/{{$alert->id}}/update_status">
+                                                                    {{ $alert->status }}
+                                                                </a>                                                 
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                            @endforeach
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Time</th>
+                                                <th>Cell ID</th>
+                                                <th>Alert Type</th>
+                                                <th>Value</th>
+                                                <th>Threshold</th>
+                                                <th>Alert Status</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div class="tab-pane fade" id="vl" role="tabpanel" aria-labelledby="vl-tab">
+                                    <table id="alerts_table" class="display table table-striped table-border row-border table-hover table-sm nowrap" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Time</th>
+                                                <th>Cell Name</th>
+                                                <th>Alert Type</th>
+                                                <th>Value</th>
+                                                <th>Threshold</th>
+                                                <th>Alert Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($alertData as $alert)
+                                                @if ($alert->alert_type == 'Low Voltage')
+                                                    <tr>
+                                                        <td>{{$alert->created_at}}</td>
+                                                        <td><a href="/cell/{{ $alert->cell_id }}#alerts">{{ $alert->cell_name }}</a></td>
+                                                        <td> {{ $alert->alert_type }} </td>
+                                                        <td> {{ $alert->value }} </td>
+                                                        <td> {{ $alert->threshold }} </td>
+                                                        <td>
+                                                            @if ($alert->status == 'Closed')
+                                                                {{ $alert->status }}
+                                                            @else
+                                                                <a href="/alerts/{{$alert->id}}/update_status">
+                                                                    {{ $alert->status }}
+                                                                </a>                                                 
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                            @endforeach
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Time</th>
+                                                <th>Cell ID</th>
+                                                <th>Alert Type</th>
+                                                <th>Value</th>
+                                                <th>Threshold</th>
+                                                <th>Alert Status</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div class="tab-pane fade" id="vd" role="tabpanel" aria-labelledby="vd-tab">
+                                    <table id="alerts_table" class="display table table-striped table-border row-border table-hover table-sm nowrap" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Time</th>
+                                                <th>Cell Name</th>
+                                                <th>Alert Type</th>
+                                                <th>Value</th>
+                                                <th>Threshold</th>
+                                                <th>Alert Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($alertData as $alert)
+                                                @if ($alert->alert_type == 'Voltage Drop')
+                                                    <tr>
+                                                        <td>{{$alert->created_at}}</td>
+                                                        <td><a href="/cell/{{ $alert->cell_id }}#alerts">{{ $alert->cell_name }}</a></td>
+                                                        <td> {{ $alert->alert_type }} </td>
+                                                        <td> {{ $alert->value }} </td>
+                                                        <td> {{ $alert->threshold }} </td>
+                                                        <td>
+                                                            @if ($alert->status == 'Closed')
+                                                                {{ $alert->status }}
+                                                            @else
+                                                                <a href="/alerts/{{$alert->id}}/update_status">
+                                                                    {{ $alert->status }}
+                                                                </a>                                                 
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                            @endforeach
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Time</th>
+                                                <th>Cell ID</th>
+                                                <th>Alert Type</th>
+                                                <th>Value</th>
+                                                <th>Threshold</th>
+                                                <th>Alert Status</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div class="tab-pane fade" id="comm" role="tabpanel" aria-labelledby="comm-tab">
+                                    <table id="alerts_table" class="display table table-striped table-border row-border table-hover table-sm nowrap" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Time</th>
+                                                <th>Cell Name</th>
+                                                <th>Alert Type</th>
+                                                <th>Value</th>
+                                                <th>Threshold</th>
+                                                <th>Alert Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($alertData as $alert)
+                                                @if ($alert->alert_type == 'No Communication')
+                                                    <tr>
+                                                        <td>{{$alert->created_at}}</td>
+                                                        <td><a href="/cell/{{ $alert->cell_id }}#alerts">{{ $alert->cell_name }}</a></td>
+                                                        <td> {{ $alert->alert_type }} </td>
+                                                        <td> {{ $alert->value }} </td>
+                                                        <td> {{ $alert->threshold }} </td>
+                                                        <td>
+                                                            @if ($alert->status == 'Closed')
+                                                                {{ $alert->status }}
+                                                            @else
+                                                                <a href="/alerts/{{$alert->id}}/update_status">
+                                                                    {{ $alert->status }}
+                                                                </a>                                                 
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                            @endforeach
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Time</th>
+                                                <th>Cell ID</th>
+                                                <th>Alert Type</th>
+                                                <th>Value</th>
+                                                <th>Threshold</th>
+                                                <th>Alert Status</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
                                 </div>
                             </div>
+                        </div>
                     </div>
                     
                 </div>
