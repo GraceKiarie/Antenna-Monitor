@@ -59,19 +59,6 @@ class AlertController extends Controller
         return back();
     }
 
-    //display cells under optimization
-    public function showCellOptimizationsList()
-    {
-        $cellIDs = DB::table('alerts')->distinct()->where('status', '=', 'Optimization')->get(['cell_id']);
-
-        $id_array = json_decode( json_encode($cellIDs), true);
-        $cellData = DB::table('cells')->whereIn('cell_id', $id_array)->get();
-        
-        $alertData = DB::table('alerts')->where('status', '=', 'Optimization')->get();
-
-        return view('sites.cell_opt', compact('cellData', 'alertData'));
-    }
-
     public function cellData()
     {
         $cellIDs = DB::table('alerts')->distinct()->get(['cell_id']);
