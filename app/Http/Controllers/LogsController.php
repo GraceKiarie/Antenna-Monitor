@@ -23,8 +23,8 @@ class LogsController extends Controller
 
     public function deleteLogs()
     {
-        $accessLogs = Log::where('type', 'access')->orderBy('created_at','desc')->get();
-        return view('logs.access_logs', compact('accessLogs'));
+        $deleteLogs = Log::where('type', 'delete')->orderBy('created_at','desc')->get();
+        return view('logs.delete_logs', compact('deleteLogs'));
 
     }
 

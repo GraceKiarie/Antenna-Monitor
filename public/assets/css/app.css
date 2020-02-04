@@ -222,6 +222,7 @@ input[type=number] {
 .nav-tabs-m {
     padding-left: 2rem;
     font-size: 1rem;
+    margin-bottom: .4rem;
 }
 
 .col-md-6 h6 {
@@ -230,6 +231,7 @@ input[type=number] {
 
 .tab-content-m {
     border-bottom: 1px solid #dde0e4;
+    padding-bottom: 1rem;
 }
 
 .nav-link-m{
@@ -469,4 +471,59 @@ input[type=number] {
 
 #top_ten_table thead tr {
     font-size: 2.4rem;
+}
+
+.buttons-csv, .buttons-pdf, .buttons-excel, .buttons-print {
+    border: 2px solid #244684;
+    border-radius: 20px !important; 
+
+    color: #244684;
+    position: relative;
+    transition: color 0.15s,background-color 0.15s,border-color 0.15s,box-shadow 0.15s;
+    font-size: .8rem;
+    /* margin-bottom: .5rem !important; */
+    margin-right: .5rem !important;
+
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    background-color: transparent;
+    padding-top: .275rem;
+    padding-bottom: .275rem;
+    padding-left: 1.52rem;
+    padding-right: 1.52rem;
+    line-height: 1.5;
+}
+
+div.dataTables_wrapper div.dataTables_filter input {
+    border: 1px solid #b0c4e9;
+    border-radius: 20px !important; 
+}
+
+select.form-control-sm:not([size]):not([multiple]) {
+    border: 1px solid #b0c4e9;
+    border-radius: 20px !important; 
+    margin-left: 1.2rem;
+    margin-right: .2rem;
+    margin-bottom: .3rem;
+}
+
+div.dataTables_wrapper div.dataTables_length label,
+div.dataTables_wrapper div.dataTables_filter label {
+    margin-bottom: 0;
+}
+
+.vl, .vli {
+    border-right:2px solid #abc1f1; 
+    padding-top: .3rem;
+}
+
+.apt {
+    padding-top: .3rem;
+}
+
+.vli {
+    padding-top: .3rem;
+    padding-right: 0;
 }

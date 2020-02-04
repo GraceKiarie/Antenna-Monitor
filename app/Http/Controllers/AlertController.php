@@ -59,18 +59,6 @@ class AlertController extends Controller
         return back();
     }
 
-    //display cells under optimization
-    public function showCellOptimizationsList()
-    {
-        $cellIDs = DB::table('alerts')->distinct()->where('status', '=', 'optimization')->get(['cell_id']);
-
-        $id_array = json_decode( json_encode($cellIDs), true);
-        $cellData = DB::table('cells')->whereIn('cell_id', $id_array)->get();
-
-        $alertData = DB::table('alerts')->where('status', '=', 'optimization')->get();
-        return view('sites.cell_opt', compact('cellData', 'alertData'));
-    }
-
     public function cellData()
     {
         $cellIDs = DB::table('alerts')->distinct()->get(['cell_id']);
@@ -80,12 +68,57 @@ class AlertController extends Controller
 
         return $cellData;
     }
+
     //display alert list by types
     public function showAlertsByTypes()
     {
         $alertData = Alert::all();
         $cellData = $this->cellData();
-        return view('alerts.alerts_types',compact('cellData', 'alertData'));
+
+        foreach ($cellData as $cell) {
+            $cell_name = $this->editCellName($cell->cell_name);
+
+            foreach ($alertData as $alert) {
+                if($alert->cell_id == $cell->cell_id){
+
+                    // add  cell name to alerts collection
+                    $alert->cell_name = $cell_name;
+
+                    // link alert to the cell threshold
+                    $this->setThreshold($alert, $cell);
+                }
+            }
+        }
+        return view('alerts.alerts_types',compact('alertData'));
+    }
+
+    private function setThreshold($alert, $cell)
+    {
+        switch ($alert->alert_type) {
+            case 'Heading':
+                $alert->threshold = $cell->heading;
+                break;
+            
+            case 'Pitch':
+                $alert->threshold = $cell->pitch;
+                break;
+            
+            case 'Roll':
+                $alert->threshold = $cell->roll;
+                break;
+            
+            case 'Low Voltage':
+                $alert->threshold = '3.2';
+                break;
+            
+            case 'Voltage Drop':
+                $alert->threshold = '';
+                break;
+            
+            case 'No Communication':
+                $alert->threshold = '';
+                break;
+        }
     }
     
     //display alert list by status
@@ -93,7 +126,26 @@ class AlertController extends Controller
     {
         $alertData = Alert::all();
         $cellData = $this->cellData();
-        return view('alerts.alerts_status',compact('cellData', 'alertData'));
+
+        foreach ($cellData as $cell) {
+            $cell_name = $this->editCellName($cell->cell_name);
+            foreach ($alertData as $alert) {
+                if($alert->cell_id == $cell->cell_id){
+                    $alert->cell_name = $cell_name;
+                    $this->setThreshold($alert, $cell);
+                }
+            }
+        }
+        return view('alerts.alerts_status',compact('alertData'));
+    }
+
+    private function editCellName($name)
+    {
+        $name_arr = explode("-", $name);
+        $remove_id = array_splice($name_arr, 1);
+        $raw_name = implode("-", $remove_id);
+        $cell_name = str_replace('_', ' ', $raw_name);
+        return $cell_name;
     }
 
     //display alert list per cell

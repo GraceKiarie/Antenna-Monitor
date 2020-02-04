@@ -13,7 +13,7 @@
         <div class="col-md-12 col-lg-12 scrollbar-container">
                 <div class="row">
                     <div class="col-md-6 col-xl-4">
-                        <a href="/alerts/status#new/" class="dash-card">
+                        <a href="/alerts/status#pending/" class="dash-card">
                             <div class="card mb-3 widget-content bg-midnight-bloom">
                                 <div class="widget-content-wrapper text-white">
                                     <div class="widget-content-left">

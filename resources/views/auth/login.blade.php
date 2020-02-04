@@ -14,23 +14,24 @@
 
 <body>
 
-    <div class="login">
-        <h1>antennae monitor</h1>
-        <form action="{{url('login')}}" method="post">
-            {{ csrf_field() }}
+<div class="login">
+    <h1>antennae monitor</h1>
+    <form action="{{url('login')}}" method="post" autocomplete="off">
+        {{ csrf_field() }}
 
-            @if ($errors->has('email'))
-                <span class="error">{{ $errors->first('email') }}</span>
-            @endif
-            <input type="text" name="email" placeholder="Email" required="required" />
+        @if ($errors->has('email'))
+            <span class="error">{{ $errors->first('email') }}</span>
+        @endif
+        <input type="text" name="email" placeholder="Email" required="required"/>
 
-            @if ($errors->has('password'))
-                <span class="error">{{ $errors->first('password') }}</span>
-            @endif
-            <input type="password" name="password" placeholder="Password" required="required" autocomplete="off" />
-            <button type="submit" class="btn btn-primary btn-block btn-large">LOGIN</button>
-        </form>
-    </div>
+        @if ($errors->has('password'))
+            <span class="error">{{ $errors->first('password') }}</span>
+        @endif
+        <input type="password" name="password" placeholder="Password" required="required" autocomplete="off"/>
+
+        <button type="submit" class="btn btn-primary btn-block btn-large">LOGIN</button>
+    </form>
+</div>
 
 </body>
 

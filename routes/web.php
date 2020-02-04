@@ -51,7 +51,6 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('/alerts/{cell_id}/alerts', 'AlertController@showCellAlertslist')->name('cell_alerts');
     Route::get('/alerts/{alert_id}/update_status', 'AlertController@showAlertStatusUpdate')->name('update_alert_status');
     Route::post('/alerts/{alert_id}/update_status', 'AlertController@updateStatus');
-    Route::get('/opt', 'AlertController@showCellOptimizationsList')->name('opt');
     Route::get('/monitors', 'AlertController@showMonitorInstallations');
 
     /*
