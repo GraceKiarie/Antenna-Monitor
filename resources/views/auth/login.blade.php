@@ -27,7 +27,7 @@
             @if ($errors->has('password'))
                 <span class="error">{{ $errors->first('password') }}</span>
             @endif
-            <input type="password" name="password" placeholder="Password" required="required" />
+            <input type="password" name="password" placeholder="Password" required="required" autocomplete="off" />
             <button type="submit" class="btn btn-primary btn-block btn-large">LOGIN</button>
         </form>
     </div>
