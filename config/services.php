@@ -30,4 +30,11 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    //env variables for AfricaIsTalking sms api
+
+    'africaIsTalking' => [
+        'username' => env('AT_USERNAME'),
+        'secret' => env('AT_SECRET_KEY'),
+    ],
+
 ];

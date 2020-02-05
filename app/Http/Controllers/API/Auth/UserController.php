@@ -58,8 +58,8 @@ class UserController extends Controller
 
     public function sendMessage($phone, $message)
     {
-        $username = env('AT_USERNAME');
-        $apiKey = env('AT_SECRET_KEY');
+        $username = config('services.africaIsTalking.username');
+        $apiKey =config('services.africaIsTalking.secret');
         $AT = new AfricasTalking($username, $apiKey);
 
         // Get one of the services
