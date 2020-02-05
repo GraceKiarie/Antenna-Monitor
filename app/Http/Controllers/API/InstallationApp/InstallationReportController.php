@@ -53,10 +53,9 @@ class InstallationReportController extends Controller
         $pdf = PDF::loadView('mails.installation_report', compact('data','readings'));
         $filename = $data['site_name']."_".$data['technology'] . '_InstallationReport.pdf';
         Storage::put('public/InstallationReport/' . $filename, $pdf->output());
-        $uri = '/home/kiarie/Desktop/Antenna-Monitor/storage/app/public/InstallationReport/' . $filename;
+        $uri = storage_path('app/public/InstallationReport/'.$filename);
         $subject= 'Installation Report';
 
-        Log::info("Request cycle without Queues started");
 
         $savetodbJob = (new SaveInstallationReportJob($data))->delay(Carbon::now()->addSeconds(2));
         dispatch($savetodbJob );
@@ -65,7 +64,7 @@ class InstallationReportController extends Controller
         $emailJob = (new SendReportEmailJob($uri,$subject))->delay(Carbon::now()->addSeconds(3));
         dispatch($emailJob);
 
-        Log::info("Request cycle without Queues finished");
+
         return response()->json(['status'=>'success', 'data'=>$data],200);
     }
 }

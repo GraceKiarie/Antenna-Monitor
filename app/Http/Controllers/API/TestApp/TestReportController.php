@@ -54,7 +54,7 @@ class TestReportController extends Controller
         $pdf = PDF::loadView('mails.test_report', compact('data'));
         $filename = $data['name']."_".$data['qr_number'] . '_testReport.pdf';
         Storage::put('public/testReport/' . $filename, $pdf->output());
-        $uri = '/home/kiarie/Desktop/Antenna-Monitor/storage/app/public/testReport/' . $filename;
+        $uri = storage_path('app/public/testReport/'.$filename);
         $subject= 'Test Report Certificate';
 
         //save report info to db
