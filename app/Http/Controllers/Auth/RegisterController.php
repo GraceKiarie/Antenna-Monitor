@@ -96,7 +96,7 @@ class RegisterController extends Controller
             'role_id' => $data['role_id'],
             'contractor_id' => array_key_exists('contractor_id', $data) ? $data['contractor_id'] : Null,
             'team_id' => array_key_exists('team_id', $data) ? $data['team_id'] : Null,
-            'password' => Hash::make($data['phone']),
+            'password' => Hash::make($data['password']),
         ]);
       if ($user){
           Log::info('New User Created:' .$data['email'] .'with role :' .$data['role_id'],['type' =>'create','result' => 'success']);

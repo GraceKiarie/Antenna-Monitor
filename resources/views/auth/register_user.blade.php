@@ -45,10 +45,13 @@
                                         <i class="metismenu-icon pe-7s-user"></i>
                                     </span>
                                     </div>
-                                    <input placeholder="Full Names" name="name" type="text"
+                                    <input placeholder="Full Names" 
+                                           name="name" 
+                                           type="text"
                                            class="form-control input-field form-control-m">
                                 </div>
                                 <br/>
+
                                 <div class="input-group col-md-8">
                                     <div class="input-group-prepend">
                                     <span class="input-group-text input-icon">
@@ -63,22 +66,55 @@
                                            required
                                            title="6 characters minimum"/>
                                 </div>
-                                    <br/>
-                                    <div class="input-group col-md-8">
-                                        <div class="input-group-prepend">
-                                    <span class="input-group-text input-icon">
-                                        <i class="metismenu-icon pe-7s-phone"></i>
-                                    </span>
-                                        </div>
-                                        <input placeholder="Cell Number"
-                                               name="phone"
-                                               class="form-control input-field form-control-m"
-                                               pattern=".{8,15}"
-                                               type="number"
-                                               required
-                                               title="8 characters minimum"/>
+                                <br/>
+
+                                <div class="input-group col-md-8">
+                                    <div class="input-group-prepend">
+                                <span class="input-group-text input-icon">
+                                    <i class="metismenu-icon pe-7s-phone"></i>
+                                </span>
                                     </div>
-                                    <br>
+                                    <input placeholder="Cell Number"
+                                            name="phone"
+                                            id="myfone"
+                                            class="form-control input-field form-control-m"
+                                            pattern=".{8,15}"
+                                            type="number"
+                                            required
+                                            title="8 characters minimum"/>
+                                </div>
+                                <br>
+
+                                <div class="input-group col-md-8">
+                                    <div class="row" style="width:100%">
+                                        <div class="input-group col-md-6">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text input-icon">
+                                                    <i class="metismenu-icon pe-7s-key"></i>
+                                                </span>
+                                            </div>
+                                            <input name="password"
+                                                    id="password"
+                                                    class="form-control input-field form-control-m passwords"
+                                                    type="text"
+                                                    required
+                                                    title="8 characters minimum"/>
+                                                    <br>
+                                            <meter max="4" id="password-strength-meter"></meter>
+                                            <p id="password-strength-text" align="right"></p>
+                                        </div>
+                                        <div class="input-group col-md-4">
+                                            <button id="generatePassword"
+                                                    type="button"
+                                                    class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
+                                                Generate Password
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                    
+                                </div>
+                                <br>
                             </div>
                                     <div class="row">
                                         <div class="input-group col-md-4">
@@ -124,7 +160,7 @@
                                     </div>
 
                             <hr/>
-                            <button type ="submit" class="mt-1 btn btn-primary btn-app">Submit</button>
+                            <button type ="submit" id="submitDetails" class="mt-1 btn btn-primary btn-app">Submit</button>
                             <input class="btn btn-primary" type="reset" value="Clear Form">
                         </form>
                     </div>
@@ -135,5 +171,6 @@
 
         @push('header-scripts')
             <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+            <script src="{{ asset('assets/scripts/zxcvbn.js') }}"></script>
             <script src="{{ asset('assets/scripts/register_user.js') }}"></script>
     @endpush
