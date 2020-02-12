@@ -527,3 +527,51 @@ div.dataTables_wrapper div.dataTables_filter label {
     padding-top: .3rem;
     padding-right: 0;
 }
+
+meter {
+    /* Reset the default appearance */
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+  
+    margin: .6em 4em .3em 5.5em;
+    width: 100%;
+    height: 0.4em;
+  
+    /* Applicable only to Firefox */
+    background: none;
+    background-color: rgba(0, 0, 0, 0.1);
+    transition: background-color 2s ease-in-out 0;
+  }
+  
+  meter::-webkit-meter-bar {
+    background: none;
+    background-color: rgba(0, 0, 0, 0.0);
+}
+
+.passwords {
+    border-top-right-radius: 40px !important;
+    border-bottom-right-radius: 40px !important;
+}
+
+#generatePassword {
+    margin-right: 0 !important;
+    margin-bottom: 0 !important ;
+    height: 2.6em;
+}
+#password-strength-text {
+    margin-bottom: 0;
+    margin-left: 5.5em;
+    color: red;
+}
+  /* Webkit based browsers */
+meter[value="1"]::-webkit-meter-optimum-value { background: red; }
+meter[value="2"]::-webkit-meter-optimum-value { background: orange; }
+meter[value="3"]::-webkit-meter-optimum-value { background: rgb(138, 216, 50); }
+meter[value="4"]::-webkit-meter-optimum-value { background: green; }
+
+/* Gecko based browsers */
+meter[value="1"]::-moz-meter-bar { background: red; }
+meter[value="2"]::-moz-meter-bar { background: orange; }
+meter[value="3"]::-moz-meter-bar { background: rgb(138, 216, 50); }
+meter[value="4"]::-moz-meter-bar { background: green; }

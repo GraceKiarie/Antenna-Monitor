@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Laravel\Passport\Http\Controllers\AuthorizationController;
 
 class UpdateUserController extends Controller
 {
@@ -45,10 +48,17 @@ class UpdateUserController extends Controller
         $user->phone = $request->phone;
         $user->status = $request->status;
         $user->role_id = $request->role_id;
-        $update = $user->save();
+
+        if ($request->password === null) {
+            $update = $user->save();
+        } else {
+            $user->password = Hash::make($request->password);
+            $update = $user->save();
+        }
+        
         if ($update)
         {
-            Log::info(' User Details updated:' . $data['email'], ['type' => 'update', 'result' => 'success']);
+            Log::info(' User Details updated:' . $request->email, ['type' => 'update', 'result' => 'success']);
         }
         return back();
     }

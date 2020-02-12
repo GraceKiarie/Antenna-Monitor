@@ -1,5 +1,11 @@
 @extends('layouts.main')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+@push('pre-app-styles')
+<link href="{{ asset('assets/css/strengthify.min.css') }}" rel="stylesheet">
+@endpush
+
 @section('content-detail')
     <div class="row scroll-area-x">
         <div class="col-md-12 col-lg-12 scrollbar-container">
@@ -52,7 +58,7 @@
                         <div id="content" style="display:none;">
 
                             <hr class="page-subtitle-hr"/>
-                            <form action="/users/{{ $userDetails[0]->id }}/update" method="POST">
+                            <form id="updateProfile" action="/users/{{ $userDetails[0]->id }}/update" method="POST">
                                 @csrf
                                 <div>
                                     @if ($errors->any())
@@ -119,12 +125,56 @@
                                                class="form-control input-field form-control-m">
                                     </div>
                                     <br>
+                                    <div class="col-md-8">
+                                        <div class="row" style="width:100%" >
+                                            <div class="input-group col-md-7">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text input-icon">
+                                                        <i class="metismenu-icon pe-7s-key"></i>
+                                                    </span>
+                                                </div>
+                                                <input placeholder="New Password"
+                                                         name="password"
+                                                                id="password"
+                                                                class="form-control input-field form-control-m passwords"
+                                                                type="password"
+                                                                title="8 characters minimum"/>
+                                                                <br>
+                                                                <meter max="4" id="password-strength-meter"></meter>
+                                                <p id="password-strength-text" align="right"></p>
+                                            </div>
+                                            <div class="col-md-5">
+                                                
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <br>
+                                    <div class="input-group col-md-8">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text input-icon">
+                                                <i class="metismenu-icon pe-7s-key"></i>
+                                            </span>
+                                        </div>
+                                        <input placeholder="Confirm Password"
+                                                 name="password"
+                                                        id="confirmPassword"
+                                                        class="form-control input-field form-control-m passwords"
+                                                        type="password"
+                                                        title="8 characters minimum"/>
+                                    </div>
+                                    <br>
+                                    <div>
+                                        <span id="confirmMessage" class="confirm-message"></span>
+                                    </div>
                                 </div>
                                 <hr/>
 
                                 <!-- HIDDEN INPUT FOR ROLE -->
                                 <input type="hidden" name="role_id" value="{{ $userDetails[0]->role_id }}">
-                                <button type="submit" class="mt-1 btn btn-primary btn-app">Submit</button>
+                                <button type="submit" id="submitDetails" class="mt-1 btn btn-primary btn-app">Save Changes</button>
+                                <button type="reset" id="resetDetails" class="mt-1 btn btn-success btn-app">Reset</button>
+                                <button type="submit" id="cancel" class="mt-1 btn btn-secondary btn-app">Cancel</button>
                             </form>
                         </div>
                     </div>
@@ -133,10 +183,13 @@
         </div>
     </div>
 @endsection
-<script>
-    jQuery(document).ready(function () {
-        jQuery('#hideshow').on('click', function (event) {
-            jQuery('#content').toggle('show');
-        });
-    });
-</script>
+
+@push('header-scripts')
+            <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+            <script src="{{ asset('assets/scripts/zxcvbn.js') }}"></script>
+            <script src="{{ asset('assets/scripts/user_profile.js') }}"></script>
+@endpush
+
+@push('page-scripts')
+    
+@endpush
