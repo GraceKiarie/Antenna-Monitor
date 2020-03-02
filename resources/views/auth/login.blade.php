@@ -15,7 +15,7 @@
 <body>
 
 <div class="login">
-    <h1>antennae monitor</h1>
+    <h1>antenna monitor</h1>
     <form action="{{url('login')}}" method="post" autocomplete="off">
         {{ csrf_field() }}
 
@@ -31,6 +31,8 @@
 
         <button type="submit" class="btn btn-primary btn-block btn-large">LOGIN</button>
     </form>
+    <br>
+    <a href="{{url('password/reset')}}">Forgot Password?</a>
 </div>
 
 </body>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Contractor;
 use App\Http\Controllers\Controller;
+use App\PasswordHistory;
 use App\User;
 use App\Role;
 use App\Team;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use AfricasTalking\SDK\AfricasTalking;
 
 class RegisterController extends Controller
 {
@@ -71,6 +73,24 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
+
+    public function sendMessage($phone, $message)
+    {
+        $username = config('services.africaIsTalking.username');
+        $apiKey =config('services.africaIsTalking.secret');
+        $AT = new AfricasTalking($username, $apiKey);
+
+        // Get one of the services
+        $sms = $AT->sms();
+
+        // Use the service
+        $result = $sms->send([
+            'to' => $phone,
+            'message' => $message
+        ]);
+
+        return $result;
+    }
     protected function validator(array $data)
     {
         return Validator::make($data, [
@@ -99,6 +119,17 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
       if ($user){
+          //inform user of their registration and send them a one time password
+          $message = "Hello ".$data['name'].", you have been registered on Antenna-Monitor. Your password is  ". $data['password'];
+          $this->sendMessage($data['phone'],$message);
+
+          //save user's password
+          $password_history = PasswordHistory::create(
+          [
+              'user_id' =>$user->id,
+              'password' => Hash::make($data['password'])
+
+          ]);
           Log::info('New User Created:' .$data['email'] .'with role :' .$data['role_id'],['type' =>'create','result' => 'success']);
       }
 

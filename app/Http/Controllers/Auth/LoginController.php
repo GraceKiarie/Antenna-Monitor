@@ -26,7 +26,15 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/dash';
+    public function redirectTo()
+    {
+        if (auth()->user()->password_change_at == true) {
+            return '/a';
+        } else {
+            return '/password/reset';
+        }
+    }
+
 
     /**
      * Create a new controller instance.

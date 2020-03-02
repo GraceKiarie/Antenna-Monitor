@@ -25,6 +25,13 @@ class User extends Authenticatable
 
     }
 
+    public function passwords()
+    {
+        return $this->hasMany(PasswordHistory::class);
+
+    }
+
+
     /**
      * The attributes that are mass assignable.
      *

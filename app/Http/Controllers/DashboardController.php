@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Alert;
 use App\Cell;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -14,19 +15,20 @@ class DashboardController extends Controller
         $this->middleware('auth');
     }
 
+
     public function showMainDashBoard()
     {
         $cells = Cell::all();
         // GET ALERTS DATA
-        $pending =  DB::table('alerts')->where('status', '=', 'Pending')->get();
-        $optimizations =  DB::table('alerts')->where('status', '=', 'Optimization')->get();
-        $closed =  DB::select("SELECT *
+        $pending = DB::table('alerts')->where('status', '=', 'Pending')->get();
+        $optimizations = DB::table('alerts')->where('status', '=', 'Optimization')->get();
+        $closed = DB::select("SELECT *
                                 FROM PUBLIC.alerts
                                 WHERE PUBLIC.alerts.status = 'Closed'
                                 AND DATE_PART('year', PUBLIC.alerts.created_at) > DATE_PART('year', NOW()) - 1");
 
-        $new_install =  DB::table('installation_reports')->where('status', '=', 'new')->get();
-        $years_install =  $this->getThisYearInstallations();
+        $new_install = DB::table('installation_reports')->where('status', '=', 'new')->get();
+        $years_install = $this->getThisYearInstallations();
 
         // PIE CHART DATA
         $pc_data = $this->pieChartData();
@@ -43,20 +45,20 @@ class DashboardController extends Controller
         $lc_comm = $this->lineGraphComm();
 
         return view('dashboard.dash', compact('cells',
-                                              'pending', 
-                                              'optimizations', 
-                                              'closed', 
-                                              'new_install',
-                                              'years_install',
-                                              'pc_data',
-                                              'bc_data',
-                                              'lc_azim',
-                                              'lc_tilt',
-                                              'lc_roll',
-                                              'lc_volt_low',
-                                              'lc_volt_drop',
-                                              'lc_comm'
-                                            ));
+            'pending',
+            'optimizations',
+            'closed',
+            'new_install',
+            'years_install',
+            'pc_data',
+            'bc_data',
+            'lc_azim',
+            'lc_tilt',
+            'lc_roll',
+            'lc_volt_low',
+            'lc_volt_drop',
+            'lc_comm'
+        ));
     }
 
     // DASHBOARD DATA QUERIES
@@ -89,6 +91,7 @@ class DashboardController extends Controller
                                 LIMIT 5");
         return $bc_data;
     }
+
     public function lineGraphAzimuth()
     {
         $lc_azim = DB::select("SELECT mon, COUNT(alert_count)
@@ -100,7 +103,7 @@ class DashboardController extends Controller
                                     GROUP BY PUBLIC.alerts.created_at
                                     ORDER BY alerts.created_at ASC) AS head_count
                                 GROUP BY mon"
-                            );
+        );
         return $lc_azim;
     }
 
@@ -115,7 +118,7 @@ class DashboardController extends Controller
                                     GROUP BY PUBLIC.alerts.created_at
                                     ORDER BY alerts.created_at ASC) AS tilt_count
                                 GROUP BY mon"
-                            );
+        );
         return $lc_tilt;
     }
 
@@ -130,7 +133,7 @@ class DashboardController extends Controller
                                     GROUP BY PUBLIC.alerts.created_at
                                     ORDER BY alerts.created_at ASC) AS roll_count
                                 GROUP BY mon"
-                            );
+        );
         return $lc_roll;
     }
 
@@ -145,7 +148,7 @@ class DashboardController extends Controller
                                     GROUP BY PUBLIC.alerts.created_at
                                     ORDER BY alerts.created_at ASC) AS low_voltage_count
                                 GROUP BY mon"
-                            );
+        );
         return $lc_volt_low;
     }
 
@@ -160,7 +163,7 @@ class DashboardController extends Controller
                                     GROUP BY PUBLIC.alerts.created_at
                                     ORDER BY alerts.created_at ASC) AS voltage_drop_count
                                 GROUP BY mon"
-                            );
+        );
         return $lc_volt_drop;
     }
 
@@ -175,7 +178,7 @@ class DashboardController extends Controller
                                     GROUP BY PUBLIC.alerts.created_at
                                     ORDER BY alerts.created_at ASC) AS comm_count
                                 GROUP BY mon"
-                            );
+        );
         return $lc_comm;
     }
 }

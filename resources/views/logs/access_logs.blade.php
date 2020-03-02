@@ -1,11 +1,11 @@
 @extends('layouts.main')
 
 @push('pre-template-styles')
-    <link rel="stylesheet" href="{{ asset('assets/datatables/datatables.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/datatables/datatables.min.css') }}"/>
 @endpush
 
 @push('post-app-styles')
-    <link rel="stylesheet" href="{{ asset('assets/css/datatables.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/datatables.css') }}"/>
 @endpush
 
 @section('content-detail')
@@ -16,15 +16,17 @@
                     <h3>System Logs</h3>
                 </div>
 
-                <hr class="page-title-hr" />
+                <hr class="page-title-hr"/>
                 <div class="main-card mb-3 card">
                     <div class="card-body card-body-m">
                         <h5 class="content-detail-title">Access Logs</h5>
 
 
-                        <hr class="page-subtitle-hr" />
+                        <hr class="page-subtitle-hr"/>
 
-                        <table id="userlist_table" class="display table table-striped table-border row-border table-hover table-sm nowrap" style="width:100%">
+                        <table id="userlist_table"
+                               class="display table table-striped table-border row-border table-hover table-sm nowrap"
+                               style="width:100%">
                             <thead>
                             <tr>
 
@@ -38,7 +40,16 @@
                             <tbody>
                             @foreach ($accessLogs as $log)
                                 <tr>
-                                    <td>{{$log->ip}} </td>
+                                    @php
+                                        if( !filter_var($log->ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) )
+                                        {
+                                        echo "<td>local machine </td>";
+                                        }
+                                        else
+                                        {
+                                        echo "<td>{{$log->ip}} </td>";
+                                        }
+                                    @endphp
                                     <td> {{ $log->description}} </td>
                                     <td> {{ $log->result}} </td>
                                     <td> {{ $log->user_id}} </td>
