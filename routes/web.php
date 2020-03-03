@@ -64,6 +64,8 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('/{user_id}/user_profile', 'UpdateUserController@showUserProfile');
     Route::get('/{user_id}/profile', 'UpdateUserController@showUserProfile');
     Route::post('users/{user_id}/update', 'UpdateUserController@updateUserDetails');
+    Route::get('users/{user_id}/changePassword', 'UpdateUserController@showChangePasswordPage');
+    Route::post('users/{user_id}/changePassword', 'UpdateUserController@processPasswordChange');
 
 //ROLES
     Route::get('/roles', 'RoleController@showRolesList');

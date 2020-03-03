@@ -3,29 +3,7 @@ jQuery(document).ready(function () {
             jQuery('#content').toggle('show');
         });
 
-        $("#roles").change(function() {
-            if ($(this).val() <= 1) {
-                $("#contractorInfo").hide();
-                $("#teamInfo").hide();
-                $("#cont").prop('required',false);
-                $("#tea").prop('required',false);
-            }else{
-                $('#contractorInfo').show();
-                $('#teamInfo').show();
-                $("#cont").prop('required',true);
-                $("#tea").prop('required',true);
-            } 
-        });
-    
-        var allOptions = $('#tea option')
-        $('#cont').change(function () {
-            $('#tea option').remove()
-            var classN = $('#cont option:selected').prop('class');
-            var opts = allOptions.filter('.' + classN);
-            $.each(opts, function (i, j) {
-                $(j).appendTo('#tea');
-            });
-        });
+        document. getElementById("submitDetails").disabled = true;
 
         $('.passwords, #resetDetails').on('keyup focus click', function () {
             //Store the field objects into variables ...
@@ -36,15 +14,16 @@ jQuery(document).ready(function () {
             //Set the colors we will be using ...
             var good_color = "#66cc66";
             var bad_color  = "#ff6666";
+            var neutral_color = "orange";
 
-            if(password.val() == confirm.val()){
+            if($('#password').is(':empty')){
+                document. getElementById("submitDetails").disabled = true;
+                confirm.css('background-color', bad_color);
+                message.css('color', neutral_color).html("Passwords Do Not Match!");
+            } else if(password.val() == confirm.val()) {
                 document. getElementById("submitDetails").disabled = false;
                 confirm.css('background-color', good_color);
                 message.css('color', good_color).html("Passwords Match!");
-            } else {
-                document. getElementById("submitDetails").disabled = true;
-                confirm.css('background-color', bad_color);
-                message.css('color', bad_color).html("Passwords Do Not Match!");
             }
         });
         

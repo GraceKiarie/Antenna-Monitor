@@ -138,6 +138,7 @@
                                                                 id="password"
                                                                 class="form-control input-field form-control-m passwords"
                                                                 type="password"
+                                                                autocomplete="off"
                                                                 title="8 characters minimum"/>
                                                                 <br>
                                                                 <meter max="4" id="password-strength-meter"></meter>
@@ -161,12 +162,58 @@
                                                         id="confirmPassword"
                                                         class="form-control input-field form-control-m passwords"
                                                         type="password"
+                                                        autocomplete="off"
                                                         title="8 characters minimum"/>
                                     </div>
                                     <br>
                                     <div>
                                         <span id="confirmMessage" class="confirm-message"></span>
                                     </div>
+
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            <h6>Change Role</h6>
+                                        </div>
+                                        <div class="input-group col-md-3">
+                                            <div class="position-relative form-check" style="width: 100%;">
+                                                <label class="form-check-label" style="width: 100%;">
+
+                                                        <select class="form-control" id="roles" name="role_id" autocomplete="off" style="width: 100%!;">
+                                                            <option value="" selected>Choose Role</option>
+                                                            @foreach ($roles as $role)
+                                                                <option value=" {{ $role->id }} "> {{ $role->role_name }} </option>
+                                                            @endforeach
+                                                        </select>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div id="contractorInfo" class="input-group col-md-3" style="display:none;">
+                                            <div class="position-relative form-check" style="width: 100%;">
+                                                <label class="form-check-label" style="width: 100%;">
+                                                    <select id="cont" class="form-control" name="contractor"
+                                                            style="width: 100% !important;">
+                                                        <option value="" selected>Choose Contractor</option>
+                                                        @foreach ($cons as $con)
+                                                            <option value="{{$con->id}}" class="{{$con->id}}"> {{ $con->contractor_name }} </option>
+                                                        @endforeach
+                                                    </select>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div id="teamInfo" class="input-group col-md-3" style="display:none;">
+                                            <div class="position-relative form-check" style="width: 100%;">
+                                                <label class="form-check-label" style="width: 100%;">
+                                                    <select id="tea" class="form-control" name="team">
+                                                        <option value="" selected>Choose Team</option>
+                                                        @foreach ($teams as $team)
+                                                            <option value="{{ $team->id }}" class="{{$team->contractor_id}}"> {{ $team->team_name }} </option>
+                                                        @endforeach
+                                                    </select>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                                 <hr/>
 
@@ -185,9 +232,9 @@
 @endsection
 
 @push('header-scripts')
-            <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-            <script src="{{ asset('assets/scripts/zxcvbn.js') }}"></script>
-            <script src="{{ asset('assets/scripts/user_profile.js') }}"></script>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="{{ asset('assets/scripts/zxcvbn.js') }}"></script>
+        <script src="{{ asset('assets/scripts/user_profile.js') }}"></script>
 @endpush
 
 @push('page-scripts')
