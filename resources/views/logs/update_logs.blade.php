@@ -38,7 +38,16 @@
                             <tbody>
                             @foreach ($updateLogs as $log)
                                 <tr>
-                                    <td>{{$log->ip}} </td>
+                                    @php
+                                        if( !filter_var($log->ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) )
+                                        {
+                                        echo "<td>local machine </td>";
+                                        }
+                                        else
+                                        {
+                                        echo "<td>{{$log->ip}} </td>";
+                                        }
+                                    @endphp
                                     <td> {{ $log->description}} </td>
                                     <td> {{ $log->result}} </td>
                                     <td> {{ $log->user_id}} </td>

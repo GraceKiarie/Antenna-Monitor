@@ -174,12 +174,6 @@
                                         </i>Update Logs
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="/logs/delete" class="menu-item">
-                                        <i class="metismenu-icon">
-                                        </i>Delete Logs
-                                    </a>
-                                </li>
                             </ul>
                         </li>
                         
