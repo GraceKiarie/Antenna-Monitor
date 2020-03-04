@@ -177,24 +177,28 @@
                                         <div class="input-group col-md-3">
                                             <div class="position-relative form-check" style="width: 100%;">
                                                 <label class="form-check-label" style="width: 100%;">
-
-                                                        <select class="form-control" id="roles" name="role_id" autocomplete="off" style="width: 100%!;">
-                                                            <option value="" selected>Choose Role</option>
-                                                            @foreach ($roles as $role)
-                                                                <option value=" {{ $role->id }} "> {{ $role->role_name }} </option>
-                                                            @endforeach
-                                                        </select>
+                                                    <select class="form-control" id="roles" name="role_id" autocomplete="off" style="width: 100%!;">
+                                                        @foreach ($roles as $role)
+                                                            @if ($role->id === $userDetails[0]->role_id)
+                                                                <option value="{{$role->id}}">{{$role->role_name}}</option>
+                                                            @else
+                                                                <option value="{{$role->id}}">{{$role->role_name}}</option>
+                                                            @endif
+                                                        @endforeach
+                                                    </select>
                                                 </label>
                                             </div>
                                         </div>
                                         <div id="contractorInfo" class="input-group col-md-3" style="display:none;">
                                             <div class="position-relative form-check" style="width: 100%;">
                                                 <label class="form-check-label" style="width: 100%;">
-                                                    <select id="cont" class="form-control" name="contractor"
-                                                            style="width: 100% !important;">
-                                                        <option value="" selected>Choose Contractor</option>
+                                                    <select id="contractor" class="form-control" name="contractor" style="width: 100% !important;">
                                                         @foreach ($cons as $con)
-                                                            <option value="{{$con->id}}" class="{{$con->id}}"> {{ $con->contractor_name }} </option>
+                                                            @if ($con->id === $userDetails[0]->contractor_id)
+                                                                <option value="{{$con->id}}" class="{{$con->id}}" selected>{{ $con->contractor_name }}</option>
+                                                            @else
+                                                                <option value="{{$con->id}}" class="{{$con->id}}"> {{ $con->contractor_name }} </option>
+                                                            @endif
                                                         @endforeach
                                                     </select>
                                                 </label>
@@ -203,10 +207,13 @@
                                         <div id="teamInfo" class="input-group col-md-3" style="display:none;">
                                             <div class="position-relative form-check" style="width: 100%;">
                                                 <label class="form-check-label" style="width: 100%;">
-                                                    <select id="tea" class="form-control" name="team">
-                                                        <option value="" selected>Choose Team</option>
+                                                    <select id="team" class="form-control" name="team">
                                                         @foreach ($teams as $team)
-                                                            <option value="{{ $team->id }}" class="{{$team->contractor_id}}"> {{ $team->team_name }} </option>
+                                                            @if ($team->id === $userDetails[0]->team_id)
+                                                                <option value="{{$team->id}}" class="{{$team->contractor_id}}" selected>{{ $team->team_name }}</option>
+                                                            @else
+                                                                <option value="{{$team->id}}" class="{{$team->contractor_id}}">{{ $team->team_name }}</option>
+                                                            @endif
                                                         @endforeach
                                                     </select>
                                                 </label>
