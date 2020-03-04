@@ -6,6 +6,7 @@
 
 <!-- TEMPLATE SCRIPTS -->
 <script type="text/javascript" src="{{ asset('assets/scripts/template.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/scripts/csrf.js') }}"></script>
 
 <!-- CUSTOM PAGE SCRIPTS -->
 @stack('page-scripts')
