@@ -6,7 +6,7 @@
 
     <title>Login | {{ config('app.name')}} </title>
     <meta name="description" content="The HTML5 Herald">
-    <meta name="author" content="atonga">
+    <meta name="author" content="adc">
 
     <link href="./assets/css/login.css" rel="stylesheet">
 

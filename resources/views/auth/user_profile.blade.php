@@ -1,6 +1,5 @@
 @extends('layouts.main')
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
+<script src="{{ asset('assets/scripts/jquery/jquery-3.4.1-min') }}"></script>
 
 @push('pre-app-styles')
 <link href="{{ asset('assets/css/strengthify.min.css') }}" rel="stylesheet">

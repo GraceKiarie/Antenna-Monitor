@@ -32,7 +32,6 @@ class UpdateUserController extends Controller
         $cons = Contractor::all();
         $teams= Team::all();
         $userDetails = DB::table('users')->where('id', '=', $user_id)->get();
-        //dd($userDetails[0]);
         return view('auth.user_profile', compact('userDetails', 'cons','roles','teams'));
     }
 
@@ -66,6 +65,7 @@ class UpdateUserController extends Controller
             'email' => ['required', 'string', 'email', 'max:255'],
             'phone' => ['required'],
             'role_id' => ['required'],
+            'contractor' => ['required'],
             'team' => ['required'],
         ]);
         $user = User::find($id);
@@ -77,14 +77,8 @@ class UpdateUserController extends Controller
         $user->contractor_id = $request->contractor;
         $user->team_id = $request->team;
 
-        var_dump($request->role_id); echo 'Role Request<br><br>';
-        var_dump($user->role_id); echo 'Role Object<br><br>';
-        var_dump($user->contractor_id); echo 'Contractor<br><br>';
-        var_dump($user->team_id); echo 'Team<br><br>';
-        dd($user);
         if ($request->password === null) {
             $update = $user->save();
-            dd($update);
         } else {
             $user->password = Hash::make($request->password);
             $update = $user->save();
@@ -93,8 +87,6 @@ class UpdateUserController extends Controller
         if ($update)
         {
             Log::info(' User Details updated:' . $request->email, ['type' => 'update', 'result' => 'success']);
-        } else {
-            
         }
         return back();
     }

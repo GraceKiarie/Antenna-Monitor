@@ -44,12 +44,14 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($instData as $install)
-                                            <tr>
-                                                <td><a href="/cell/{{ $alert->cell_id }}#alerts">{{ $install->cell_id }}</a></td>
-                                                <td>{{ $install->qr_number }}</td>
-                                                <td>{{ $alert->imsi }}</td>
-                                                <td>{{ $alert->created_at }}</td>
-                                            </tr>
+                                            @foreach ($alertData as $alert)
+                                                <tr>
+                                                    <td><a href="/cell/{{ $alert->cell_id }}#alerts">{{ $install->cell_id }}</a></td>
+                                                    <td>{{ $install->qr_number }}</td>
+                                                    <td>{{ $install->imsi }}</td>
+                                                    <td>{{ $install->created_at }}</td>
+                                                </tr>
+                                            @endforeach
                                         @endforeach
                                     </tbody>
                                     <tfoot>
