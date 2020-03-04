@@ -26,8 +26,8 @@ class AlertController extends Controller
     public function showMonitorInstallations()
     {
         $instData = Monitor::all();
-
-        return view('alerts.monitor_inst', compact('instData'));
+        $alertData = Alert::all();
+        return view('alerts.monitor_inst', compact('instData', 'alertData'));
     }
 
     //display alert list
