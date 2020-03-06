@@ -6,9 +6,13 @@
 
     <title>Login | {{ config('app.name')}} </title>
     <meta name="description" content="The HTML5 Herald">
-    <meta name="author" content="atonga">
+    <meta name="author" content="adc">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link href="./assets/css/login.css" rel="stylesheet">
+
+    <script type="text/javascript" src="{{ asset('assets/scripts/jquery/jquery-3.4.1-min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/scripts/csrf.js') }}"></script>
 
 </head>
 
