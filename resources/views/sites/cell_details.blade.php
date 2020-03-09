@@ -188,12 +188,12 @@
                                     <div class="tab-pane fade" id="battery" role="tabpanel" aria-labelledby="battery-tab">
                                             <div class="container-fluid">
                                                 <div class="row">
-                                                    <div class="col-md-12 col-lg-12">
+                                                    <div class="col-md-7 col-lg-7">
                                                         <script>
                                                             var lc_volt = {!! json_encode($batteryVoltage, JSON_HEX_TAG) !!};
                                                         </script>
                                                         <div class="mb-3 card">
-                                                            <canvas id="dash-line-chart" height="350"></canvas>
+                                                            <canvas id="dash-line-chart" height="100"></canvas>
                                                         </div>
                                                     </div>
                                                 </div>
