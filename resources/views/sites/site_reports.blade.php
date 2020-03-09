@@ -50,6 +50,11 @@
                                             aria-controls="test" aria-selected="false">
                                             Test Reports</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link nav-link-m" id="accept-tab" data-toggle="tab" href="#accept" role="tab"
+                                            aria-controls="accept" aria-selected="false">
+                                            Acceptance Reports</a>
+                                    </li>
                                 </ul>
                                 <div class="tab-content tab-content-m" id="">
                                     <div class="tab-pane fade show active" id="install" role="tabpanel" aria-labelledby="install-tab">
@@ -93,7 +98,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>QR Number</th>
-                                                    <th>Installation Report</th>
+                                                    <th>Test Report</th>
                                                     <th>User</th>
                                                     <th>Last Modified</th>
                                                     <th>Status</th>
@@ -120,6 +125,50 @@
                                                     <th>User</th>
                                                     <th>Last Modified</th>
                                                     <th>Status</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane fade" id="accept" role="tabpanel" aria-labelledby="accept-tab">
+                                        <table id="install_reports_table" class="display table table-striped table-border row-border table-hover table-sm responsive nowrap" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Installation Report</th>
+                                                    <th>Acceptance Status</th>
+                                                    <th>Comments</th>
+                                                    <th>Acceptance Form</th>
+                                                    <th>Last Modified</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($acceptanceData as $accept)
+                                                <?php 
+                                                    
+                                                ?>
+                                                <tr>
+                                                    <td>
+                                                        @foreach ($installData as $install)
+                                                            @if ($accept->installation_report_id == $install->id)
+                                                            <a href="#">
+                                                                {{ $install->installation_report }}
+                                                            </a>
+                                                            @endif
+                                                        @endforeach
+                                                    </td>
+                                                    <td><a href="#">{{ $accept->status }}</a></td>
+                                                    <td>{{ $accept->comment }}</td>
+                                                    <td>{{ $accept->acceptance_form }}</td>
+                                                    <td>{{ $accept->updated_at }}</td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Installation Report</th>
+                                                    <th>Acceptance Status</th>
+                                                    <th>Comments</th>
+                                                    <th>Acceptance Form</th>
+                                                    <th>Last Modified</th>
                                                 </tr>
                                             </tfoot>
                                         </table>

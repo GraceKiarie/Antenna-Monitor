@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\AcceptanceReport;
 use App\Alert;
 use App\Site;
 use App\Cell;
@@ -155,7 +156,8 @@ class SiteController extends Controller
     {
         $installData = $this->getDataForSiteReports('installation_reports');
         $testData = $this->getDataForSiteReports('test_reports');
-        return view('sites.site_reports', compact('installData', 'testData'));
+        $acceptanceData = AcceptanceReport::all();
+        return view('sites.site_reports', compact('installData', 'testData', 'acceptanceData'));
     }
 
     private function getDataForSiteReports($table)
@@ -193,7 +195,21 @@ class SiteController extends Controller
 
         $cellAlerts = DB::table('alerts')->where('cell_id', '=', $cell_id)->get();
 
-        return view('sites.cell_details', compact('cellData', 'cellAlerts', 'siteInfo'));
+        $batteryVoltage = $this->voltageLineGraphData($cell_id);
+
+        return view('sites.cell_details', compact('cellData', 'cellAlerts', 'siteInfo', 'batteryVoltage'));
+    }
+
+    public function voltageLineGraphData($cell_id)
+    {
+        $cell_id = (string)$cell_id;
+        $lc_volt = DB::select("SELECT PUBLIC.monitor_data.voltage, PUBLIC.monitor_data.updated_at
+									FROM PUBLIC.monitor_data
+									WHERE PUBLIC.monitor_data.cell_id = '$cell_id' 
+                                    AND PUBLIC.monitor_data.updated_at > current_date - interval '7 days'
+									ORDER BY PUBLIC.monitor_data.updated_at ASC"
+        );
+        return $lc_volt;
     }
 
     //display sitelist

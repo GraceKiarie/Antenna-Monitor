@@ -51,6 +51,12 @@
                                             Thresholds
                                         </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link nav-link-m" id="battery-tab" data-toggle="tab" href="#battery" role="tab"
+                                            aria-controls="battery" aria-selected="true">
+                                            Battery
+                                        </a>
+                                    </li>
                                 </ul>
                                 <div class="tab-content tab-content-m" id="">
                                     <div class="tab-pane fade show active" id="alerts" role="tabpanel" aria-labelledby="alerts-tab">
@@ -179,10 +185,19 @@
                                                     </div>
                                                 </div>
                                     </div>
-                                    <div class="tab-pane fade" id="reports" role="tabpanel" aria-labelledby="reports-tab">
-                                        <p>
-                                            reports info
-                                        </p>
+                                    <div class="tab-pane fade" id="battery" role="tabpanel" aria-labelledby="battery-tab">
+                                            <div class="container-fluid">
+                                                <div class="row">
+                                                    <div class="col-md-12 col-lg-12">
+                                                        <script>
+                                                            var lc_volt = {!! json_encode($batteryVoltage, JSON_HEX_TAG) !!};
+                                                        </script>
+                                                        <div class="mb-3 card">
+                                                            <canvas id="dash-line-chart" height="350"></canvas>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                     </div>
                                 </div>
                             </div>
