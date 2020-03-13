@@ -324,6 +324,14 @@ input[type=number] {
     color: #535358;
 }
 
+.cell_line_graph{
+    margin-top: .4em;
+}
+
+.cell_line_graph h6 {
+    color: #424242;
+    padding-left: 2em;
+}
 /* .uas-c {
     
 } */

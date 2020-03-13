@@ -9,6 +9,7 @@ use App\Cell;
 use App\InstallationReport;
 use App\MonitorData;
 use App\TestReport;
+use DateInterval;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -202,13 +203,31 @@ class SiteController extends Controller
 
     public function voltageLineGraphData($cell_id)
     {
+        //get current time as a DateTime Object
+        //$currentTime = \DateTime::createFromFormat('Y-m-d H:i:s', '2020-02-17 06:50:55');
+        $currentTime = \DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s', time()));
+        $lastPeriod = $currentTime->sub(new DateInterval('PT15H'));
+        $lastTwelveHours = $lastPeriod->format('Y-m-d H:i:s');
+
         $cell_id = (string)$cell_id;
-        $lc_volt = DB::select("SELECT PUBLIC.monitor_data.voltage, PUBLIC.monitor_data.updated_at
-									FROM PUBLIC.monitor_data
-									WHERE PUBLIC.monitor_data.cell_id = '$cell_id' 
-                                    AND PUBLIC.monitor_data.updated_at > current_date - interval '7 days'
-									ORDER BY PUBLIC.monitor_data.updated_at ASC"
+        $voltageValues = DB::select("SELECT PUBLIC.monitor_data.voltage, PUBLIC.monitor_data.created_at
+                                FROM PUBLIC.monitor_data
+                                WHERE PUBLIC.monitor_data.cell_id = '$cell_id' 
+                                AND PUBLIC.monitor_data.created_at > '$lastTwelveHours'
+                                ORDER BY PUBLIC.monitor_data.created_at ASC"
         );
+
+        // array indices to be selected from the DB result
+        $hourlyArrayIndex = array(0,12,24,36,48,60,72,84,96,108,120,144,156,168,180,192,204,216,228,240,252,264,276);
+
+        // array that goes to line chart view with voltage values
+        $lc_volt = array();
+        foreach ($voltageValues as $key => $value) {
+            //select one value per hour and push into array
+            if (in_array($key, $hourlyArrayIndex)) {
+                array_push($lc_volt, $value);
+            }
+        }
         return $lc_volt;
     }
 

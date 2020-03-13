@@ -23,78 +23,83 @@ $(document).ready(function() {
     Chart.defaults.global.legend.labels.fontSize = 12;
     Chart.defaults.global.legend.labels.fontStyle = 'normal';
 
-    var ac_my = [0,1,2,3,4,5,6];
-    var ac_em = [];
+    var voltageLineGraph = document.getElementById("voltageLineGraph"); 
+    voltageLineGraph.style.backgroundColor = '#f5f9ff';
+
+
+
+    var labelArray = [];
+    var voltageArray = [];
     for(var i=1;i<lc_volt.length;i++){
-      ac_em.push(lc_volt[i]['mon']);
-    }
-    for(var i=1;i<ac_my.length;i++){
-      if(ac_em.indexOf(parseInt(ac_my[i])) < 0){
-        var zeroObject = {
-        "mon": i,
-        "count": 0
-        };
-        lc_volt.push(zeroObject);
-      }
-    }
-    ac = [];
-    for(var i in lc_volt) {
-      ac.push(lc_volt[i].count);
+      var created = new Date(lc_volt[i]['created_at']);
+      hours = created.getUTCHours(); 
+      minutes = created.getUTCMinutes(); 
+      seconds = created.getSeconds(); 
+      timeString = hours.toString().padStart(2, '0') 
+                + ':' + minutes.toString().padStart(2, '0'); 
+
+      labelArray.push(timeString);
+      voltageArray.push(lc_volt[i]['voltage']);
     }
     
     // DRAW LINE CHART
-var dashLineChart = new Chart(document.getElementById("dash-line-chart"), {
-  type: 'line',
-  data: {
-    labels: ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"],
-    datasets: [
-      { 
-          data: ac,
-          label: "Voltage Level",
-          borderColor: "#3e95cd",
-          fill: false
-      }
-    ]
-  },
-  options: {
-    legend: {
-      labels: {
-        fontSize: 15
-      }
-    },
-    title: {
-      display: true,
-      text: 'Battery Voltage Levels (Last 7 Days)'
-    },
-    layout: {
-      padding: {
-          left: 15,
-          right: 30,
-          top: 10,
-          bottom: 10
-      }
-  },
-    scales: {
-          xAxes: [{
-        scaleLabel: {
-          display: true,
-          labelString: 'Date',
-          fontSize: 15
+    var dashLineChart = new Chart(voltageLineGraph, {
+        type: 'line',
+        data: {
+          labels: labelArray,
+          datasets: [
+            { 
+                data: voltageArray,
+                label: "Voltage Level",
+                borderColor: "#3e95cd",
+                fill: 'origin',
+                backgroundColor:'#cedaf0'
+            }
+          ]
         },
-              ticks: {
-                  beginAtZero: true
-              }
-          }],
-          yAxes: [{
-        scaleLabel: {
-          display: true,
-          labelString: 'Voltage',
-          fontSize: 15
+        options: {
+          legend: {
+            labels: {
+              fontSize: 15
+            }
+          },
+          title: {
+            display: true,
+            text: 'Voltage Trends (Last 12 Hours)'
+          },
+          layout: {
+            padding: {
+                left: 15,
+                right: 30,
+                top: 10,
+                bottom: 10
+            }
+        },
+          scales: {
+                xAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'Time',
+                gridLines: { lineWidth: 50 },
+                fontSize: 15
+              },
+                    ticks: {
+                        beginAtZero: false
+                    }
+                }],
+                yAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'Voltage',
+                fontSize: 15
+              },ticks: {
+                beginAtZero: true
+            }
+                }]
+            }
         }
-          }]
-      }
-  }
-});
+      });
+    
     // https://webdesign.tutsplus.com/tutorials/how-to-add-deep-linking-to-the-bootstrap-4-tabs-component--cms-31180
     let url = location.href.replace(/\/$/, "");
    
