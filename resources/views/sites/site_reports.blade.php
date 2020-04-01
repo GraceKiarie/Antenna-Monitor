@@ -61,11 +61,13 @@
                                         <table id="install_reports_table" class="display table table-striped table-border row-border table-hover table-sm responsive nowrap" style="width:100%">
                                             <thead>
                                                 <tr>
+                                                    <th>Site ID</th>
                                                     <th>QR Number</th>
                                                     <th>Installation Report</th>
                                                     <th>User</th>
-                                                    <th>Last Modified</th>
                                                     <th>Status</th>
+                                                    <th>Last Modified</th>
+                                                    <th>View Report</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -74,27 +76,39 @@
                                                     
                                                 ?>
                                                 <tr>
+                                                    <td>{{ $install->site_id }}</td>
                                                     <td><a href="#">{{ $install->qr_number }}</a></td>
-                                                    <td><a href="#">{{ $install->installation_report }}</a></td>
+                                                    <td>
+                                                        <a href="/{{$install->id}}/edit_report_status">
+                                                            {{ $install->reportName }}
+                                                        </a>
+                                                    </td>
                                                     <td>{{ $install->user_name }}</td>
-                                                    <td>{{ $install->updated_at }}</td>
                                                     <td>{{ $install->status }}</td>
+                                                    <td>{{ $install->updated_at }}</td>
+                                                    <td>
+                                                        <a href="{{asset('storage/InstallationReport/'.$install->installation_report)}}" target="_blank">
+                                                            View 
+                                                        </a>
+                                                    </td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>
                                             <tfoot>
                                                 <tr>
+                                                    <th>Site ID</th>
                                                     <th>QR Number</th>
                                                     <th>Installation Report</th>
                                                     <th>User</th>
-                                                    <th>Last Modified</th>
                                                     <th>Status</th>
+                                                    <th>Last Modified</th>
+                                                    <th>View Report</th>
                                                 </tr>
                                             </tfoot>
                                         </table>
                                     </div>
                                     <div class="tab-pane fade" id="test" role="tabpanel" aria-labelledby="test-tab">
-                                        <table id="install_reports_table" class="display table table-striped table-border row-border table-hover table-sm responsive nowrap" style="width:100%">
+                                        <table id="test_reports_table" class="display table table-striped table-border row-border table-hover table-sm responsive nowrap" style="width:100%">
                                             <thead>
                                                 <tr>
                                                     <th>QR Number</th>
@@ -130,7 +144,7 @@
                                         </table>
                                     </div>
                                     <div class="tab-pane fade" id="accept" role="tabpanel" aria-labelledby="accept-tab">
-                                        <table id="install_reports_table" class="display table table-striped table-border row-border table-hover table-sm responsive nowrap" style="width:100%">
+                                        <table id="accept_reports_table" class="display table table-striped table-border row-border table-hover table-sm responsive nowrap" style="width:100%">
                                             <thead>
                                                 <tr>
                                                     <th>Installation Report</th>

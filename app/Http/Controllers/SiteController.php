@@ -155,34 +155,168 @@ class SiteController extends Controller
     //DISPLAY SITE REPORTS PAGE
     public function showSiteReports()
     {
-        $installData = $this->getDataForSiteReports('installation_reports');
-        $testData = $this->getDataForSiteReports('test_reports');
+        $installData = $this->getDataForSiteReports('installation_reports', 'user_id');
+        $testData = $this->getDataForSiteReports('test_reports', 'user_id');
+        $acceptanceData = $this->getDataForSiteReports('acceptance_reports', 'installation_report_id');
         $acceptanceData = AcceptanceReport::all();
         return view('sites.site_reports', compact('installData', 'testData', 'acceptanceData'));
     }
 
-    private function getDataForSiteReports($table)
+    private function getDataForSiteReports($table, $column)
     {
-        $userIDs = DB::table($table)->distinct()->get(['user_id']);
-        $id_array = json_decode( json_encode($userIDs), true);
-        $reportUsers = DB::table('users')->whereIn('id', $id_array)->get();
+        $id = DB::table($table)->distinct()->get([$column]);
+        $id_array = json_decode( json_encode($id), true);
 
         if ($table == 'installation_reports') {
-            $reportData = InstallationReport::all();
-        } else {
-            $reportData = TestReport::all();
-        }
+            $reportUsers = DB::table('users')->whereIn('id', $id_array)->get();
+            // $reportData = InstallationReport::all();
+            $reportData = $this->getInstallationReportTableDetails();
 
-        foreach ($reportUsers as $user) {
-            foreach ($reportData as $data) {
-                if($data->user_id == $user->id){
-
-                    // add  user name to test report collection
-                    $data->user_name = $user->name;
+            foreach ($reportUsers as $user) {
+                foreach ($reportData as $data) {
+                    if($data->user_id == $user->id){
+    
+                        // add  user name to test report collection
+                        $data->user_name = $user->name;
+                    }
                 }
             }
+        } elseif ($table == 'test_reports') {
+            $reportUsers = DB::table('users')->whereIn('id', $id_array)->get();
+            $reportData = TestReport::all();
+
+            foreach ($reportUsers as $user) {
+                foreach ($reportData as $data) {
+                    if($data->user_id == $user->id){
+    
+                        // add  user name to test report collection
+                        $data->user_name = $user->name;
+                    }
+                }
+            }
+
+        } else {
+            $reportData = $this->getAcceptanceReportData();
         }
         return $reportData;
+    }
+
+    public function editReportStatus($report_id)
+    {
+        $reportData = DB::table('installation_reports')->where('id', '=', $report_id)->get();
+        $reportData = $this->addSiteDetailsToReport($reportData);
+        return view('sites.edit_report_status', compact('reportData'));
+    }
+
+    public function updateInstallationReportStatus($report_id, Request $request)
+    {
+        $report = InstallationReport::find($report_id);
+        $report->status = $request->status;
+        $updateReport = $report->save();
+
+        if ($updateReport)
+        {
+            Log::info(' Installation Report Status updated', ['type' => 'update', 'result' => 'success']);
+        }
+        $reportData = DB::table('installation_reports')->where('id', '=', $report_id)->get();
+        $reportData = $this->addSiteDetailsToReport($reportData);
+        return view('sites.edit_report_status', compact('reportData'));
+    }
+
+    public function getInstallationReportTableDetails()
+    {
+        $reportData = InstallationReport::all();
+        $reportData = $this->addSiteDetailsToReport($reportData);
+        return $reportData;
+    }
+
+    private function addSiteDetailsToReport($reportData)
+    {
+        foreach ($reportData as $datum) {
+            // Extract Site Id From Report Name
+            // Site Id can be used as a search parameter in the table
+            $siteId = substr($datum->installation_report, 0, strpos($datum->installation_report, '-'));
+            $datum->site_id = $siteId;
+
+            // get user name
+            $userName = DB::table('users')->where('id', '=', $datum->user_id)->get('name');
+            $datum->user_name = $userName[0]->name;
+    
+            // Create a formattted Report Name
+            $datum->reportName = $this->formatReportName($datum->installation_report);
+        }
+        return $reportData;
+    }
+
+    private function formatReportName($reportName)
+    {
+        $siteId = substr($reportName, 0, strpos($reportName, '-'));
+
+        $clearName = str_replace($siteId."-","", $reportName);
+        $clearName = str_replace(".pdf","", $clearName);
+        $clearName = str_replace("InstallationReport","Report", $clearName);
+        $clearName = str_replace("_"," ", $clearName);
+
+        return $clearName;
+    }
+
+    private function getInstallationReportName($installationReportID)
+    {
+        $installationReportName = DB::table('installation_reports')
+                                        ->where('installation_report_id', $installationReportID)
+                                        ->get(['installation_report']);
+        return $installationReportName;
+    }
+
+
+    
+    private function getSiteDataForAcceptanceReports($installationReportID = [])
+    {
+        $uniqueQRNumbers = DB::table('installation_reports')
+                                ->distinct()
+                                ->whereIn('installation_report_id', $installationReportID)->get(['qr_number']);
+        $qr_array = json_decode( json_encode($uniqueQRNumbers), true);
+        $uniqueCellIDs = DB::table('monitors')
+                                ->distinct()
+                                ->whereIn('qr_number', $qr_array)->get(['cell_id']);
+        $cellID_array = json_decode( json_encode($uniqueCellIDs), true);
+        $uniqueSiteIDs = DB::table('cells')
+                                ->distinct()
+                                ->whereIn('cells', $cellID_array)->get(['site_id']);
+        $siteID_array = json_decode( json_encode($uniqueSiteIDs), true);
+        $siteData = DB::table('sites')
+                        ->whereIn('site_id', $siteID_array)
+                        ->get(['site_name', 'technology']);
+        $siteData_array = json_decode( json_encode($uniqueSiteIDs), true);
+        return $siteData_array;
+    }
+
+    private function getAcceptanceReportData()
+    {
+        $acceptanceReportData = AcceptanceReport::all();
+        foreach ($acceptanceReportData as $data) {
+            $siteData = $this->getsiteDataForIR($data->installationReportID);
+            $data->site_name = $siteData->site_name;
+            $data->technology = $siteData->technology;
+        }
+        return $acceptanceReportData;
+    }
+
+    private function getsiteDataForIR($irID)
+    {
+        $qrNumber = DB::table('installation_reports')
+                        ->where('id', '=', $irID)
+                        ->get('qr_number');
+        $cellID = DB::table('monitors')
+                        ->where('qr_number', '=', $qrNumber)
+                        ->get('cell_id');
+        $siteID = DB::table('cells')
+                        ->where('cell_id', '=', $cellID)
+                        ->get('site_id');
+        $siteData = DB::table('sites')
+                        ->where('site_id', '=', $siteID)
+                        ->get(['site_name', 'technology']);
+        return $siteData;
     }
 
     public function showCellDetails($cell_id)
@@ -204,8 +338,8 @@ class SiteController extends Controller
     public function voltageLineGraphData($cell_id)
     {
         //get current time as a DateTime Object
-        //$currentTime = \DateTime::createFromFormat('Y-m-d H:i:s', '2020-02-17 06:50:55');
-        $currentTime = \DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s', time()));
+        $currentTime = \DateTime::createFromFormat('Y-m-d H:i:s', '2020-02-17 06:50:55');
+        //$currentTime = \DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s', time()));
         $lastPeriod = $currentTime->sub(new DateInterval('PT15H'));
         $lastTwelveHours = $lastPeriod->format('Y-m-d H:i:s');
 

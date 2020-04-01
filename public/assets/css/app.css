@@ -572,7 +572,15 @@ meter {
     margin-left: 5.5em;
     color: red;
 }
-  /* Webkit based browsers */
+
+.report-details {
+    font-size: 1.2em;
+}
+
+.head-detail {
+    text-transform: capitalize;
+}
+/* Webkit based browsers */
 meter[value="1"]::-webkit-meter-optimum-value { background: red; }
 meter[value="2"]::-webkit-meter-optimum-value { background: orange; }
 meter[value="3"]::-webkit-meter-optimum-value { background: rgb(138, 216, 50); }

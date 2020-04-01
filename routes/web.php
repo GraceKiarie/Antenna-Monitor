@@ -38,6 +38,8 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('/cells', 'SiteController@showCellsList')->name('celllist');
     Route::get('/cell/{cell_id}', 'SiteController@showCellDetails')->name('cell');
     Route::get('/site_reports', 'SiteController@showSiteReports')->name('site_reports');
+    Route::get('/{report_id}/edit_report_status', 'SiteController@editReportStatus')->name('reports_status');
+    Route::post('/{report_id}/update_report_status', 'SiteController@updateInstallationReportStatus');
 
     /*
     |--------------------------------------------------------------------------
