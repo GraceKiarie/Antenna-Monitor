@@ -40,6 +40,7 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('/site_reports', 'SiteController@showSiteReports')->name('site_reports');
     Route::get('/{report_id}/edit_report_status', 'SiteController@editReportStatus')->name('reports_status');
     Route::post('/{report_id}/update_report_status', 'SiteController@updateInstallationReportStatus');
+    Route::get('/summary', 'SiteController@showSummaryPage');
 
     /*
     |--------------------------------------------------------------------------

@@ -110,7 +110,16 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>                      
+                        </li>
+                        <li class="app-sidebar__heading app-sidebar__heading-m">Summary</li>
+                        <li>
+                            <a href="/summary" class="menu-item">
+                                <i class="metismenu-icon pe-7s-note2"></i>
+                                    Summary
+                                <i class="metismenu-state-icon caret-left"></i>
+                            </a>
+                        </li>
+                                              
                         
                         <li class="app-sidebar__heading app-sidebar__heading-m">System</li>
                         <li>

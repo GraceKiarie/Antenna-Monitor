@@ -15,13 +15,18 @@ $(document).ready(function() {
         "pageLength": 20,
         "lengthMenu": [[10, 20, 50, 100, -1], [10, 20, 50, 100, "All"]],
         "columnDefs": [{
-            "targets": [ 0,1 ],
-            "visible": false,
-            "searchable": true
+            "targets": [ 0 ],
+            "width" : "17%"
+        }, {
+            "targets": [ 1 ],
+            "width" : "10%"
         }, {
             "targets": [ 2 ],
-            "visible": true,
-            "searchable": true
+            "width" : "20%"
+        }, {
+            "targets": [ 6 ],
+            "searchable": false,
+            "width" : "10%"
         }]
     }).columns.adjust().draw();
 

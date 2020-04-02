@@ -378,4 +378,10 @@ class SiteController extends Controller
     {
         return view('sites.upload-sites');
     }
+
+    public function showSummaryPage()
+    {
+        $summary = array();
+        return view('sites.summary', compact('summary'));
+    }
 }

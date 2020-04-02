@@ -24,12 +24,6 @@
                     <h5 class="content-detail-title">reports</h5>
 
                     <div class="content-detail-btns">
-                        <button onclick="window.location.href = '/sites';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
-                            Sites
-                        </button>
-                        <button onclick="window.location.href = '/cells';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
-                            Cells
-                        </button>
                         <button onclick="window.history.back();" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
                             Back
                         </button>
@@ -76,8 +70,8 @@
                                                     
                                                 ?>
                                                 <tr>
-                                                    <td>{{ $install->site_id }}</td>
-                                                    <td><a href="#">{{ $install->qr_number }}</a></td>
+                                                    <td><a href="/site/{{ $install->site_id }}">{{ $install->site_id }}</a></td>
+                                                    <td>{{ $install->qr_number }}</td>
                                                     <td>
                                                         <a href="/{{$install->id}}/edit_report_status">
                                                             {{ $install->reportName }}
