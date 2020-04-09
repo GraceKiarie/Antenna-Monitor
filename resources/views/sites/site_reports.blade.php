@@ -150,18 +150,11 @@
                                             </thead>
                                             <tbody>
                                                 @foreach ($acceptanceData as $accept)
-                                                <?php 
-                                                    
-                                                ?>
                                                 <tr>
                                                     <td>
-                                                        @foreach ($installData as $install)
-                                                            @if ($accept->installation_report_id == $install->id)
-                                                            <a href="#">
-                                                                {{ $install->installation_report }}
-                                                            </a>
-                                                            @endif
-                                                        @endforeach
+                                                        <a href="/{{$accept->installation_report_id}}/edit_report_status">
+                                                            {{ $accept->reportName }}
+                                                        </a>
                                                     </td>
                                                     <td><a href="#">{{ $accept->status }}</a></td>
                                                     <td>{{ $accept->comment }}</td>

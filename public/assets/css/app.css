@@ -577,6 +577,11 @@ meter {
     font-size: 1.2em;
 }
 
+#mapid { 
+    height: 480px; 
+    width: 800px;
+}
+
 .head-detail {
     text-transform: capitalize;
 }

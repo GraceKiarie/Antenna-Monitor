@@ -158,7 +158,7 @@ class SiteController extends Controller
         $installData = $this->getDataForSiteReports('installation_reports', 'user_id');
         $testData = $this->getDataForSiteReports('test_reports', 'user_id');
         $acceptanceData = $this->getDataForSiteReports('acceptance_reports', 'installation_report_id');
-        $acceptanceData = AcceptanceReport::all();
+        // $acceptanceData = AcceptanceReport::all();
         return view('sites.site_reports', compact('installData', 'testData', 'acceptanceData'));
     }
 
@@ -254,69 +254,62 @@ class SiteController extends Controller
 
         $clearName = str_replace($siteId."-","", $reportName);
         $clearName = str_replace(".pdf","", $clearName);
-        $clearName = str_replace("InstallationReport","Report", $clearName);
+        $clearName = str_replace("InstallationReport","Installation Report", $clearName);
+        $clearName = str_replace("AcceptanceReport","Acceptance Form", $clearName);
         $clearName = str_replace("_"," ", $clearName);
 
         return $clearName;
-    }
-
-    private function getInstallationReportName($installationReportID)
-    {
-        $installationReportName = DB::table('installation_reports')
-                                        ->where('installation_report_id', $installationReportID)
-                                        ->get(['installation_report']);
-        return $installationReportName;
-    }
-
-
-    
-    private function getSiteDataForAcceptanceReports($installationReportID = [])
-    {
-        $uniqueQRNumbers = DB::table('installation_reports')
-                                ->distinct()
-                                ->whereIn('installation_report_id', $installationReportID)->get(['qr_number']);
-        $qr_array = json_decode( json_encode($uniqueQRNumbers), true);
-        $uniqueCellIDs = DB::table('monitors')
-                                ->distinct()
-                                ->whereIn('qr_number', $qr_array)->get(['cell_id']);
-        $cellID_array = json_decode( json_encode($uniqueCellIDs), true);
-        $uniqueSiteIDs = DB::table('cells')
-                                ->distinct()
-                                ->whereIn('cells', $cellID_array)->get(['site_id']);
-        $siteID_array = json_decode( json_encode($uniqueSiteIDs), true);
-        $siteData = DB::table('sites')
-                        ->whereIn('site_id', $siteID_array)
-                        ->get(['site_name', 'technology']);
-        $siteData_array = json_decode( json_encode($uniqueSiteIDs), true);
-        return $siteData_array;
     }
 
     private function getAcceptanceReportData()
     {
         $acceptanceReportData = AcceptanceReport::all();
         foreach ($acceptanceReportData as $data) {
-            $siteData = $this->getsiteDataForIR($data->installationReportID);
-            $data->site_name = $siteData->site_name;
-            $data->technology = $siteData->technology;
+            $cellData = $this->getCellDataForIR($data->installation_report_id);
+            $data->technology = $cellData[0]->technology; 
+            
+            $data->site_name = $this->getSiteNameForIR($cellData[0]->site_id);
+
+            $data->reportName = $this->getIRNameForAcceptanceReportTable($data->installation_report_id);
         }
         return $acceptanceReportData;
     }
 
-    private function getsiteDataForIR($irID)
+    private function getIRNameForAcceptanceReportTable($install_report_id)
+    {
+        $reportName = DB::table('installation_reports')
+                        ->where('id', '=', $install_report_id)
+                        ->get('installation_report')[0]->installation_report;
+
+        $reportName = $this->formatReportName($reportName);
+   
+        return $reportName;
+    }
+
+    private function getCellDataForIR($irID)
     {
         $qrNumber = DB::table('installation_reports')
                         ->where('id', '=', $irID)
-                        ->get('qr_number');
+                        ->get('qr_number')[0]->qr_number;
+
         $cellID = DB::table('monitors')
                         ->where('qr_number', '=', $qrNumber)
-                        ->get('cell_id');
-        $siteID = DB::table('cells')
+                        ->get('cell_id')[0]->cell_id;
+
+        $cellData = DB::table('cells')
                         ->where('cell_id', '=', $cellID)
-                        ->get('site_id');
-        $siteData = DB::table('sites')
+                        ->get(['site_id', 'technology']);
+
+        return $cellData;
+    }
+
+    private function getSiteNameForIR($siteID)
+    {
+        $siteName = DB::table('sites')
                         ->where('site_id', '=', $siteID)
-                        ->get(['site_name', 'technology']);
-        return $siteData;
+                        ->get(['site_name'])[0]->site_name;
+
+        return $siteName;
     }
 
     public function showCellDetails($cell_id)
@@ -379,9 +372,157 @@ class SiteController extends Controller
         return view('sites.upload-sites');
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Summary Page Data Compilation
+    |--------------------------------------------------------------------------
+    |
+    */
     public function showSummaryPage()
     {
-        $summary = array();
-        return view('sites.summary', compact('summary'));
+        $summaryData = $this->getSummaryData();
+        return view('sites.summary', compact('summaryData'));
+    }
+
+    private function getSummaryData()
+    {
+         // get unique qr numbers
+         $unique_qr = array_unique(
+            DB::table('installation_reports')->pluck('qr_number')->toArray()
+        );
+
+        $cellIDs = DB::table('monitors')->whereIn('qr_number', $unique_qr)->pluck('cell_id')->toArray();
+
+        $cellData = DB::table('cells')->whereIn('cell_id', $cellIDs)->get();
+
+        $summaryData = $this->addSiteDataToSummary($cellData);
+        $summaryData = $this->addAntennaDataToSummary($summaryData);
+        $summaryData = $this->addTestDataToSummary($summaryData);
+        $summaryData = $this->addUserDataToSummary($summaryData);
+        $summaryData = $this->addTeamDataToSummary($summaryData);
+        $summaryData = $this->addContractorDataToSummary($summaryData);
+        $summaryData = $this->addInstallDataToSummary($summaryData);
+        $summaryData = $this->addAcceptDataToSummary($summaryData);
+
+        return $summaryData;
+    }
+
+    private function addSiteDataToSummary($cellData)
+    {
+        foreach ($cellData as $data) {
+            //get site name for cell
+            $getData = DB::table('sites')
+                                ->where('site_id', '=', $data->site_id)
+                                ->get('site_name');
+            
+            $data->site_name = $getData[0]->site_name;
+        }
+        return $cellData;
+    }
+
+    private function addAntennaDataToSummary($cellData)
+    {
+        foreach ($cellData as $data) {
+            //get site name for cell
+            $getData = DB::table('monitors')
+                                ->where('cell_id', '=', $data->cell_id)
+                                ->get(['imsi', 'qr_number', 'installation_time']);
+            $data->qr_number = $getData[0]->qr_number;
+            $data->imsi = $getData[0]->imsi;
+            $data->installation_time = $getData[0]->installation_time;
+        }
+        return $cellData;
+    }
+
+    private function addTestDataToSummary($cellData)
+    {
+        foreach ($cellData as $data) {
+            //get test report data for monitor installed in cell
+            $getData = DB::table('test_reports')
+                                ->where('qr_number', '=', $data->qr_number)
+                                ->get(['test_report', 'user_id']);
+            $data->test_report = $getData[0]->test_report;
+            $data->user_id = $getData[0]->user_id;
+        }
+        return $cellData;
+    }
+
+    private function addUserDataToSummary($cellData)
+    {
+        foreach ($cellData as $data) {
+            //get test report data for monitor installed in cell
+            $getData = DB::table('users')
+                                ->where('id', '=', $data->user_id)
+                                ->get(['name', 'team_id']);
+            $data->user_name = $getData[0]->name;
+            $data->team_id = $getData[0]->team_id;
+        }
+        return $cellData;
+    }
+
+    private function addTeamDataToSummary($cellData)
+    {
+        foreach ($cellData as $data) {
+            if (!is_null($data->team_id)) {
+                //get teams data for monitor installed in cell
+                $getData = DB::table('teams')
+                            ->where('id', '=', $data->team_id)
+                            ->get(['team_name', 'contractor_id'])
+                            ->toArray();
+                $data->team_name = $getData[0]->team_name;
+                $data->contractor_id = $getData[0]->contractor_id;
+            } else {
+                $data->team_name = '';
+                $data->contractor_id = '';
+            }
+        }
+        return $cellData;
+    }
+
+    private function addContractorDataToSummary($cellData)
+    {
+        foreach ($cellData as $data) {
+            if (!is_null($data->team_id)) {
+                //get teams data for monitor installed in cell
+                $getData = $getData = DB::table('contractors')
+                            ->where('id', '=', $data->contractor_id)
+                            ->get(['contractor_name']);
+
+                $data->contractor_name = $getData[0]->contractor_name;
+            } else {
+                $data->contractor_name = '';
+            }
+        }
+        return $cellData;
+    }
+
+    private function addInstallDataToSummary($cellData)
+    {
+        foreach ($cellData as $data) {
+            //get site name for cell
+            $getData = DB::table('installation_reports')
+                                ->where('qr_number', '=', $data->qr_number)
+                                ->get(['id', 'installation_report', 'status']);
+            $data->installation_report_id = $getData[0]->id;
+            $data->installation_report = $getData[0]->installation_report;
+            $data->installation_report_name = $this->formatReportName($data->installation_report);
+            $data->installation_status = $getData[0]->status;
+        }
+        return $cellData;
+    }
+
+    private function addAcceptDataToSummary($cellData)
+    {
+        foreach ($cellData as $data) {
+            //get site name for cell
+            $getData = DB::table('acceptance_reports')
+                                ->where('installation_report_id', '=', $data->installation_report_id)
+                                ->get(['comment', 'status', 'acceptance_form']);
+            $data->acceptance_comment = $getData[0]->comment;
+            $data->acceptance_status = $getData[0]->status;
+            $data->acceptance_form = $getData[0]->acceptance_form;
+            $data->acceptance_form_name = $this->formatReportName($data->acceptance_form);
+        }
+        return $cellData;
     }
 }

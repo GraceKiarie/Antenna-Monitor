@@ -33,7 +33,7 @@
 
                     <div class="row">
                         <div class="col-md-12">
-                            <table id="test_reports_table" class="display table table-striped table-border row-border table-hover table-sm responsive nowrap" style="width:100%">
+                            <table id="summary_table" class="display table table-striped table-border row-border table-hover table-sm responsive nowrap" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>No.</th>
@@ -57,26 +57,26 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($summary as $test)
+                                    @foreach ($summaryData as $sum)
                                         <tr>
-                                            <td><a href="#">{{ $test}}</a></td>
-                                            <td><a href="#">{{ $test }}</a></td>
-                                            <td><a href="#">{{ $test }}</a></td>
-                                            <td><a href="#">{{ $test }}</a></td>
-                                            <td><a href="#">{{ $test }}</a></td>
-                                            <td><a href="#">{{ $test }}</a></td>
-                                            <td><a href="#">{{ $test }}</a></td>
-                                            <td><a href="#">{{ $test }}</a></td>
-                                            <td><a href="#">{{ $test }}</a></td>
-                                            <td><a href="#">{{ $test }}</a></td>
-                                            <td><a href="#">{{ $test }}</a></td>
-                                            <td><a href="#">{{ $test }}</a></td>
-                                            <td><a href="#">{{ $test }}</a></td>
-                                            <td><a href="#">{{ $test }}</a></td>
-                                            <td><a href="#">{{ $test }}</a></td>
-                                            <td><a href="#">{{ $test }}</a></td>
-                                            <td><a href="#">{{ $test }}</a></td>
-                                            <td><a href="#">{{ $test }}</a></td>
+                                            <td><a href="#">No.</a></td>
+                                            <td><a href="#">{{ $sum->qr_number }}</a></td>
+                                            <td>{{ $sum->imsi }}</td>
+                                            <td><a href="#">{{ $sum->test_report }}</a></td>
+                                            <td>{{ $sum->user_name }}</td>
+                                            <td>{{ $sum->contractor_name }}</td>
+                                            <td>{{ $sum->team_name }}</td>
+                                            <td>Date Collected</td>
+                                            <td>{{ $sum->installation_time }}</td>
+                                            <td><a href="#">{{ $sum->site_id }}</a></td>
+                                            <td>{{ $sum->technology }}</td>
+                                            <td><a href="#">{{ $sum->cell_name }}</a></td>
+                                            <td>{{ $sum->sector_id }}</td>
+                                            <td><a href="#">Installation Image</a></td>
+                                            <td><a href="#">{{ $sum->installation_report_name }}</a></td>
+                                            <td><a href="#">{{ $sum->acceptance_status }}</a></td>
+                                            <td><a href="#">{{ $sum->acceptance_form }}</a></td>
+                                            <td>{{ $sum->acceptance_comment }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -118,5 +118,5 @@
 @endpush
 
 @push('page-scripts')
-    <script src="{{ asset('assets/scripts/site_reports.js') }}"></script>
+    <script src="{{ asset('assets/scripts/summary.js') }}"></script>
 @endpush
