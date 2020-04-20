@@ -61,7 +61,7 @@
                                                     <th>User</th>
                                                     <th>Status</th>
                                                     <th>Last Modified</th>
-                                                    <th>View Report</th>
+                                                    <th>View/Download Report</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -84,6 +84,12 @@
                                                         <a href="{{asset('storage/InstallationReport/'.$install->installation_report)}}" target="_blank">
                                                             View 
                                                         </a>
+                                                        &nbsp;|&nbsp;
+                                                        <a href="{{asset('storage/InstallationReport/'.$install->installation_report)}}" 
+                                                            target="_blank" 
+                                                            download=" {{$install->installation_report}} ">
+                                                            Download 
+                                                        </a>
                                                     </td>
                                                 </tr>
                                                 @endforeach
@@ -96,7 +102,7 @@
                                                     <th>User</th>
                                                     <th>Status</th>
                                                     <th>Last Modified</th>
-                                                    <th>View Report</th>
+                                                    <th>View/Download Report</th>
                                                 </tr>
                                             </tfoot>
                                         </table>
