@@ -3,11 +3,11 @@ $(document).ready(function () {
     $('#detailed_table').DataTable({
         responsive: false,
         scrollX: true,
-        dom: "<'row'<'col-md-6'<'row'<'col-md-2 vli'l><'col-md-10'i>>><'col-md-3 vl'f><'col-md-3 apt text-right'B>>"
+        dom: "<'row'<'col-md-6'<'row'<'col-md-3 vli'l><'col-md-9'i>>><'col-md-2 vl'f><'col-md-4 apt text-right'B>>"
             + "<'row'<'col-md-12'tr>>"
             + "<'row'<'col-md-6'i><'col-md-6'p>>",
         buttons: [
-            'csv', 'excel', 'pdf', 'print'
+            'csv', 'pdf', 'print'
         ],
         "language": {
             "lengthMenu": "_MENU_",
@@ -16,18 +16,18 @@ $(document).ready(function () {
         "pageLength": 10,
         "lengthMenu": [[10, 20, 50, 100, -1], [10, 20, 50, 100, "All"]],
         "columnDefs": [{
-            "targets": [0],
-            "width": "17%"
+            "targets": [0,1,7,8,14],
+            "className": "dt-center"
         }, {
-            "targets": [1],
-            "width": "10%"
+            "targets": [9,12],
+            "visible": false,
+            "searchable": true
         }, {
-            "targets": [2],
-            "width": "20%"
+            "targets": ["_all"],
+            "className": "dt-head-center"
         }, {
             "targets": [6],
-            "searchable": false,
-            "width": "10%"
+            "searchable": false
         }]
     }).columns.adjust().draw();
 

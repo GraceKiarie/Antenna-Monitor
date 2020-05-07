@@ -59,7 +59,7 @@
 
                             ?>
                                 <tr>
-                                    <td><a href="/site/{{ $site_id }}" > {{ $site_id }} </a> </td>
+                                    <td><a href="/site/{{ $site_id }}#cells" > {{ $site_id }} </a> </td>
                                     <td> {{ $site_name }} </td>
                                     <td> {{ $site->vendor }} </td>
                                     <td> {{ $site->created_at }} </td>

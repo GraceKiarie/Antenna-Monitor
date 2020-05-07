@@ -61,11 +61,14 @@
                                                 <th>User</th>
                                                 <th>Status</th>
                                                 <th>Last Modified</th>
-                                                <th>Report Action</th>
+                                                <th>View/Download Report</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($installData as $install)
+                                            <?php 
+                                                
+                                            ?>
                                             <tr>
                                                 <td><a href="/site/{{ $install->site_id }}">{{ $install->site_id }}</a></td>
                                                 <td>{{ $install->qr_number }}</td>
@@ -82,12 +85,11 @@
                                                         View 
                                                     </a>
                                                     &nbsp;|&nbsp;
-                                                    <a href="{{asset('storage/InstallationReport/'.$install->installation_report)}}" download="{{$install->installation_report}} ">
+                                                    <a href="{{asset('storage/InstallationReport/'.$install->installation_report)}}" 
+                                                        target="_blank" 
+                                                        download=" {{$install->installation_report}} ">
                                                         Download 
-                                                    </a> |
-                                                    <a href="/site_reports/{{$install->id}}/upload_acceptance_form/">
-                                                        Upload Acceptance Form
-                                                    </a> 
+                                                    </a>
                                                 </td>
                                             </tr>
                                             @endforeach
@@ -100,7 +102,7 @@
                                                 <th>User</th>
                                                 <th>Status</th>
                                                 <th>Last Modified</th>
-                                                <th>Report Action</th>
+                                                <th>View/Download Report</th>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -111,7 +113,7 @@
                                             <tr>
                                                 <th>QR Number</th>
                                                 <th>Test Report</th>
-                                                <th>Report Action</th>
+                                                <th>View | Download Report</th>
                                                 <th>User</th>
                                                 <th>Last Modified</th>
                                                 <th>Status</th>
@@ -143,7 +145,7 @@
                                             <tr>
                                                 <th>QR Number</th>
                                                 <th>Test Report</th>
-                                                <th>Report Action</th>
+                                                <th>View | Download Report</th>
                                                 <th>User</th>
                                                 <th>Last Modified</th>
                                                 <th>Status</th>
@@ -159,7 +161,7 @@
                                                 <th>Acceptance Status</th>
                                                 <th>Comments</th>
                                                 <th>Acceptance Form</th>
-                                                <th>Report Action</th>
+                                                <th>View | Download Report</th>
                                                 <th>Last Modified</th>
                                             </tr>
                                         </thead>
@@ -180,9 +182,6 @@
                                                     </a> |
                                                     <a href="{{asset('storage/testReport/'.$test->test_report)}}" download>
                                                         Download
-                                                    </a> |
-                                                    <a href="{{asset('storage/testReport/'.$test->test_report)}}" download>
-                                                        Update Report Status
                                                     </a> 
                                                 </td>
                                                 <td>{{ $accept->updated_at }}</td>
@@ -195,7 +194,7 @@
                                                 <th>Acceptance Status</th>
                                                 <th>Comments</th>
                                                 <th>Acceptance Form</th>
-                                                <th>Report Action</th>
+                                                <th>View | Download Report</th>
                                                 <th>Last Modified</th>
                                             </tr>
                                         </tfoot>

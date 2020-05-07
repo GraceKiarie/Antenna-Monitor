@@ -36,70 +36,41 @@
                             <table id="summary_table" class="display table table-striped table-border row-border table-hover table-sm responsive nowrap" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>No.</th>
-                                        <th>Antenna Monitor ID</th>
-                                        <th>IMSI</th>
-                                        <th>Test Cert</th>
-                                        <th>Technician</th>
-                                        <th>Company</th>
-                                        <th>Team</th>
-                                        <th>Date Collected</th>
-                                        <th>Installation Date</th>
-                                        <th>Site Name</th>
-                                        <th>Technology</th>
-                                        <th>Cell Name</th>
-                                        <th>Sector No.</th>
-                                        <th>Installation Photo</th>
-                                        <th>Installation Cert</th>
-                                        <th>Status</th>
-                                        <th>Acceptance Cert</th>
-                                        <th>Comment</th>
+                                        <th>Region</th>
+                                        <th>Scoped</th>
+                                        <th>Commisioned</th>
+                                        <th>Planned</th>
+                                        <th>Installed</th>
+                                        <th>Acceptance Schedule</th>
+                                        <th>Accepted</th>
+                                        <th>Rejected</th>
+                                        <th>Total Visited Sites</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($summaryData as $sum)
-                                        <tr>
-                                            <td><a href="#">No.</a></td>
-                                            <td><a href="#">{{ $sum->qr_number }}</a></td>
-                                            <td>{{ $sum->imsi }}</td>
-                                            <td><a href="#">{{ $sum->test_report }}</a></td>
-                                            <td>{{ $sum->user_name }}</td>
-                                            <td>{{ $sum->contractor_name }}</td>
-                                            <td>{{ $sum->team_name }}</td>
-                                            <td>Date Collected</td>
-                                            <td>{{ $sum->installation_time }}</td>
-                                            <td><a href="#">{{ $sum->site_id }}</a></td>
-                                            <td>{{ $sum->technology }}</td>
-                                            <td><a href="#">{{ $sum->cell_name }}</a></td>
-                                            <td>{{ $sum->sector_id }}</td>
-                                            <td><a href="#">Installation Image</a></td>
-                                            <td><a href="#">{{ $sum->installation_report_name }}</a></td>
-                                            <td><a href="#">{{ $sum->acceptance_status }}</a></td>
-                                            <td><a href="#">{{ $sum->acceptance_form }}</a></td>
-                                            <td>{{ $sum->acceptance_comment }}</td>
-                                        </tr>
-                                    @endforeach
+                                    <tr>
+                                        <th>Region</th>
+                                        <th>Scoped</th>
+                                        <th>Commisioned</th>
+                                        <th>Planned</th>
+                                        <th>Installed</th>
+                                        <th>Acceptance Schedule</th>
+                                        <th>Accepted</th>
+                                        <th>Rejected</th>
+                                        <th>Total Visited Sites</th>
+                                    </tr>
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th>No.</th>
-                                        <th>Antenna Monitor ID</th>
-                                        <th>IMSI</th>
-                                        <th>Test Cert</th>
-                                        <th>Technician</th>
-                                        <th>Company</th>
-                                        <th>Team</th>
-                                        <th>Date Collected</th>
-                                        <th>Installation Date</th>
-                                        <th>Site Name</th>
-                                        <th>Technology</th>
-                                        <th>Cell Name</th>
-                                        <th>Sector No.</th>
-                                        <th>Installation Photo</th>
-                                        <th>Installation Cert</th>
-                                        <th>Status</th>
-                                        <th>Acceptance Cert</th>
-                                        <th>Comment</th>
+                                        <th>Region</th>
+                                        <th>Scoped</th>
+                                        <th>Commisioned</th>
+                                        <th>Planned</th>
+                                        <th>Installed</th>
+                                        <th>Acceptance Schedule</th>
+                                        <th>Accepted</th>
+                                        <th>Rejected</th>
+                                        <th>Total Visited Sites</th>
                                     </tr>
                                 </tfoot>
                             </table>

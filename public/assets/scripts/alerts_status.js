@@ -2,11 +2,11 @@ $(document).ready(function() {
 
     var table = $('table.display').DataTable({
         responsive: true,
-        dom : "<'row'<'col-md-6'<'row'<'col-md-2 vli'l><'col-md-10'i>>><'col-md-3 vl'f><'col-md-3 apt text-right'B>>" 
+        dom : "<'row'<'col-md-6'<'row'<'col-md-3 vli'l><'col-md-9'i>>><'col-md-2 vl'f><'col-md-4 apt text-right'B>>" 
             + "<'row'<'col-md-12'tr>>" 
             + "<'row'<'col-md-6'i><'col-md-6'p>>",
         buttons: [
-          'csv', 'excel', 'pdf', 'print'
+          'csv', 'pdf', 'print'
         ],
         "language": {
           "lengthMenu": "_MENU_",

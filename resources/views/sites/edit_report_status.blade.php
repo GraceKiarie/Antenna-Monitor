@@ -24,6 +24,9 @@
                     <h5 class="content-detail-title">installation reports - <strong> {{$reportData[0]->reportName}} </strong> </h5>
 
                     <div class="content-detail-btns">
+                        <button onclick="window.location.href = '/{{$reportData[0]->site_id}}/upload_acceptance_form';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
+                            Upload Acceptance Form
+                        </button>
                         <button onclick="window.location.href = '/site_reports#install';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
                             Installation Reports
                         </button>

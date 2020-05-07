@@ -523,12 +523,16 @@ div.dataTables_wrapper div.dataTables_filter label {
 }
 
 .vl, .vli {
-    border-right:2px solid #abc1f1; 
+    border-right:0px solid #abc1f1; 
     padding-top: .3rem;
 }
 
 .apt {
     padding-top: .3rem;
+}
+
+.dataTables_filter label input { 
+    width: 140px !important;
 }
 
 .vli {
@@ -596,3 +600,52 @@ meter[value="1"]::-moz-meter-bar { background: red; }
 meter[value="2"]::-moz-meter-bar { background: orange; }
 meter[value="3"]::-moz-meter-bar { background: rgb(138, 216, 50); }
 meter[value="4"]::-moz-meter-bar { background: green; }
+
+th.dt-center, td.dt-center, th.dt-head-center { 
+    text-align: center; 
+}
+
+.accept-area {
+    border: 2px solid #afafaf;
+    border-radius: 9px;
+    padding: 15px;
+    margin-left: 20px;
+}
+
+.accept-header {
+    margin: 0 0 4px 0;
+    font-size: 18px;
+    padding-left: 20px;
+}
+.accept-hr {
+    margin: 0 0 10px 0;
+    border: 1px solid #d8dce0;
+}
+
+.btn-primary {
+    border: 2px solid #2651be;;
+    background-color: white;
+    color: #2651be;;
+    border-radius: 20px;
+}
+
+.btn-primary::hover {
+    border: 2px solid #2651be;;
+    background-color: #2651be;
+    color: white;;
+    border-radius: 20px;
+}
+
+.btn-success {
+    border: 2px solid #2e9e64;
+    background-color: white;
+    color: #2e9e64;
+    border-radius: 50px;
+}
+
+.btn-success::hover {
+    border: 2px solid #2e9e64;
+    background-color: #2e9e64;
+    color: #ffffff;
+    border-radius: 50px;
+}
