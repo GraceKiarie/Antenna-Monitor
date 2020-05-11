@@ -99,7 +99,7 @@ class InstallationController extends Controller
             $cell_id=$request->get('cell_id');
             $extension = $file->getClientOriginalExtension();
             $filename  = 'installation-image-' . time() . '.' . $extension;
-            $path = $file->storeAs('installationImages', $filename);
+            $path = $file->storeAs('public/installationImages', $filename);
 
             $image=InstallationImage::create([
                 'cell_id' => $cell_id,

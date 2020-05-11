@@ -6,6 +6,7 @@
 
 @push('post-app-styles')
     <link rel="stylesheet" href="{{ asset('assets/css/datatables.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/leaflet/leaflet.css') }}" />
 @endpush
 
 @section('content-detail')
@@ -52,7 +53,15 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link nav-link-m" id="alerts-tab" data-toggle="tab" href="#alerts" role="tab"
-                                            aria-controls="alerts" aria-selected="false">Alerts</a>
+                                            aria-controls="alerts" aria-selected="false">
+                                            Alerts
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link nav-link-m" id="map-tab" data-toggle="tab" href="#map" role="tab"
+                                            aria-controls="map" aria-selected="false">
+                                            Location/Map
+                                        </a>
                                     </li>
                                 </ul>
                                 <div class="tab-content tab-content-m" id="">
@@ -155,6 +164,48 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="tab-pane fade" id="map" name="map" role="tabpanel" aria-labelledby="map-tab">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-md-12 site-cell-info">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="row">
+                                                                <script>
+                                                                    var lat = {!! $siteData[0]->lat !!};
+                                                                    var long = {!! $siteData[0]->long !!};
+                                                                </script>
+                                                                <div class="col-md-3">
+                                                                    <strong class="map-header">Site ID:</strong>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <strong class="map-cood">Coordinates</strong>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-3">
+                                                                    <strong class="map-header-site-id">{{$siteData[0]->site_id}}</strong>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <strong class="map-lat">Latitude:</strong>
+                                                                    <strong class="map-lat-val"> {{$siteData[0]->lat}}&#176; </strong>
+                                                                    &emsp;
+                                                                    <strong class="map-long">Longitude:</strong>
+                                                                    <strong class="map-long-val"> {{$siteData[0]->long}}&#176; </strong>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+
+                                                        
+                                                    </div>
+                                                    <hr class="map-divider" />
+                                                    <div id="mapid" >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                     </div>
@@ -168,6 +219,7 @@
 
 @push('app-scripts')
     <script src="{{ asset('assets/datatables/datatables.min.js') }}"></script>
+    <script src="{{ asset('assets/leaflet/leaflet.js') }}"></script>
 @endpush
 
 @push('page-scripts')
