@@ -13,7 +13,7 @@
     <div class="col-md-12 col-lg-12 scrollbar-container">
         <div class="main-card mb-3 card main-card-m">
             <div class="page-title-heading page-title-heading-m">
-                <h3>SITES - <small>Site Reports</small></h3>
+                <h3>SITES - <small>Acceptance</small></h3>
             </div>
 
             <hr class="page-title-hr" />
@@ -21,14 +21,11 @@
             <div class="main-card mb-3 card">
                 <div class="card-body card-body-m">
 
-                    <h5 class="content-detail-title">installation reports - <strong> {{$reportData[0]->reportName}} </strong> </h5>
+                    <h5 class="content-detail-title">site name - <strong> {{$reportData[0]->site_name}} </strong> </h5>
 
                     <div class="content-detail-btns">
-                        <button onclick="window.location.href = '/site_reports/{{$reportData[0]->id}}/upload_acceptance_form/';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
-                            Upload Acceptance Form
-                        </button>
-                        <button onclick="window.location.href = '/site_reports#install';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
-                            Installation Reports
+                        <button onclick="window.location.href = '/site_reports#accept';" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
+                            Acceptance Reports
                         </button>
                         <button onclick="window.history.back();" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
                             Back
@@ -41,7 +38,7 @@
                         <div class="col-md-8 report-details">
 
                             <div class="row">
-                                <div class="col-md-2 head-detail">
+                                <div class="col-md-3 head-detail">
                                     <p>Site ID</p>
                                 </div>
                                 <div class="col-md-9">
@@ -52,11 +49,11 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-2 head-detail">
-                                    <p>Installation report</p>
+                                <div class="col-md-3 head-detail">
+                                    <p>Acceptance Report</p>
                                 </div>
                                 <div class="col-md-9">
-                                    <a href="{{asset('storage/InstallationReport/'.$reportData[0]->installation_report)}}" target="_blank">
+                                    <a href="{{asset('storage/AcceptanceForms/'.$reportData[0]->acceptance_report_name)}}" target="_blank">
                                         <strong>
                                             {{ $reportData[0]->reportName }}
                                         </strong>
@@ -65,29 +62,39 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-2 head-detail">
-                                    <p>User</p>
-                                </div>
-                                <div class="col-md-9">
-                                    <strong>
-                                        {{$reportData[0]->user_name}}
-                                    </strong>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-2 head-detail">
+                                <div class="col-md-3 head-detail">
                                     <p>Report Status</p>
                                 </div>
                                 <div class="col-md-9">
-                                    <strong>
-                                        {{$reportData[0]->status}}
-                                    </strong>
+                                    @if ($reportData[0]->status === 'Pending')
+                                        <strong class="">
+                                            {{$reportData[0]->status}}
+                                        </strong>
+                                    @elseif ($reportData[0]->status === 'Accepted')
+                                        <strong class="text-success">
+                                            {{$reportData[0]->status}}
+                                        </strong>
+                                    @else
+                                        <strong class="text-danger">
+                                            {{$reportData[0]->status}}
+                                        </strong>
+                                    @endif
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-md-2 head-detail">
+                                <div class="col-md-3 head-detail">
+                                    <p>Last Modified</p>
+                                </div>
+                                <div class="col-md-9">
+                                    <strong>
+                                        {{$reportData[0]->updated_at}}
+                                    </strong>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-3 head-detail">
                                     <p>Last Modified</p>
                                 </div>
                                 <div class="col-md-9">
@@ -98,23 +105,29 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-2 head-detail">
-                                    <p>Status</p>
+                                <div class="col-md-3 head-detail">
+                                    <p>Change Status</p>
                                 </div>
-                                <div class="col-md-10">
+                                <div class="col-md-9">
                                     <div class="row">
-                                        <form action="/{{$reportData[0]->id}}/update_report_status" method="POST" style="width: 100%;">
+                                        <form action="/{{$reportData[0]->id}}/update_accept_status" method="POST" style="width: 100%;">
                                             {{ csrf_field() }}
                                             <div class="col-md-5">
                                                 <div class="position-relative form-check" style="width: 100%;">
                                                     <label class="form-check-label" style="width: 100%;">
                                                         <select id="report-status" class="form-control" name="status" style="width: 100% !important;">
                                                             @if ($reportData[0]->status === 'Pending')
-                                                                <option value="Pending" class="pending" selected>Pending</option>
-                                                                <option value="Closed" class="closed">Closed</option>
+                                                                <option value="Pending" class="Pending" selected>Pending</option>
+                                                                <option value="Accepted" class="Accepted">Accepted</option>
+                                                                <option value="Rejected" class="Rejected">Rejected</option>
+                                                            @elseif ($reportData[0]->status === 'Accepted')
+                                                                <option value="Pending" class="Pending">Pending</option>
+                                                                <option value="Accepted" class="Accepted" selected>Accepted</option>
+                                                                <option value="Rejected" class="Rejected">Rejected</option>
                                                             @else
-                                                                <option value="Closed" class="closed" selected>Closed</option>
-                                                                <option value="Pending" class="pending">Pending</option>
+                                                                <option value="Pending" class="Pending">Pending</option>
+                                                                <option value="Accepted" class="Accepted">Accepted</option>
+                                                                <option value="Rejected" class="Rejected" selected>Rejected</option>
                                                             @endif
                                                         </select>
                                                     </label>

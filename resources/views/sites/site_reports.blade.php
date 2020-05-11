@@ -85,9 +85,16 @@
                                                     <a href="{{asset('storage/InstallationReport/'.$install->installation_report)}}" download="{{$install->installation_report}} ">
                                                         Download 
                                                     </a> |
-                                                    <a href="/site_reports/{{$install->id}}/upload_acceptance_form/">
-                                                        Upload Acceptance Form
-                                                    </a> 
+                                                    @if (empty($install->accept_report_id))
+                                                        <a href="/site_reports/{{$install->id}}/upload_acceptance_form/">
+                                                            Upload Acceptance Form
+                                                        </a> 
+                                                    @else
+                                                        <a href="/site_reports/{{$install->id}}/upload_acceptance_form/">
+                                                            Update Acceptance Details
+                                                        </a> 
+                                                    @endif
+                                                    
                                                 </td>
                                             </tr>
                                             @endforeach
@@ -152,13 +159,13 @@
                                     </table>
                                 </div>
                                 <div class="tab-pane fade" id="accept" role="tabpanel" aria-labelledby="accept-tab">
-                                    <table id="accept_reports_table" class="display table table-striped table-border row-border table-hover table-sm responsive nowrap" style="width:100%">
+                                    <table id="accept_reports_table" class="display table table-striped table-border row-border table-hover table-sm nowrap" style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th>Installation Report</th>
+                                                <th>Acceptance Form</th>
                                                 <th>Acceptance Status</th>
                                                 <th>Comments</th>
-                                                <th>Acceptance Form</th>
                                                 <th>Report Action</th>
                                                 <th>Last Modified</th>
                                             </tr>
@@ -171,18 +178,18 @@
                                                         {{ $accept->reportName }}
                                                     </a>
                                                 </td>
+                                                <td>{{ $accept->acceptance_form }}</td>
                                                 <td><a href="#">{{ $accept->status }}</a></td>
                                                 <td>{{ $accept->comment }}</td>
-                                                <td>{{ $accept->acceptance_form }}</td>
                                                 <td>
-                                                    <a href="{{asset('storage/testReport/'.$test->test_report)}}" target="_blank">
+                                                    <a href="{{asset('storage/AcceptanceForms/'.$accept->acceptance_form)}}" target="_blank">
                                                         View
                                                     </a> |
-                                                    <a href="{{asset('storage/testReport/'.$test->test_report)}}" download>
+                                                    <a href="{{asset('storage/AcceptanceForms/'.$accept->acceptance_form)}}" download>
                                                         Download
                                                     </a> |
-                                                    <a href="{{asset('storage/testReport/'.$test->test_report)}}" download>
-                                                        Update Report Status
+                                                    <a href="/site_reports/{{$accept->installation_report_id}}/upload_acceptance_form/">
+                                                        Update Acceptance Details
                                                     </a> 
                                                 </td>
                                                 <td>{{ $accept->updated_at }}</td>
@@ -192,9 +199,9 @@
                                         <tfoot>
                                             <tr>
                                                 <th>Installation Report</th>
+                                                <th>Acceptance Form</th>
                                                 <th>Acceptance Status</th>
                                                 <th>Comments</th>
-                                                <th>Acceptance Form</th>
                                                 <th>Report Action</th>
                                                 <th>Last Modified</th>
                                             </tr>

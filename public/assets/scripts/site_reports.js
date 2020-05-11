@@ -54,6 +54,10 @@ $(document).ready(function() {
         buttons: [
           'csv', 'pdf', 'print'
         ],
+        "columnDefs": [{
+          "targets": [ 0 ],
+          "visible" : false
+        }],
         "language": {
           "lengthMenu": "_MENU_",
           "info": "Showing _START_ to _END_ of _TOTAL_ alerts",
@@ -61,6 +65,11 @@ $(document).ready(function() {
         "pageLength": 20,
         "lengthMenu": [[10, 20, 50, 100, -1], [10, 20, 50, 100, "All"]]
     }).columns.adjust().draw();
+
+    
+    $("#changeAcceptanceForm").click(function(){
+      $("#toggleView").toggle();
+    });
 
     // https://webdesign.tutsplus.com/tutorials/how-to-add-deep-linking-to-the-bootstrap-4-tabs-component--cms-31180
     let url = location.href.replace(/\/$/, "");

@@ -76,7 +76,7 @@
                                             <td>{{ $sum->cell_id }}</td>
                                             <td><a href="/cell/{{ $sum->cell_id}}#alerts">{{ $sum->cell_name }}</a></td>
                                             <td>{{ $sum->sector_id }}</td>
-                                            <td><a href="#"></a></td>
+                                            <td><a href="{{asset('storage/installationImages/'.$sum->image)}}">{{$sum->image_name}}</a></td>
                                             <td><a href="{{asset('storage/InstallationReport/'.$sum->installation_report)}}" target="_blank">{{ $sum->installation_report_name }}</a></td>
                                             <td>{{ $sum->acceptance_status }}</td>
                                             <td><a href="#">{{ $sum->acceptance_form }}</a></td>

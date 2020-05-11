@@ -42,8 +42,9 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::post('/{report_id}/update_report_status', 'SiteController@updateInstallationReportStatus');
     Route::get('/summary', 'SiteController@showSummaryPage');
     Route::get('/detailed', 'SiteController@showDetailedPage');
-    Route::get('/site_reports/{installation_report_id}/upload_acceptance_form/', 'SiteController@showUploadAcceptanceFormPage');
+    Route::get('/site_reports/{installation_report_id}/upload_acceptance_form/', 'SiteController@showUploadAcceptanceFormPage')->name('show-acceptance-form');
     Route::post('/upload_acceptance_form/', 'AcceptanceReportController@saveAcceptanceReport')->name('upload-acceptance-form');
+    Route::post('/{acceptance_form_id}/update_acceptance_details', 'AcceptanceReportController@updateAcceptanceDetails');
 
     /*
     |--------------------------------------------------------------------------

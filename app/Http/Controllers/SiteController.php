@@ -230,6 +230,16 @@ class SiteController extends Controller
     {
         $reportData = InstallationReport::all();
         $reportData = $this->addSiteDetailsToReport($reportData);
+
+        foreach ($reportData as $data) {
+            $acceptanceReportData = AcceptanceReport::where(
+                                                        'installation_report_id', 
+                                                        '=', 
+                                                        $data->id)->get(['id'])->toArray();
+            if (array_key_exists(0, $acceptanceReportData)) {
+                $data->accept_report_id = $acceptanceReportData[0]['id'];
+            }                                           
+        }
         return $reportData;
     }
 
@@ -394,6 +404,15 @@ class SiteController extends Controller
         foreach ($reportData as $report) {
             $report->installation_report_id = $installation_report_id;
 
+            $acceptance = AcceptanceReport::where('installation_report_id', '=', $report->installation_report_id)->get()->toArray();
+            if (array_key_exists(0, $acceptance)) {
+                $report->acceptance_form_id = $acceptance[0]['id'];
+                $report->acceptance_status = $acceptance[0]['status'];
+                $report->acceptance_comment = $acceptance[0]['comment'];
+                $report->acceptance_form = $acceptance[0]['acceptance_form'];
+                $report->acceptance_form_name = str_replace("_"," ", str_replace(".pdf","", $report->acceptance_form));
+            }
+            
             $report->report_name = $this->formatReportName($report->installation_report);
 
             $technician = User::where('id', '=', $report->user_id)->get(['name']);
@@ -646,6 +665,10 @@ class SiteController extends Controller
         $returnCol = array('id' => 'image_id', 'image' => 'image');
         $cellData = $this->addDataToSummary($cellData, $table, $searchCol, $searchVal, $returnCol);
 
+        foreach ($cellData as $data) {
+            $data->image_name = str_replace("installation-image-","", $data->image);
+        }
+        
         return $cellData;
     }
 
