@@ -40,7 +40,7 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('/site_reports', 'SiteController@showSiteReports')->name('site_reports');
     Route::get('/{report_id}/edit_report_status', 'SiteController@editReportStatus')->name('reports_status');
     Route::post('/{report_id}/update_report_status', 'SiteController@updateInstallationReportStatus');
-    Route::get('/summary', 'SiteController@showSummaryPage');
+    Route::get('/summary', 'SummaryController@showSummaryPage');
     Route::get('/detailed', 'SiteController@showDetailedPage');
     Route::get('/site_reports/{installation_report_id}/upload_acceptance_form/', 'SiteController@showUploadAcceptanceFormPage')->name('show-acceptance-form');
     Route::post('/upload_acceptance_form/', 'AcceptanceReportController@saveAcceptanceReport')->name('upload-acceptance-form');

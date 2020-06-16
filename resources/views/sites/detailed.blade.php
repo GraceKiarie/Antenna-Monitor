@@ -13,7 +13,7 @@
     <div class="col-md-12 col-lg-12 scrollbar-container">
         <div class="main-card mb-3 card main-card-m">
             <div class="page-title-heading page-title-heading-m">
-                <h3>SUMMARY</h3>
+                <h3>SITES DETAILS</h3>
             </div>
 
             <hr class="page-title-hr" />
@@ -21,7 +21,7 @@
             <div class="main-card mb-3 card">
                 <div class="card-body card-body-m">
 
-                    <h5 class="content-detail-title">reports</h5>
+                    <h5 class="content-detail-title">detailed installation data</h5>
 
                     <div class="content-detail-btns">
                         <button onclick="window.history.back();" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">

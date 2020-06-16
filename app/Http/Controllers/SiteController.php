@@ -410,7 +410,11 @@ class SiteController extends Controller
                 $report->acceptance_status = $acceptance[0]['status'];
                 $report->acceptance_comment = $acceptance[0]['comment'];
                 $report->acceptance_form = $acceptance[0]['acceptance_form'];
-                $report->acceptance_form_name = str_replace("_"," ", str_replace(".pdf","", $report->acceptance_form));
+
+                // Remove site id and format report Name
+                $siteId = substr($report->acceptance_form, 0, strpos($report->acceptance_form, '-'));
+                $acceptanceReportName = str_replace($siteId."-","", $report->acceptance_form);
+                $report->acceptance_form_name = str_replace("_"," ", str_replace(".pdf","", $acceptanceReportName));
             }
             
             $report->report_name = $this->formatReportName($report->installation_report);
