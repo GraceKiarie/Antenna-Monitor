@@ -13,7 +13,7 @@
     <div class="col-md-12 col-lg-12 scrollbar-container">
         <div class="main-card mb-3 card main-card-m">
             <div class="page-title-heading page-title-heading-m">
-                <h3>SUMMARY</h3>
+                <h3>SITES DETAILS</h3>
             </div>
 
             <hr class="page-title-hr" />
@@ -21,7 +21,7 @@
             <div class="main-card mb-3 card">
                 <div class="card-body card-body-m">
 
-                    <h5 class="content-detail-title">reports</h5>
+                    <h5 class="content-detail-title">INSTALLATION SUMMARY per region</h5>
 
                     <div class="content-detail-btns">
                         <button onclick="window.history.back();" class="mb-2 mr-2 btn-transition btn btn-outline-primary btn-app-black">
@@ -37,9 +37,7 @@
                                 <thead>
                                     <tr>
                                         <th>Region</th>
-                                        <th>Scoped</th>
-                                        <th>Commisioned</th>
-                                        <th>Planned</th>
+                                        <th>No.Of Sites</th>
                                         <th>Installed</th>
                                         <th>Acceptance Schedule</th>
                                         <th>Accepted</th>
@@ -48,24 +46,22 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th>Region</th>
-                                        <th>Scoped</th>
-                                        <th>Commisioned</th>
-                                        <th>Planned</th>
-                                        <th>Installed</th>
-                                        <th>Acceptance Schedule</th>
-                                        <th>Accepted</th>
-                                        <th>Rejected</th>
-                                        <th>Total Visited Sites</th>
-                                    </tr>
+                                    @foreach ($siteCount as $region)
+                                        <tr>
+                                            <th> {{ $region['name']}}</th>
+                                            <th> {{ $region['scoped'] }} </th>
+                                            <th> {{ $region['installed'] }} </th>
+                                            <th> {{ $region['scheduled'] }} </th>
+                                            <th> {{ $region['accepted'] }} </th>
+                                            <th> {{ $region['rejected'] }} </th>
+                                            <th>Total Visited Sites</th>
+                                        </tr> 
+                                    @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr>
                                         <th>Region</th>
-                                        <th>Scoped</th>
-                                        <th>Commisioned</th>
-                                        <th>Planned</th>
+                                        <th>No.Of Sites</th>
                                         <th>Installed</th>
                                         <th>Acceptance Schedule</th>
                                         <th>Accepted</th>

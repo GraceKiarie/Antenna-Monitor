@@ -30,14 +30,14 @@ class AcceptanceReportController extends Controller
 
     public function formatDBReportName($reportName)
     {
-        $siteId = substr($reportName, 0, strpos($reportName, '-'));
-        $reportName = str_replace($siteId."-","", $reportName);
         $reportName = str_replace("InstallationReport","Acceptance_Form", $reportName);
         return $reportName;
     }
 
     public function formatViewReportName($reportName)
     {
+        $siteId = substr($reportName, 0, strpos($reportName, '-'));
+        $reportName = str_replace($siteId."-","", $reportName);
         $reportName = str_replace("_"," ", $reportName);
         $reportName = str_replace(".pdf","", $reportName);
         return $reportName;
