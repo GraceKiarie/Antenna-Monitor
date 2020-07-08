@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -28,6 +29,7 @@ class LoginController extends Controller
      */
     public function redirectTo()
     {
+        Log::info('Login successful',['type' =>'access','result' => 'success']);
         if (auth()->user()->password_change_at == true) {
             return '/a';
         } else {

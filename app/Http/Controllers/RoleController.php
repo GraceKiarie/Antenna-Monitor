@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-
+use Illuminate\Support\Facades\Log;
 class RoleController extends Controller
 {
     public function showRolesList()
@@ -38,7 +38,10 @@ class RoleController extends Controller
             }
             $role->save();
         }
+        Log::info('Role created successfully',['type' =>'create','result' => 'success']);
+        
         return redirect('/roles');
+
     }
 
     public function updateRole(Request $request)
