@@ -35,8 +35,8 @@ class ReportEmail extends Mailable
     public function build()
     {
 
-        $sender= 'notifications@hodi.io';
-        $name = 'HODI';
+        $sender= '';
+        $name = '';
         $subject = 'Report';
 
         return $this->view('mails.mail_message')
